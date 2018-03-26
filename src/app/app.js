@@ -133,6 +133,12 @@
             if (this.status === 200) {
                 var videoBlob = this.response;
                 var source = URL.createObjectURL(videoBlob); // IE10+
+                video.addEventListener('progress', function (e) {
+                    console.log('video.progress', e, video.duration);
+                }, false);
+                video.addEventListener('error', function (e) {
+                    console.log('video.error', e, video.error);
+                });
                 video.src = source;
                 Init();
             }
