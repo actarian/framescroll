@@ -5,9 +5,10 @@
 
     var usePicture = false;
     var pictureUrl = 'img/campagnolo/campagnolo_{0}.jpg';
-    var videoUrl = 'img/campagnolo.webm?c';
+    var videoUrlWebm = 'img/campagnolo.webm';
     var videoUrlMp4 = 'img/campagnolo2.mp4';
     var videoUrlCheck = 'img/Chrome_ImF.webm';
+    var videoUrl = videoUrlMp4;
     var fps = 25.0;
     var totalFrames = 498;
     var duration = totalFrames / fps;
@@ -304,6 +305,18 @@
         */
         var containerHeight = container.offsetHeight;
         scroll.setAttribute('style', 'top : ' + (15 + (scrolling.end * (containerHeight - 30))) + 'px;');
+
+
+        // this.current = window.scrollY
+        /*
+        this.options.last = Object(d.a)(this.options.last, this.options.current, this.options.ease), 
+        this.options.last = Math.floor(100 * this.options.last) / 100;
+            var t = +((this.options.current - this.options.last) / this.wh);
+            c.a.set(this.el, {
+                y: -this.options.last,
+                skewY: 10 * t
+            }), this.rAF = requestAnimationFrame(this.run)
+        */
     }
 
     function setIndex(index) {
@@ -451,3 +464,110 @@
     });
 
 }());
+
+/*
+function() {
+    function t(e) {
+        s()(this, t), this.createBound(), this.content = e.querySelector(".js-scroll-content"), this.el = this.content.querySelector(".js-scroll-section"), this.rAF = void 0, this.options = {
+            current: 0,
+            last: 0,
+            ease: this.el.dataset.ease || .15
+        }, this.wh = window.innerHeight, this.setHeight()
+    }
+    return o()(t, [{
+        key: "init",
+        value: function() {
+            this.addEvents(), this.preload()
+        }
+    }, {
+        key: "createBound",
+        value: function() {
+            var t = this;
+            ["setHeight", "scroll", "run"].forEach(function(e) {
+                return t[e] = t[e].bind(t)
+            })
+        }
+    }, {
+        key: "setHeight",
+        value: function() {
+            var t = this.content.getBoundingClientRect().height;
+            c.a.set(document.body, {
+                height: t
+            })
+        }
+    }, {
+        key: "preload",
+        value: function() {
+            var t = this;
+            u()(this.content, function(e) {
+                t.setHeight()
+            })
+        }
+    }, {
+        key: "scroll",
+        value: function() {
+            this.options.current = window.scrollY
+        }
+    }, {
+        key: "run",
+        value: function() {
+            this.options.last = Object(d.a)(this.options.last, this.options.current, this.options.ease), this.options.last = Math.floor(100 * this.options.last) / 100;
+            var t = +((this.options.current - this.options.last) / this.wh);
+            c.a.set(this.el, {
+                y: -this.options.last,
+                skewY: 10 * t
+            }), this.rAF = requestAnimationFrame(this.run)
+        }
+    }, {
+        key: "on",
+        value: function() {
+            (!(arguments.length > 0 && void 0 !== arguments[0]) || arguments[0]) && this.requestAnimationFrame()
+        }
+    }, {
+        key: "off",
+        value: function() {
+            (!(arguments.length > 0 && void 0 !== arguments[0]) || arguments[0]) && this.cancelAnimationFrame()
+        }
+    }, {
+        key: "requestAnimationFrame",
+        value: function(t) {
+            function e() {
+                return t.apply(this, arguments)
+            }
+            return e.toString = function() {
+                return t.toString()
+            }, e
+        }(function() {
+            this.rAF = requestAnimationFrame(this.run)
+        })
+    }, {
+        key: "cancelAnimationFrame",
+        value: function(t) {
+            function e() {
+                return t.apply(this, arguments)
+            }
+            return e.toString = function() {
+                return t.toString()
+            }, e
+        }(function() {
+            cancelAnimationFrame(this.rAF)
+        })
+    }, {
+        key: "destroy",
+        value: function() {
+            c.a.set(document.body, {
+                height: "auto"
+            }), this.el = void 0, this.removeEvents()
+        }
+    }, {
+        key: "addEvents",
+        value: function() {
+            this.on(), window.addEventListener("resize", this.setHeight, !1), window.addEventListener("scroll", this.scroll, !1)
+        }
+    }, {
+        key: "removeEvents",
+        value: function() {
+            this.off(), window.removeEventListener("resize", this.setHeight, !1), window.removeEventListener("scroll", this.scroll, !1)
+        }
+    }])
+*/
