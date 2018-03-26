@@ -139,6 +139,8 @@
                 video.addEventListener('error', function (e) {
                     console.log('video.error', e, video.error);
                 });
+                video.autoplay = true;
+                video.mute = true;
                 video.src = source;
                 video.play();
                 Init();
