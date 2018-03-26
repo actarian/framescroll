@@ -154,12 +154,9 @@
 
         video.pause();
 
-        track.addEventListener('mousedown', onTrack);
-        window.addEventListener('mousedown', onDown);
-        window.addEventListener('mousemove', onMove);
-        window.addEventListener('mouseup', onUp);
-        window.addEventListener('mouseleave', onUp);
-        window.addEventListener('wheel', onWheel);
+        addMouseEvents();
+        addTouchEvents();
+
         window.onscroll = onScroll;
         // setInterval(onLoop, 1000.0 / fps);
         window.requestAnimationFrame(animate);
@@ -310,7 +307,7 @@
     }
 
     function setIndex(index) {
-        console.log('setIndex', index);
+        // console.log('setIndex', index);
         if (index !== scrolling.index) {
             var direction = (index - scrolling.index) / Math.abs(index - scrolling.index);
             var previousMarker = markers[scrolling.index];
@@ -321,7 +318,7 @@
                 scrolling.endTime = markers[scrolling.index];
                 scrolling.direction = direction;
                 scrolling.end = scrolling.endTime / player.duration;
-                console.log('setNearestDirection', index, previousMarker, nextMarker, currentTime);
+                // console.log('setNearestDirection', index, previousMarker, nextMarker, currentTime);
                 var containerHeight = container.offsetHeight;
                 scroll.setAttribute('style', 'top : ' + (15 + (scrolling.end * (containerHeight - 30))) + 'px;');
                 $('.slick').slick('slickGoTo', index);
@@ -394,6 +391,50 @@
     }
 
     */
+
+    function onMouseDown(e) {
+        removeTouchEvents();
+        onDown(e);
+    }
+
+    function onTouchDown(e) {
+        removeMouseEvents();
+        onDown(e);
+    }
+
+    function addMouseEvents() {
+        track.addEventListener('mousedown', onTrack);
+        window.addEventListener('mousedown', onMouseDown);
+        window.addEventListener('mousemove', onMove);
+        window.addEventListener('mouseup', onUp);
+        window.addEventListener('mouseleave', onUp);
+        window.addEventListener('wheel', onWheel);
+    }
+
+    function removeMouseEvents() {
+        track.removeEventListener('mousedown', onTrack);
+        window.removeEventListener('mousedown', onMouseDown);
+        window.removeEventListener('mousemove', onMove);
+        window.removeEventListener('mouseup', onUp);
+        window.removeEventListener('mouseleave', onUp);
+        window.removeEventListener('wheel', onWheel);
+        console.log('removeMouseEvents');
+    }
+
+    function addTouchEvents() {
+        track.addEventListener('touchstart', onTrack);
+        window.addEventListener('touchstart', onTouchDown);
+        window.addEventListener('touchmove', onMove);
+        window.addEventListener('touchend', onUp);
+    }
+
+    function removeTouchEvents() {
+        track.removeEventListener('touchstart', onTrack);
+        window.removeEventListener('touchstart', onTouchDown);
+        window.removeEventListener('touchmove', onMove);
+        window.removeEventListener('touchend', onUp);
+        console.log('removeTouchEvents');
+    }
 
     $(document).ready(function () {
         var slick = $('.slick').slick({
