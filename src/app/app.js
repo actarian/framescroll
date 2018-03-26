@@ -140,6 +140,7 @@
                     console.log('video.error', e, video.error);
                 });
                 video.src = source;
+                video.play();
                 Init();
             }
         };
