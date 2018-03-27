@@ -282,13 +282,32 @@
         return e.clientY || e.touches[0].pageY;
     }
 
+    function shouldLockScroll(direction) {
+        var flag = false;
+        if ((scrolling.pow < 1.0 && direction === 1) || (scrollbar.offset.y < 10 && direction === -1)) {
+            flag = true;
+        }
+        // console.log('shouldLockScroll', flag, direction, scrolling.pow, scrollbar.offset.y, direction);
+        return flag;
+    }
+
     var previousY, scrubStart = 0.0;
 
     function onDown(e) {
-        var y = getY(e);
-        // console.log('onDown', y);
-        mouseDownY = y;
-        scrubStart = scrolling.end || 0;
+        if (scrollbar.offset.y < 10) {
+            var y = getY(e);
+            // console.log('onDown', y);
+            mouseDownY = y;
+            scrubStart = scrolling.end || 0;
+            /*
+            if (shouldLockScroll(1)) {
+                e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+                return false;
+            }
+            */
+        }
     }
 
     function onMove(e) {
@@ -304,9 +323,13 @@
                 // console.log('onMove', scrubStart, pow);
                 setScroll();
             }
-            e.preventDefault();
-            e.stopImmediatePropagation();
-            return false;
+            var direction = y - mouseDownY > 0 ? -1 : 1;
+            if (shouldLockScroll(direction)) {
+                e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+                return false;
+            }
         }
     }
 
@@ -338,14 +361,14 @@
         var wheelDirection = e.deltaY / Math.abs(e.deltaY);
         setNearestDirection(wheelDirection);
         setScroll();
-        if (scrolling.pow < 1.0 || (scrollbar.offset.y === 0 && wheelDirection === -1)) {
+        if (shouldLockScroll(wheelDirection)) {
             e.preventDefault();
-            e.stopPropagation();
+            // e.stopPropagation();
             e.stopImmediatePropagation();
-            scrollbar.setPosition(0, 0);
+            // scrollbar.setPosition(0, 0);
             // console.log('onWheel', e);
+            return false;
         }
-        return false;
     }
 
     function onScroll() {
@@ -460,6 +483,11 @@
 
     */
 
+    var eventOptions = window.PointerEvent ? {
+        passive: false,
+        capture: true,
+    } : undefined;
+
     function onMouseDown(e) {
         removeTouchEvents();
         onDown(e);
@@ -471,11 +499,11 @@
     }
 
     function addMouseEvents() {
-        track.addEventListener('mousedown', onTrack);
-        window.addEventListener('mousedown', onMouseDown);
-        window.addEventListener('mousemove', onMove);
-        window.addEventListener('mouseup', onUp);
-        window.addEventListener('mouseleave', onUp);
+        track.addEventListener('mousedown', onTrack, eventOptions);
+        window.addEventListener('mousedown', onMouseDown, eventOptions);
+        window.addEventListener('mousemove', onMove, eventOptions);
+        window.addEventListener('mouseup', onUp, eventOptions);
+        window.addEventListener('mouseleave', onUp, eventOptions);
         container.addEventListener('wheel', onWheel);
     }
 
@@ -485,15 +513,15 @@
         window.removeEventListener('mousemove', onMove);
         window.removeEventListener('mouseup', onUp);
         window.removeEventListener('mouseleave', onUp);
-        container.removeEventListener('wheel', onWheel);
+        // container.removeEventListener('wheel', onWheel);
         console.log('removeMouseEvents');
     }
 
     function addTouchEvents() {
-        track.addEventListener('touchstart', onTrack);
-        window.addEventListener('touchstart', onTouchDown);
-        window.addEventListener('touchmove', onMove);
-        window.addEventListener('touchend', onUp);
+        track.addEventListener('touchstart', onTrack, eventOptions);
+        window.addEventListener('touchstart', onTouchDown, eventOptions);
+        window.addEventListener('touchmove', onMove, eventOptions);
+        window.addEventListener('touchend', onUp, eventOptions);
     }
 
     function removeTouchEvents() {
@@ -523,11 +551,11 @@
                     height: page.offsetHeight,
                 }
             };
-            console.log('Scrollbar.onChange', object);
+            // console.log('Scrollbar.onChange', object);
         }
         scrollbar.addListener(onChange);
         scrollbar.onScrollbarShouldScrollTo = function (options) {
-            console.log('Scrollbar.onScrollbarShouldScrollTo', options);
+            // console.log('Scrollbar.onScrollbarShouldScrollTo', options);
             if (document.querySelector(options.selector) === page) {
                 scrollbar.scrollTo(options.x || 0, options.y || 0, 500);
             }
