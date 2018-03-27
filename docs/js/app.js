@@ -311,12 +311,14 @@
             // console.log('onDown', y);
             mouseDownY = y;
             scrubStart = scrolling.end || 0;
+            /*
             if (shouldLockScroll(1)) {
                 e.preventDefault();
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 return false;
             }
+            */
         }
     }
 
@@ -508,37 +510,43 @@
         onDown(e);
     }
 
+    function onTouchMove(e) {
+        console.log('onTouchMove', e.target, e);
+    }
+
     function addMouseEvents() {
         track.addEventListener('mousedown', onTrack, eventOptions);
-        window.addEventListener('mousedown', onMouseDown, eventOptions);
-        window.addEventListener('mousemove', onMove, eventOptions);
-        window.addEventListener('mouseup', onUp, eventOptions);
-        window.addEventListener('mouseleave', onUp, eventOptions);
+        document.addEventListener('mousedown', onMouseDown, eventOptions);
+        document.addEventListener('mousemove', onMove, eventOptions);
+        document.addEventListener('mouseup', onUp, eventOptions);
+        document.addEventListener('mouseleave', onUp, eventOptions);
         container.addEventListener('wheel', onWheel);
     }
 
     function removeMouseEvents() {
         track.removeEventListener('mousedown', onTrack);
-        window.removeEventListener('mousedown', onMouseDown);
-        window.removeEventListener('mousemove', onMove);
-        window.removeEventListener('mouseup', onUp);
-        window.removeEventListener('mouseleave', onUp);
+        document.removeEventListener('mousedown', onMouseDown);
+        document.removeEventListener('mousemove', onMove);
+        document.removeEventListener('mouseup', onUp);
+        document.removeEventListener('mouseleave', onUp);
         // container.removeEventListener('wheel', onWheel);
         console.log('removeMouseEvents');
     }
 
     function addTouchEvents() {
         track.addEventListener('touchstart', onTrack, eventOptions);
-        window.addEventListener('touchstart', onTouchDown, eventOptions);
-        window.addEventListener('touchmove', onMove, eventOptions);
-        window.addEventListener('touchend', onUp, eventOptions);
+        container.addEventListener('touchstart', onTouchDown, eventOptions);
+        container.addEventListener('touchmove', onMove, eventOptions);
+        container.addEventListener('touchend', onUp, eventOptions);
+        document.addEventListener('touchmove', onTouchMove, eventOptions);
     }
 
     function removeTouchEvents() {
         track.removeEventListener('touchstart', onTrack);
-        window.removeEventListener('touchstart', onTouchDown);
-        window.removeEventListener('touchmove', onMove);
-        window.removeEventListener('touchend', onUp);
+        container.removeEventListener('touchstart', onTouchDown);
+        container.removeEventListener('touchmove', onMove);
+        container.removeEventListener('touchend', onUp);
+        document.removeEventListener('touchmove', onTouchMove);
         console.log('removeTouchEvents');
     }
 
@@ -572,19 +580,20 @@
             }
         };
         scrollbar.pause = function () {
+            /*
             if (!scrollbarPaused) {
                 scrollbarPaused = true;
                 Scrollbar.destroy(page);
-                // console.log(scrollbar);
-                // page.setAttribute('class', 'page locked');
             }
+            */
         };
         scrollbar.resume = function () {
+            /*
             if (scrollbarPaused) {
                 scrollbarPaused = false;
-                // page.setAttribute('class', 'page');
                 scrollbar = setScrollbar();
             }
+            */
             return scrollbar;
         };
         return scrollbar;
