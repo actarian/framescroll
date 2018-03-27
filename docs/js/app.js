@@ -142,8 +142,16 @@
                 video.autoplay = true;
                 video.mute = true;
                 video.src = source;
-                video.play();
-                Init();
+                var promise = video.play();
+                if (promise !== undefined) {
+                    promise.then(function () {
+                        Init();
+                    }).catch(function (e) {
+                        console.log('video.error', e, video.error);
+                    });
+                } else {
+                    Init();
+                }
             }
         };
         req.onerror = function (e) {
