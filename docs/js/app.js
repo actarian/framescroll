@@ -293,11 +293,13 @@
         if ((scrolling.pow < 1.0 && direction === 1) || ((!scrollbar || scrollbar.offset.y < 10) && direction === -1)) {
             flag = true;
         }
+        /*
         if (flag) {
             scrollbar.pause();
         } else {
             scrollbar = scrollbar.resume();
         }
+        */
         // console.log('shouldLockScroll', flag, direction, scrolling.pow, scrollbar.offset.y, direction);
         return flag;
     }
@@ -481,7 +483,7 @@
         } else {
             marker = currentMarker;
         }
-        console.log(currentMarker, player.currentTime);
+        // console.log(currentMarker, player.currentTime);
         return marker;
     }
 
@@ -510,9 +512,11 @@
         onDown(e);
     }
 
+    /*
     function onTouchMove(e) {
         console.log('onTouchMove', e.target, e);
     }
+    */
 
     function addMouseEvents() {
         track.addEventListener('mousedown', onTrack, eventOptions);
@@ -538,7 +542,7 @@
         container.addEventListener('touchstart', onTouchDown, eventOptions);
         container.addEventListener('touchmove', onMove, eventOptions);
         container.addEventListener('touchend', onUp, eventOptions);
-        document.addEventListener('touchmove', onTouchMove, eventOptions);
+        // document.addEventListener('touchmove', onTouchMove, eventOptions);
     }
 
     function removeTouchEvents() {
@@ -546,7 +550,7 @@
         container.removeEventListener('touchstart', onTouchDown);
         container.removeEventListener('touchmove', onMove);
         container.removeEventListener('touchend', onUp);
-        document.removeEventListener('touchmove', onTouchMove);
+        // document.removeEventListener('touchmove', onTouchMove);
         console.log('removeTouchEvents');
     }
 
