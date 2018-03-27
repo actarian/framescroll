@@ -22,6 +22,7 @@
     "jquery": "https://github.com/jquery/jquery.git#3.3.1",
     "stats.js": "https://github.com/mrdoob/stats.js.git#r17",
     "dat.gui": "https://github.com/dataarts/dat.gui.git#0.6.5",
-    "slick.js": "https://github.com/kenwheeler/slick.git#1.8.0"
+    "slick.js": "https://github.com/kenwheeler/slick.git#1.8.0",
+    "smooth-scrollbar": "https://github.com/idiotWu/smooth-scrollbar.git#8.2.0"
   }
 }

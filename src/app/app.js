@@ -32,7 +32,7 @@
 
     // select video element
     var container = document.querySelector('.container');
-    var content = document.querySelector('.content');
+    // var content = document.querySelector('.content');
     var preload = document.querySelector('.preload');
     var video = document.querySelector('.video');
     var picture = document.querySelector('.picture');
@@ -221,9 +221,8 @@
                     player.setTime();
                 }
             }
-            var containerHeight = container.offsetHeight;
-            var contentHeight = content.offsetHeight;
-            time.setAttribute('style', 'top:' + (15 + ((player.currentTime / player.duration) * (containerHeight - 30))) + 'px;');
+            var trackHeight = track.offsetHeight;
+            time.setAttribute('style', 'top:' + ((player.currentTime / player.duration) * trackHeight) + 'px;');
         }
     }
 
@@ -267,18 +266,20 @@
         return e.clientY || e.touches[0].pageY;
     }
 
-    var scrubStart = 0.0;
+    var previousY, scrubStart = 0.0;
 
     function onDown(e) {
         var y = getY(e);
+        // console.log('onDown', y);
         mouseDownY = y;
         scrubStart = scrolling.end || 0;
-        console.log('onDown', mouseDownY, scrubStart);
     }
 
     function onMove(e) {
         if (mouseDownY) {
             var y = getY(e);
+            // console.log('onMove', y);
+            previousY = y;
             if (Math.abs(mouseDownY - y) > 1) {
                 var min = 0,
                     max = 1,
@@ -292,9 +293,10 @@
 
     function onUp(e) {
         if (mouseDownY) {
-            var y = getY(e);
+            var y = previousY;
+            // console.log('onUp', y);
             var diff = (mouseDownY - y);
-            console.log(y, mouseDownY, diff);
+            // console.log(y, mouseDownY, diff);
             if (diff) {
                 mouseDownY = null;
                 var direction = diff / Math.abs(diff);
@@ -327,8 +329,8 @@
             scrolling.end = time / player.duration;
         }
         */
-        var containerHeight = container.offsetHeight;
-        scroll.setAttribute('style', 'top : ' + (15 + (scrolling.end * (containerHeight - 30))) + 'px;');
+        var trackHeight = track.offsetHeight;
+        scroll.setAttribute('style', 'top : ' + (scrolling.end * (trackHeight - 30)) + 'px;');
 
 
         // this.current = window.scrollY
@@ -356,8 +358,8 @@
                 scrolling.direction = direction;
                 scrolling.end = scrolling.endTime / player.duration;
                 // console.log('setNearestDirection', index, previousMarker, nextMarker, currentTime);
-                var containerHeight = container.offsetHeight;
-                scroll.setAttribute('style', 'top : ' + (15 + (scrolling.end * (containerHeight - 30))) + 'px;');
+                var trackHeight = track.offsetHeight;
+                scroll.setAttribute('style', 'top : ' + (scrolling.end * (trackHeight)) + 'px;');
                 $('.slick').slick('slickGoTo', index);
             }
         }
@@ -374,12 +376,14 @@
     }
 
     function setScroll() {
+        /*
         var containerHeight = container.offsetHeight;
-        var contentHeight = content.offsetHeight;
+        // var contentHeight = content.offsetHeight;
         var min = 0,
-            max = (contentHeight - containerHeight),
+            max = containerHeight, // (contentHeight - containerHeight),
             top = scrolling.end * max;
         window.scrollTo(0, Math.max(min, Math.min(max, top)));
+        */
     }
 
     /*
@@ -473,6 +477,39 @@
         console.log('removeTouchEvents');
     }
 
+    function setScrollbar() {
+        var page = document.querySelector('.page');
+        Scrollbar.use(window.OverscrollPlugin);
+        var scrollbar = Scrollbar.init(page, {
+            plugins: {
+                overscroll: {},
+            },
+        });
+
+        function onChange(e) {
+            // console.log('scrollbar.onChange', e.offset.y, e.limit.y, native.offsetHeight);
+            var object = {
+                offset: e.offset,
+                limit: e.limit,
+                container: {
+                    width: page.offsetWidth,
+                    height: page.offsetHeight,
+                }
+            };
+            console.log('Scrollbar.onChange', object);
+        }
+        scrollbar.addListener(onChange);
+        scrollbar.onScrollbarShouldScrollTo = function (options) {
+            console.log('Scrollbar.onScrollbarShouldScrollTo', options);
+            if (document.querySelector(options.selector) === page) {
+                scrollbar.scrollTo(options.x || 0, options.y || 0, 500);
+            }
+        };
+    }
+
+    setScrollbar();
+
+    /*
     $(document).ready(function () {
         var slick = $('.slick').slick({
             infinite: false,
@@ -486,6 +523,7 @@
             verticalSwiping: false,
         });
     });
+    */
 
 }());
 
