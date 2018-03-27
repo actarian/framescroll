@@ -57,7 +57,9 @@ body {
   height: 100vh; }
   .page.locked .scroll-content {
     -webkit-transform: none !important;
-            transform: none !important; }
+            transform: none !important;
+    height: 100%;
+    overflow: hidden; }
 
 footer {
   display: -webkit-box;

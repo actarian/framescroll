@@ -294,9 +294,9 @@
             flag = true;
         }
         if (flag) {
-            page.setAttribute('class', 'page locked');
+            scrollbar.pause();
         } else {
-            page.setAttribute('class', 'page');
+            scrollbar.resume();
         }
         console.log('shouldLockScroll', flag, direction, scrolling.pow, scrollbar.offset.y, direction);
         return flag;
@@ -570,10 +570,13 @@
             }
         };
         scrollbar.pause = function () {
-            scrollbar.destroy();
+            // scrollbar.destroy();
+            console.log(scrollbar);
+            page.setAttribute('class', 'page locked');
         };
         scrollbar.resume = function () {
-            return setScrollbar();
+            // return setScrollbar();
+            page.setAttribute('class', 'page');
         };
         return scrollbar;
     }

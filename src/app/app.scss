@@ -21,6 +21,8 @@ body {
 	&.locked {
 		.scroll-content {
 			transform: none !important;
+			height: 100%;
+			overflow: hidden;
 		}
 	}
 }
