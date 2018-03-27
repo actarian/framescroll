@@ -21,7 +21,6 @@
     var markers = [0, 2.14, 5.22, 9.16, 12.13, 16.08, duration];
     var pictures = [];
     var concurrent = 15;
-    var scrollbar = setScrollbar();
 
     var speed, mouseDownY;
     var scrolling = {
@@ -34,9 +33,8 @@
         index: 0,
     };
 
-    // select video element
+    var page = document.querySelector('.page');
     var container = document.querySelector('.container');
-    // var content = document.querySelector('.content');
     var preload = document.querySelector('.preload');
     var video = document.querySelector('.video');
     var picture = document.querySelector('.picture');
@@ -47,6 +45,8 @@
     var playerTime = document.querySelector('.player-time');
     var markerTime = document.querySelector('.marker-time');
     var player = video;
+
+    var scrollbar = setScrollbar();
 
     if (usePicture) {
         container.setAttribute('class', 'container container-picture loading');
@@ -294,11 +294,9 @@
             flag = true;
         }
         if (flag) {
-            // disable
-            scrollbar.pause();
+            page.setAttribute('class', 'page locked');
         } else {
-            // enable
-            scrollbar = scrollbar.resume();
+            page.setAttribute('class', 'page');
         }
         console.log('shouldLockScroll', flag, direction, scrolling.pow, scrollbar.offset.y, direction);
         return flag;
@@ -545,7 +543,6 @@
     }
 
     function setScrollbar() {
-        var page = document.querySelector('.page');
         Scrollbar.use(window.OverscrollPlugin);
         var scrollbar = Scrollbar.init(page, {
             plugins: {

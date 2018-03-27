@@ -55,6 +55,9 @@ body {
 .page {
   width: 100vw;
   height: 100vh; }
+  .page.locked .scroll-content {
+    -webkit-transform: none !important;
+            transform: none !important; }
 
 footer {
   display: -webkit-box;

@@ -18,6 +18,11 @@ body {
 .page {
 	width: 100vw;
 	height: 100vh;
+	&.locked {
+		.scroll-content {
+			transform: none !important;
+		}
+	}
 }
 
 footer {
