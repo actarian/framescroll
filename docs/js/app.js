@@ -263,20 +263,26 @@
         return false;
     }
 
+    function getY(e) {
+        return e.clientY || e.touches[0].pageY;
+    }
+
     var scrubStart = 0.0;
 
     function onDown(e) {
-        mouseDownY = e.clientY;
+        var y = getY();
+        mouseDownY = y;
         scrubStart = scrolling.end || 0;
         console.log('onDown', mouseDownY, scrubStart);
     }
 
     function onMove(e) {
         if (mouseDownY) {
-            if (Math.abs(mouseDownY - e.clientY) > 1) {
+            var y = getY();
+            if (Math.abs(mouseDownY - y) > 1) {
                 var min = 0,
                     max = 1,
-                    pow = (mouseDownY - e.clientY) / (window.innerHeight * 3);
+                    pow = (mouseDownY - y) / (window.innerHeight * 3);
                 scrolling.end = Math.max(0, Math.min(1, scrubStart + pow));
                 // console.log('onMove', scrubStart, pow);
                 setScroll();
@@ -286,8 +292,9 @@
 
     function onUp(e) {
         if (mouseDownY) {
-            var diff = (mouseDownY - e.clientY);
-            console.log(e.clientY, mouseDownY, diff);
+            var y = getY();
+            var diff = (mouseDownY - y);
+            console.log(y, mouseDownY, diff);
             if (diff) {
                 mouseDownY = null;
                 var direction = diff / Math.abs(diff);
