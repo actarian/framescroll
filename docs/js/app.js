@@ -297,7 +297,8 @@
         return flag;
     }
 
-    var previousY, scrubStart = 0.0;
+    var previousY,
+        scrubStart = 0.0;
 
     function onDown(e) {
         if (scrollbar.offset.y < 10) {
@@ -305,14 +306,12 @@
             // console.log('onDown', y);
             mouseDownY = y;
             scrubStart = scrolling.end || 0;
-            /*
             if (shouldLockScroll(1)) {
                 e.preventDefault();
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 return false;
             }
-            */
         }
     }
 
@@ -369,7 +368,7 @@
         setScroll();
         if (shouldLockScroll(wheelDirection)) {
             e.preventDefault();
-            // e.stopPropagation();
+            e.stopPropagation();
             e.stopImmediatePropagation();
             // scrollbar.setPosition(0, 0);
             // console.log('onWheel', e);
