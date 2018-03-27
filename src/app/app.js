@@ -290,15 +290,15 @@
 
     function shouldLockScroll(direction) {
         var flag = false;
-        if ((scrolling.pow < 1.0 && direction === 1) || (scrollbar.offset.y < 10 && direction === -1)) {
+        if ((scrolling.pow < 1.0 && direction === 1) || ((!scrollbar || scrollbar.offset.y < 10) && direction === -1)) {
             flag = true;
         }
         if (flag) {
             scrollbar.pause();
         } else {
-            scrollbar.resume();
+            scrollbar = scrollbar.resume();
         }
-        console.log('shouldLockScroll', flag, direction, scrolling.pow, scrollbar.offset.y, direction);
+        // console.log('shouldLockScroll', flag, direction, scrolling.pow, scrollbar.offset.y, direction);
         return flag;
     }
 
@@ -542,6 +542,8 @@
         console.log('removeTouchEvents');
     }
 
+    var scrollbarPaused = false;
+
     function setScrollbar() {
         Scrollbar.use(window.OverscrollPlugin);
         var scrollbar = Scrollbar.init(page, {
@@ -570,13 +572,20 @@
             }
         };
         scrollbar.pause = function () {
-            // scrollbar.destroy();
-            console.log(scrollbar);
-            page.setAttribute('class', 'page locked');
+            if (!scrollbarPaused) {
+                scrollbarPaused = true;
+                Scrollbar.destroy(page);
+                // console.log(scrollbar);
+                // page.setAttribute('class', 'page locked');
+            }
         };
         scrollbar.resume = function () {
-            // return setScrollbar();
-            page.setAttribute('class', 'page');
+            if (scrollbarPaused) {
+                scrollbarPaused = false;
+                // page.setAttribute('class', 'page');
+                scrollbar = setScrollbar();
+            }
+            return scrollbar;
         };
         return scrollbar;
     }
