@@ -270,7 +270,7 @@
     var scrubStart = 0.0;
 
     function onDown(e) {
-        var y = getY();
+        var y = getY(e);
         mouseDownY = y;
         scrubStart = scrolling.end || 0;
         console.log('onDown', mouseDownY, scrubStart);
@@ -278,7 +278,7 @@
 
     function onMove(e) {
         if (mouseDownY) {
-            var y = getY();
+            var y = getY(e);
             if (Math.abs(mouseDownY - y) > 1) {
                 var min = 0,
                     max = 1,
@@ -292,7 +292,7 @@
 
     function onUp(e) {
         if (mouseDownY) {
-            var y = getY();
+            var y = getY(e);
             var diff = (mouseDownY - y);
             console.log(y, mouseDownY, diff);
             if (diff) {
