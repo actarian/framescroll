@@ -3,12 +3,15 @@
 (function () {
     'use strict';
 
+    var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+
     var usePicture = false;
     var pictureUrl = 'img/campagnolo/campagnolo_{0}.jpg';
     var videoUrlWebm = 'img/campagnolo.webm';
     var videoUrlMp4 = 'img/campagnolo2.mp4';
     var videoUrlCheck = 'img/Chrome_ImF.webm';
-    var videoUrl = videoUrlMp4;
+    var videoUrl = iOS ? videoUrlMp4 : videoUrlMp4;
     var fps = 25.0;
     var totalFrames = 498;
     var duration = totalFrames / fps;
