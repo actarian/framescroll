@@ -293,6 +293,13 @@
         if ((scrolling.pow < 1.0 && direction === 1) || (scrollbar.offset.y < 10 && direction === -1)) {
             flag = true;
         }
+        if (flag) {
+            // disable
+            scrollbar.unregisterEvents(/./);
+        } else {
+            // enable
+            scrollbar.registerEvents(/./);
+        }
         console.log('shouldLockScroll', flag, direction, scrolling.pow, scrollbar.offset.y, direction);
         return flag;
     }
