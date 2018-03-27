@@ -293,7 +293,7 @@
         if ((scrolling.pow < 1.0 && direction === 1) || (scrollbar.offset.y < 10 && direction === -1)) {
             flag = true;
         }
-        // console.log('shouldLockScroll', flag, direction, scrolling.pow, scrollbar.offset.y, direction);
+        console.log('shouldLockScroll', flag, direction, scrolling.pow, scrollbar.offset.y, direction);
         return flag;
     }
 
