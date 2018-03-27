@@ -20,6 +20,16 @@ body {
 	height: 100vh;
 }
 
+footer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+	position: relative;
+	width: 100vw;
+	height: 100vh;
+}
+
 .container {
 	display: block;
 	position: relative;
@@ -29,9 +39,10 @@ body {
 }
 
 .captions {
+	display: block;
+	position: relative;
 	width: 100%;
 	height: 100%;
-	position: relative;
 	/*
 	display: flex;
 	justify-content: center;
@@ -83,29 +94,14 @@ body {
 	}
 }
 
-.slick {
-	display: block;
-	width: 100vw;
-	height: 100vh;
-	.slick-content {
-		width: 100vw;
-		height: 100vh;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		font-size: 70px;
-		border-bottom: 5px solid white;
-	}
-}
-
 .video,
 .picture {
 	display: none;
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	min-width: 100vw;
-	min-height: 100vh;
+	min-width: 100%;
+	min-height: 100%;
 	background: white;
 	pointer-events: none;
 	opacity: 1;
@@ -128,7 +124,7 @@ body {
 	position: absolute;
 	right: 0;
 	top: 15px;
-	height: calc(100vh - 30px);
+	height: calc(100% - 30px);
 	width: 40px;
 	background: rgba(128, 128, 128, 0.2);
 	.loading & {
@@ -198,14 +194,4 @@ body {
 .content {
 	display: block;
 	height: 3200vh;
-}
-
-footer {
-	position: relative;
-	width: 100vw;
-	height: 100vh;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	overflow: hidden;
 }

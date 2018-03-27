@@ -184,6 +184,8 @@
         window.onscroll = onScroll;
         // setInterval(onLoop, 1000.0 / fps);
         window.requestAnimationFrame(animate);
+
+        setCaptionItems(1);
     }
 
     function elastic(pow) {
@@ -193,6 +195,19 @@
         speed = Math.max(-1, Math.min(1, speed));
         pow = (pow + speed) * (bounceamount) + (scrolling.end * (1 - bounceamount));
         return pow;
+    }
+
+    function setCaptionItems(direction) {
+        captionItems.filter(function (caption, index) {
+            var distance = markers[index] - scrolling.pow * player.duration;
+            if (Math.abs(distance) > 2) {
+                caption.setAttribute('class', 'captions-item');
+            } else if (direction > 0) {
+                caption.setAttribute('class', 'captions-item ' + (distance > -0.1 ? 'entering' : 'exiting'));
+            } else if (direction < 0) {
+                caption.setAttribute('class', 'captions-item ' + (distance < 0.1 ? 'entering' : 'exiting'));
+            }
+        });
     }
 
     function onLoop() {
@@ -229,16 +244,7 @@
             }
             var trackHeight = track.offsetHeight;
             playerTime.setAttribute('style', 'top:' + ((player.currentTime / player.duration) * trackHeight) + 'px;');
-            captionItems.filter(function (caption, index) {
-                var distance = markers[index] - scrolling.pow * player.duration;
-                if (Math.abs(distance) > 2) {
-                    caption.setAttribute('class', 'captions-item');
-                } else if (scrolling.direction > 0) {
-                    caption.setAttribute('class', 'captions-item ' + (distance > -0.1 ? 'entering' : 'exiting'));
-                } else if (scrolling.direction < 0) {
-                    caption.setAttribute('class', 'captions-item ' + (distance < 0.1 ? 'entering' : 'exiting'));
-                }
-            });
+            setCaptionItems(scrolling.direction);
         }
     }
 
