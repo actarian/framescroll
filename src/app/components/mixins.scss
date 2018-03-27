@@ -1,0 +1,45 @@
+@keyframes enterBottom {
+    0% {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@mixin enterBottom() {
+    animation: enterBottom ease-in-out 350ms;
+    animation-iteration-count: 1;
+    transform-origin: 50% 50%;
+    animation-fill-mode: forwards;
+}
+
+@keyframes exitingTop {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+}
+
+@mixin exitingTop() {
+    animation: exitingTop ease-in-out 350ms;
+    animation-iteration-count: 1;
+    transform-origin: 50% 50%;
+    animation-fill-mode: forwards;
+}
+
+@mixin stagger($property) {
+    @for $i from 1 through 20 {
+        #{$property}:nth-of-type(#{$i}) {
+            -webkit-animation-delay: $i * 50ms;
+            -moz-animation-delay: $i * 50ms;
+            animation-delay: $i * 50ms;
+        }
+    }
+}
