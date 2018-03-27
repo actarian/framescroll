@@ -11,7 +11,7 @@
     var videoUrlWebm = 'img/campagnolo.webm';
     var videoUrlMp4 = 'img/campagnolo2.mp4';
     var videoUrlCheck = 'img/Chrome_ImF.webm';
-    var videoUrl = iOS ? videoUrlMp4 : videoUrlMp4;
+    var videoUrl = iOS ? videoUrlMp4 : videoUrlWebm;
     var fps = 25.0;
     var totalFrames = 498;
     var duration = totalFrames / fps;
