@@ -295,10 +295,10 @@
         }
         if (flag) {
             // disable
-            scrollbar.unregisterEvents(/./);
+            scrollbar.pause();
         } else {
             // enable
-            scrollbar.registerEvents(/./);
+            scrollbar = scrollbar.resume();
         }
         console.log('shouldLockScroll', flag, direction, scrolling.pow, scrollbar.offset.y, direction);
         return flag;
@@ -571,6 +571,12 @@
             if (document.querySelector(options.selector) === page) {
                 scrollbar.scrollTo(options.x || 0, options.y || 0, 500);
             }
+        };
+        scrollbar.pause = function () {
+            scrollbar.destroy();
+        };
+        scrollbar.resume = function () {
+            return setScrollbar();
         };
         return scrollbar;
     }
