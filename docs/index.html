@@ -5,90 +5,347 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>vscode-glsl-canvas playground</title>
-    <link href="css/vendors.min.css" rel="stylesheet">
-    <link href="css/app.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Oswald:700|Source+Sans+Pro" rel="stylesheet">
+    <!-- <link href="/css/vendors.min.css" rel="stylesheet"> -->
+    <link href="/fonts/fonts.css" rel="stylesheet">
+    <link href="/css/app.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Oswald:700|Source+Sans+Pro:400,600" rel="stylesheet">
 </head>
 
 <body class="idle">
     <div class="page">
-        <div class="container loading">
-            <video class="video" tabindex="0" autobuffer="autobuffer" preload="preload" muted playsinline>
-                <!-- <source type="video/mp4" src="https://rawgit.com/actarian/shaders/master/stuff/campagnolo2.mp4?v3"></source> -->
-            </video>
-            <img class="picture" />
-            <div class="captions">
-                <div class="captions-item">
-                    <div class="index">
-                        <span class="red">01.</span>
-                        <span>Overview</span>
-                    </div>
-                    <div class="title">Brakes</div>
-                    <div class="description">Traditional Rim Brakes or direct mount. Optimized for larger tire size.</div>
+        <section class="section section-overview overview" id="overview">
+            <div class="overview-disc">
+                <video class="video" tabindex="0" autobuffer="autobuffer" preload="preload" muted playsinline></video>
+                <div class="pictures"></div>
+                <div class="cover">
+                    <img src="/img/disc/cover.jpg" />
                 </div>
-                <div class="captions-item">
-                    <div class="index">
-                        <span class="red">02.</span>
-                        <span>Overview</span>
+                <div class="captions" unselectable>
+                    <div class="captions-item"></div>
+                    <div class="captions-item">
+                        <div class="index">
+                            <span class="red">01.</span>
+                            <span>Overview</span>
+                        </div>
+                        <div class="title">Ergopower Disc</div>
+                        <div class="description">Traditional Disc Brakes or direct mount. Optimized for larger tire size.</div>
                     </div>
-                    <div class="title">Brakes</div>
-                    <div class="description">Traditional Rim Brakes or direct mount. Optimized for larger tire size.</div>
-                </div>
-                <div class="captions-item">
-                    <div class="index">
-                        <span class="red">03.</span>
-                        <span>Overview</span>
+                    <div class="captions-item">
+                        <div class="index">
+                            <span class="red">02.</span>
+                            <span>Overview</span>
+                        </div>
+                        <div class="title">Cassette</div>
+                        <div class="description">Traditional Disc Brakes or direct mount. Optimized for larger tire size.</div>
                     </div>
-                    <div class="title">Brakes</div>
-                    <div class="description">Traditional Rim Brakes or direct mount. Optimized for larger tire size.</div>
-                </div>
-                <div class="captions-item">
-                    <div class="index">
-                        <span class="red">04.</span>
-                        <span>Overview</span>
+                    <div class="captions-item">
+                        <div class="index">
+                            <span class="red">03.</span>
+                            <span>Overview</span>
+                        </div>
+                        <div class="title">Rear Derailleur</div>
+                        <div class="description">Traditional Disc Brakes or direct mount. Optimized for larger tire size.</div>
                     </div>
-                    <div class="title">Brakes</div>
-                    <div class="description">Traditional Rim Brakes or direct mount. Optimized for larger tire size.</div>
-                </div>
-                <div class="captions-item">
-                    <div class="index">
-                        <span class="red">05.</span>
-                        <span>Overview</span>
+                    <div class="captions-item">
+                        <div class="index">
+                            <span class="red">04.</span>
+                            <span>Overview</span>
+                        </div>
+                        <div class="title">Front Derailleur</div>
+                        <div class="description">Traditional Disc Brakes or direct mount. Optimized for larger tire size.</div>
                     </div>
-                    <div class="title">Brakes</div>
-                    <div class="description">Traditional Rim Brakes or direct mount. Optimized for larger tire size.</div>
-                </div>
-                <div class="captions-item">
-                    <div class="index">
-                        <span class="red">06.</span>
-                        <span>Overview</span>
+                    <div class="captions-item">
+                        <div class="index">
+                            <span class="red">05.</span>
+                            <span>Overview</span>
+                        </div>
+                        <div class="title">Crankset</div>
+                        <div class="description">Traditional Disc Brakes or direct mount. Optimized for larger tire size.</div>
                     </div>
-                    <div class="title">Brakes</div>
-                    <div class="description">Traditional Rim Brakes or direct mount. Optimized for larger tire size.</div>
-                </div>
-                <div class="captions-item">
-                    <div class="index">
-                        <span class="red">07.</span>
-                        <span>Overview</span>
+                    <div class="captions-item">
+                        <div class="index">
+                            <span class="red">06.</span>
+                            <span>Overview</span>
+                        </div>
+                        <div class="title">Cables and Housing</div>
+                        <div class="description">Traditional Disc Brakes or direct mount. Optimized for larger tire size.</div>
                     </div>
-                    <div class="title">Brakes</div>
-                    <div class="description">Traditional Rim Brakes or direct mount. Optimized for larger tire size.</div>
+                    <div class="captions-item">
+                        <div class="index">
+                            <span class="red">07.</span>
+                            <span>Overview</span>
+                        </div>
+                        <div class="title">Disc Brakes</div>
+                        <div class="description">Traditional Disc Brakes or direct mount. Optimized for larger tire size.</div>
+                    </div>
                 </div>
             </div>
+            <div class="overview-rim">
+                <video class="video" tabindex="0" autobuffer="autobuffer" preload="preload" muted playsinline></video>
+                <div class="pictures"></div>
+                <div class="cover">
+                    <img src="/img/rim/cover.jpg" />
+                </div>
+                <div class="captions" unselectable>
+                    <div class="captions-item"></div>
+                    <div class="captions-item">
+                        <div class="index">
+                            <span class="red">01.</span>
+                            <span>Overview</span>
+                        </div>
+                        <div class="title">Ergopower Rim</div>
+                        <div class="description">Traditional Rim Brakes or direct mount. Optimized for larger tire size.</div>
+                    </div>
+                    <div class="captions-item">
+                        <div class="index">
+                            <span class="red">02.</span>
+                            <span>Overview</span>
+                        </div>
+                        <div class="title">Cassette</div>
+                        <div class="description">Traditional Rim Brakes or direct mount. Optimized for larger tire size.</div>
+                    </div>
+                    <div class="captions-item">
+                        <div class="index">
+                            <span class="red">03.</span>
+                            <span>Overview</span>
+                        </div>
+                        <div class="title">Rear Derailleur</div>
+                        <div class="description">Traditional Rim Brakes or direct mount. Optimized for larger tire size.</div>
+                    </div>
+                    <div class="captions-item">
+                        <div class="index">
+                            <span class="red">04.</span>
+                            <span>Overview</span>
+                        </div>
+                        <div class="title">Front Derailleur</div>
+                        <div class="description">Traditional Rim Brakes or direct mount. Optimized for larger tire size.</div>
+                    </div>
+                    <div class="captions-item">
+                        <div class="index">
+                            <span class="red">05.</span>
+                            <span>Overview</span>
+                        </div>
+                        <div class="title">Crankset</div>
+                        <div class="description">Traditional Rim Brakes or direct mount. Optimized for larger tire size.</div>
+                    </div>
+                    <div class="captions-item">
+                        <div class="index">
+                            <span class="red">06.</span>
+                            <span>Overview</span>
+                        </div>
+                        <div class="title">Cables and Housing</div>
+                        <div class="description">Traditional Rim Brakes or direct mount. Optimized for larger tire size.</div>
+                    </div>
+                    <div class="captions-item">
+                        <div class="index">
+                            <span class="red">07.</span>
+                            <span>Overview</span>
+                        </div>
+                        <div class="title">Rim Brakes</div>
+                        <div class="description">Traditional Rim Brakes or direct mount. Optimized for larger tire size.</div>
+                    </div>
+                </div>
+            </div>
+            <!-- 
             <div class="track">
                 <div class="steps"></div>
                 <div class="player-time"></div>
                 <div class="marker-time"></div>
             </div>
-            <div class="preload"></div>
-        </div>
-        <!-- <div class="content"></div> -->
+            -->
+            <ul class="markers">
+                <li>
+                    <a href="#" class="btn btn-marker" data-marker="0">&nbsp;</a>
+                </li>
+                <li>
+                    <a href="#" class="btn btn-marker" data-marker="5.33">
+                        <span class="title">Ergopower</span>
+                        <span class="num">01</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="btn btn-marker" data-marker="12.66">
+                        <span class="title">Cassette</span>
+                        <span class="num">02</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="btn btn-marker" data-marker="17.36">
+                        <span class="title">Rear Derailleur</span>
+                        <span class="num">03</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="btn btn-marker" data-marker="22.56">
+                        <span class="title">Front Derailleur</span>
+                        <span class="num">04</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="btn btn-marker" data-marker="29.4">
+                        <span class="title">Crankset</span>
+                        <span class="num">05</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="btn btn-marker" data-marker="33.03">
+                        <span class="title">Cables and Housing</span>
+                        <span class="num">06</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="btn btn-marker" data-marker="38.45">
+                        <span class="title">Brakes</span>
+                        <span class="num">07</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="btn btn-marker" data-marker="40">&nbsp;</a>
+                </li>
+            </ul>
+            <div class="overview-selection">
+                <div class="overview-logo">
+                    <div class="speed-12 hidden-sm-down">
+                        <img src="/img/logo-12-speed.svg" />
+                    </div>
+                    <div class="speed-12 hidden-md-up">
+                        <img src="/img/logo-12-speed-sm.svg" />
+                    </div>
+                    <h3>Unde omnis iste natus error sit voluptatem accusantium doloremque laudantium</h3>
+                    <h6 class="hidden-md-up">Select brake version to start</h6>
+                </div>
+                <!-- 
+                <div class="flex-row">
+                    <div class="flex flex-left" data-reveal="reveal-disc">
+                        <a href="#" class="btn btn-overview">
+                            <span class="disc">DISK</span>
+                            <span>BRAKE</span>
+                        </a>
+                        <span class="info">Select & start the experience</span>
+                    </div>
+                    <div class="flex flex-right" data-reveal="reveal-rim">
+                        <a href="#" class="btn btn-overview">
+                            <span class="rim">RIM</span>
+                            <span>BRAKE</span>
+                        </a>
+                        <span class="info">Select & start the experience</span>
+                    </div>
+                </div>
+                -->
+            </div>
+            <div class="overview-switch flex-row">
+                <div class="flex flex-left">
+                    <a href="#" class="btn btn-overview" draggable=false>
+                        <span class="disc">DISK</span>
+                        <span>BRAKE</span>
+                    </a>
+                </div>
+                <div class="flex flex-center">
+                    <div class="switch-track">
+                        <div class="switch-background"></div>
+                        <div class="switch-slider">
+                            <div class="switch-thumb">
+                                <i class="icon-arrow-drag"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-right">
+                    <a href="#" class="btn btn-overview" draggable=false>
+                        <span class="rim">RIM</span>
+                        <span>BRAKE</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+        <section class="section model-and-specs" id="model-and-specs">
+            <h2>Model and specs</h2>
+        </section>
+        <section class="section learn-more" id="learn-more">
+            <h2>Learn more</h2>
+        </section>
         <footer>
-            footer
+            <h2>Footer</h2>
         </footer>
     </div>
+    <header>
+        <nav class="nav nav-main">
+            <div class="flex-row">
+                <div class="flex flex-left">
+                    <a class="btn btn-lang">
+                        <span>Eng</span>
+                        <span>|</span>
+                        <span>United Stated</span>
+                        <i class="icon-arrow-down"></i>
+                    </a>
+                </div>
+                <div class="flex flex-center">
+                    <a href="#" class="campagnolo">
+                        <img class="svg" src="/img/logo-campagnolo.svg" />
+                    </a>
+                </div>
+                <div class="flex flex-right">
+                    <span class="mr-10">Share</span>
+                    <a href="#" class="btn btn-share">
+                        <i class="icon-facebook">
+                            <span>Facebook</span>
+                        </i>
+                    </a>
+                    <a href="#" class="btn btn-share">
+                        <i class="icon-twitter">
+                            <span>Twitter</span>
+                        </i>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <nav class="nav nav-sub">
+            <div class="flex-row">
+                <div class="flex flex-left">
+                    <a href="#" class="campagnolo">
+                        <img class="svg" src="/img/logo-campagnolo.svg" />
+                    </a>
+                </div>
+                <div class="flex flex-center">
+                    <ul class="tab-menu">
+                        <li>
+                            <a href="#overview" class="btn btn-menu" scroll-to>
+                                <span>Overview</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#model-and-specs" class="btn btn-menu" scroll-to>
+                                <span>Models &amp; specs</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#learn-more" class="btn btn-more" scroll-to>
+                                <span>Learn more</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="flex flex-right">
+                    <span class="mr-10">Share</span>
+                    <a href="#" class="btn btn-share">
+                        <i class="icon-facebook">
+                            <span>Facebook</span>
+                        </i>
+                    </a>
+                    <a href="#" class="btn btn-share">
+                        <i class="icon-twitter">
+                            <span>Twitter</span>
+                        </i>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <div class="preload">
+            <div class="percent"></div>
+        </div>
+    </header>
 </body>
-<script src="js/vendors.min.js"></script>
-<script src="js/app.min.js"></script>
+<script src="/js/vendors.min.js"></script>
+<script src="/js/app.min.js"></script>
 
 </html>

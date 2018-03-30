@@ -1,23 +1,11 @@
 [{
         "inputFiles": [
-            "bower_components/jquery/dist/jquery.js",
-            "bower_components/slick.js/slick/slick.js",
-            "bower_components/stats.js/build/stats.min.js",
-            "bower_components/dat.gui/build/dat.gui.js",
+            "bower_components/greensock/src/uncompressed/easing/EasePack.js",
+            "bower_components/greensock/src/uncompressed/TweenLite.js",
             "bower_components/smooth-scrollbar/dist/smooth-scrollbar.js",
             "bower_components/smooth-scrollbar/dist/plugins/overscroll.js"
         ],
         "outputFileName": "docs/js/vendors.js",
-        "minify": {
-            "enabled": true
-        }
-    },
-    {
-        "inputFiles": [
-            "bower_components/slick.js/slick/slick.css",
-            "bower_components/dat.gui/build/dat.gui.css"
-        ],
-        "outputFileName": "docs/css/vendors.css",
         "minify": {
             "enabled": true
         }
@@ -33,6 +21,7 @@
     },
     {
         "inputFiles": [
+            "src/app/components/prototype.js",
             "src/app/app.js"
         ],
         "outputFileName": "docs/js/app.js",

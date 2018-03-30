@@ -1,6 +1,6 @@
 {
-  "name": "glsl-canvas",
-  "description": "Live WebGL preview of GLSL shaders",
+  "name": "framescroll",
+  "description": "Frame Scroll",
   "main": "./bower_components",
   "authors": [
     "actarian <lzampetti@gmail.com>"
@@ -9,7 +9,7 @@
   "keywords": [
     "glsl"
   ],
-  "homepage": "https://github.com/actarian/vscode-glsl-canvas",
+  "homepage": "https://github.com/actarian/framescroll",
   "private": true,
   "ignore": [
     "**/.*",
@@ -19,10 +19,9 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "https://github.com/jquery/jquery.git#3.3.1",
+    "greensock": "https://github.com/greensock/GreenSock-JS.git#1.20.4",
     "stats.js": "https://github.com/mrdoob/stats.js.git#r17",
     "dat.gui": "https://github.com/dataarts/dat.gui.git#0.6.5",
-    "slick.js": "https://github.com/kenwheeler/slick.git#1.8.0",
     "smooth-scrollbar": "https://github.com/idiotWu/smooth-scrollbar.git#8.2.0"
   }
 }

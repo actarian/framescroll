@@ -1,0 +1,66 @@
+header {
+    position: fixed;
+    width: 100vw;
+    top: 0;
+    z-index: 100;
+}
+
+.campagnolo {
+    line-height: 0;
+    vertical-align: middle;
+    &>img,
+    &>svg {
+        width: 245px;
+    }
+}
+
+.nav {
+    display: block;
+    position: relative;
+    width: 100%;
+    text-transform: uppercase;
+    font-weight: 400;
+}
+
+.nav-main {
+    margin-top: 60px;
+    transform: translateY(0);
+    transition: all 350ms ease-in-out;
+    .submenu & {
+        pointer-events: none;
+        transform: translateY(-100%);
+    }
+}
+
+.nav-sub {
+    position: fixed;
+    top: 0;
+    background: $black;
+    color: $white;
+    overflow: hidden;
+    pointer-events: none;
+    transform: translateY(-100%);
+    transition: all 350ms ease-in-out;
+    .campagnolo {
+        svg {
+            width: 165px;
+            path {
+                fill: $white;
+            }
+        }
+    }
+    .submenu & {
+        pointer-events: all;
+        transform: translateY(0);
+    }
+}
+
+.tab-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: inline-flex;
+    li+li {
+        margin-left: 10px;
+    }
+}

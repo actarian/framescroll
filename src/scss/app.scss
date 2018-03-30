@@ -1,0 +1,76 @@
+@import "variables";
+@import "mixins";
+@import "components/animations";
+@import "components/buttons";
+@import "components/layout";
+@import "components/markers";
+@import "components/preload";
+@import "components/switch";
+@import "components/typography";
+@import "sections/header";
+@import "sections/footer";
+@import "sections/overview";
+.model-and-specs,
+.learn-more {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+	position: relative;
+	width: 100vw;
+	height: 100vh;
+}
+
+.model-and-specs {
+	background: #28292b;
+	color: $white;
+}
+
+.learn-more {
+	background: #e1e1e1;
+}
+
+/*
+body {	
+	&.idle .overview-disc {
+		@include revealDiscIdle();
+	}
+	&.idle .overview-rim {
+		@include revealRimIdle();
+	}
+	&.reveal-disc:not(.idle) .overview-disc {
+		z-index: 2;
+		.cover {
+			transform: scale(1);
+		}
+		@include revealDiscAnimation();
+	}
+	&.reveal-rim:not(.idle) .overview-rim {
+		z-index: 2;
+		.cover {
+			transform: scale(1);
+		}
+		@include revealRimAnimation();
+	}
+	&.reveal-disc.idle .overview-disc {
+		z-index: 2;
+		.cover {
+			transform: scale(1);
+		}
+		@include revealDiscIdleAnimation();
+	}
+	&.reveal-rim.idle .overview-rim {
+		z-index: 2;
+		.cover {
+			transform: scale(1);
+		}
+		@include revealRimIdleAnimation();
+	}
+	&.use-video .section-overview .video {
+		display: block;
+	}
+	&.use-pictures .section-overview .pictures {
+		display: block;
+	}
+}
+*/

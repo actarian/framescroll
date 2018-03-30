@@ -1,0 +1,28 @@
+.markers {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    width: auto;
+    height: 100%;
+    right: 80px;
+    list-style: none;
+    text-align: right;
+    text-transform: uppercase;
+    padding: 0;
+    margin: 0;
+    z-index: 20;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity ease-in-out 350ms;
+    li {
+        line-height: 60px;
+        font-size: 16px;
+        letter-spacing: 2px;
+    }
+    .loaded & {
+        opacity: 1;
+        pointer-events: all;
+    }
+}
