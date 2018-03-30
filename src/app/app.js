@@ -36,7 +36,7 @@
     var markerTime = document.querySelector('.marker-time');
     var markers = Array.prototype.slice.call(document.querySelectorAll('[data-marker]')).map(function (node, index) {
         node.addEventListener('click', function () {
-            setIndex(index);
+            setIndex(index, true);
         });
         return parseFloat(node.getAttribute('data-marker'));
     });
@@ -307,7 +307,7 @@
 
     function onLoop(target) {
         if (target.player.duration) {
-            if (mouseDownY) {
+            if (mouseMove) {
                 target.player.pause();
                 scrolling.pow = scrolling.end;
                 target.player.currentTime = scrolling.pow * target.player.duration;
@@ -409,7 +409,8 @@
         return flag;
     }
 
-    var previousY,
+    var mouseMove = false,
+        previousY,
         scrubStart = 0.0;
 
     function onDown(e) {
@@ -447,6 +448,7 @@
                     pow = (mouseDownY - y) / (window.innerHeight * 3);
                 scrolling.end = Math.max(0, Math.min(1, scrubStart + pow));
                 // console.log('onMove', scrubStart, pow);
+                mouseMove = true;
                 setScroll();
             }
             var direction = y - mouseDownY > 0 ? -1 : 1;
@@ -460,7 +462,7 @@
     }
 
     function onUp(e) {
-        if (mouseDownY) {
+        if (mouseMove) {
             var y = previousY;
             // console.log('onUp', y);
             var diff = (mouseDownY - y);
@@ -478,6 +480,7 @@
                 setScroll();
             }
         }
+        mouseMove = false;
         mouseDownY = null;
     }
 
@@ -502,13 +505,13 @@
         }
     }
 
-    function setIndex(index) {
+    function setIndex(index, skip) {
         if (index !== scrolling.index) {
             var direction = (index - scrolling.index) / Math.abs(index - scrolling.index);
             var previousMarker = markers[scrolling.index];
             var nextMarker = markers[index];
             var currentTime = scrolling.pow * target.player.duration;
-            if (currentTime >= Math.min(previousMarker, nextMarker) && currentTime <= Math.max(previousMarker, nextMarker)) {
+            if (skip || currentTime >= Math.min(previousMarker, nextMarker) && currentTime <= Math.max(previousMarker, nextMarker)) {
                 scrolling.index = index;
                 scrolling.endTime = markers[scrolling.index];
                 scrolling.direction = direction;
