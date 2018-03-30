@@ -34,9 +34,12 @@
     var steps = document.querySelector('.steps');
     var playerTime = document.querySelector('.player-time');
     var markerTime = document.querySelector('.marker-time');
+    var scrolltos = Array.prototype.slice.call(document.querySelectorAll('[scroll-to]'));
     var markers = Array.prototype.slice.call(document.querySelectorAll('[data-marker]')).map(function (node, index) {
         node.addEventListener('click', function () {
             setIndex(index, true);
+            var second = 1 / target.player.duration;
+            scrolling.pow = scrolling.end - second;
         });
         return parseFloat(node.getAttribute('data-marker'));
     });
@@ -314,13 +317,6 @@
                 target.player.setTime();
             } else {
                 if (scrolling.end !== scrolling.pow) {
-                    /*
-                    if (timeDirection > 0 && target.player.paused) {
-                        target.player.play();
-                    } else if (timeDirection < 0 && !target.player.paused) {
-                        target.player.pause();
-                    }
-                    */
                     if (!target.player.paused) {
                         target.player.pause();
                     }
@@ -364,7 +360,8 @@
             then = now - (elapsed % fpsInterval);
 
             // Put your drawing code here
-            onLoop(target);
+            onLoop(disc);
+            onLoop(rim);
         }
         // request another frame
         requestAnimationFrame(animate);
@@ -398,14 +395,6 @@
         if ((scrolling.pow < 1.0 && direction === 1) || ((!scrollbar || scrollbar.offset.y < 10) && direction === -1)) {
             flag = true;
         }
-        /*
-        if (flag) {
-            scrollbar.pause();
-        } else {
-            scrollbar = scrollbar.resume();
-        }
-        */
-        // console.log('shouldLockScroll', flag, direction, scrolling.pow, scrollbar.offset.y, direction);
         return flag;
     }
 
@@ -417,18 +406,9 @@
         if (scrollbar.offset.y < 10) {
             // console.log('scrub.onDown');
             var y = getY(e);
-            // console.log('onDown', y);
             previousY = null;
             mouseDownY = y;
             scrubStart = scrolling.end || 0;
-            /*
-            if (shouldLockScroll(1)) {
-                e.preventDefault();
-                e.stopPropagation();
-                e.stopImmediatePropagation();
-                return false;
-            }
-            */
         }
     }
 
@@ -492,7 +472,6 @@
             e.preventDefault();
             e.stopPropagation();
             e.stopImmediatePropagation();
-            // scrollbar.setPosition(0, 0);
             // console.log('onWheel', e);
             return false;
         }
@@ -554,21 +533,6 @@
         */
     }
 
-    /*
-    function updateTime() {
-        var overviewHeight = overview.offsetHeight;
-        var contentHeight = content.offsetHeight;
-        var min = 0,
-            max = target.player.duration,
-            end = window.pageYOffset / (contentHeight - overviewHeight);
-        scrolling.end = Math.max(min, Math.min(max, end));
-        scrolling.diff = scrolling.end - scrolling.previous;
-        scrolling.direction = scrolling.diff / Math.abs(scrolling.diff);
-        scrolling.previous = scrolling.end;
-        markerTime.setAttribute('style', 'top : ' + (15 + (scrolling.end * (overviewHeight - 30))) + 'px;');
-    }
-    */
-
     function getNearestMarker(time) {
         var marker = markers.reduce(function (prev, curr) {
             return (Math.abs(curr - time) < Math.abs(prev - time) ? curr : prev);
@@ -591,16 +555,6 @@
         return marker;
     }
 
-    /*
-    var isPlaying = target.video.currentTime > 0 && !target.video.paused && !target.video.ended 
-        && target.video.readyState > 2;
-
-    if (!isPlaying) {
-      target.video.play();
-    }
-
-    */
-
     var eventOptions = window.PointerEvent ? {
         passive: false,
         capture: true,
@@ -615,12 +569,6 @@
         removeMouseEvents();
         onDown(e);
     }
-
-    /*
-    function onTouchMove(e) {
-        console.log('onTouchMove', e.target, e);
-    }
-    */
 
     function addMouseEvents() {
         if (track) {
@@ -687,6 +635,19 @@
                     body.removeClass('submenu');
                 }
             }
+            scrolltos.filter(function (node, index) {
+                var href = node.getAttribute('href');
+                var target = document.querySelector(href);
+                if (target) {
+                    var top = target.offsetTop;
+                    var diff = top - e.offset.y;
+                    if (diff > 0 && diff < window.innerHeight) {
+                        node.addClass('active');
+                    } else {
+                        node.removeClass('active');
+                    }
+                }
+            });
         }
         scrollbar.addListener(onChange);
         scrollbar.onScrollbarShouldScrollTo = function (options) {
@@ -695,41 +656,8 @@
                 scrollbar.scrollTo(options.x || 0, options.y || 0, 500);
             }
         };
-        scrollbar.pause = function () {
-            /*
-            if (!scrollbarPaused) {
-                scrollbarPaused = true;
-                Scrollbar.destroy(page);
-            }
-            */
-        };
-        scrollbar.resume = function () {
-            /*
-            if (scrollbarPaused) {
-                scrollbarPaused = false;
-                scrollbar = setScrollbar();
-            }
-            */
-            return scrollbar;
-        };
         return scrollbar;
     }
-
-    /*
-    $(document).ready(function () {
-        var slick = $('.slick').slick({
-            infinite: false,
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            vertical: true,
-            arrows: false,
-            dots: false,
-            swipe: false,
-            swipeToSlide: false,
-            verticalSwiping: false,
-        });
-    });
-    */
 
     var svgs = Array.prototype.slice.call(document.querySelectorAll('img.svg'));
     svgs = svgs.map(function (node) {
@@ -757,40 +685,6 @@
         };
         req.send();
     });
-
-    function AddReveals() {
-        var reveals = Array.prototype.slice.call(document.querySelectorAll('[data-reveal]'));
-        if (reveals.length) {
-            var revealClasses = reveals.map(function (node) {
-                return node.getAttribute('data-reveal');
-            });
-            reveals.filter(function (node) {
-                var className = node.getAttribute('data-reveal');
-                var busy;
-
-                function onOver() {
-                    if (!busy) {
-                        busy = true;
-                        if (body.idled) {
-                            body.removeClass('idle');
-                        }
-                        revealClasses.filter(function (item) {
-                            if (className === item) {
-                                body.addClass(item);
-                            } else {
-                                body.removeClass(item);
-                            }
-                        });
-                        body.idled = true;
-                        setTimeout(function () {
-                            busy = false;
-                        }, 600);
-                    }
-                }
-                node.addEventListener('mouseover', onOver);
-            });
-        }
-    }
 
     function OverviewLogo() {
         var logo = document.querySelector('.overview-logo');
@@ -878,10 +772,6 @@
                 start.x = pow.x;
                 start.y = pow.y;
                 down = getMouse(e);
-                if (isLoaded) {
-                    onLoop(disc);
-                    onLoop(rim);
-                }
                 e.preventDefault();
                 e.stopPropagation();
                 e.stopImmediatePropagation();
@@ -979,7 +869,7 @@
     }
 
     function ScrollTo() {
-        var scrolltos = Array.prototype.slice.call(document.querySelectorAll('[scroll-to]')).map(function (node, index) {
+        scrolltos.filter(function (node, index) {
             node.addEventListener('click', function (e) {
                 var href = node.getAttribute('href');
                 var target = document.querySelector(href);
@@ -996,7 +886,6 @@
                 e.stopImmediatePropagation();
                 return false;
             });
-            return node;
         });
     }
 
@@ -1005,111 +894,40 @@
     AddSwitcher();
     // AddReveals();
 
-}());
+    /*
+    function AddReveals() {
+        var reveals = Array.prototype.slice.call(document.querySelectorAll('[data-reveal]'));
+        if (reveals.length) {
+            var revealClasses = reveals.map(function (node) {
+                return node.getAttribute('data-reveal');
+            });
+            reveals.filter(function (node) {
+                var className = node.getAttribute('data-reveal');
+                var busy;
 
-/*
-function() {
-    function t(e) {
-        s()(this, t), this.createBound(), this.content = e.querySelector(".js-scroll-content"), this.el = this.content.querySelector(".js-scroll-section"), this.rAF = void 0, this.options = {
-            current: 0,
-            last: 0,
-            ease: this.el.dataset.ease || .15
-        }, this.wh = window.innerHeight, this.setHeight()
+                function onOver() {
+                    if (!busy) {
+                        busy = true;
+                        if (body.idled) {
+                            body.removeClass('idle');
+                        }
+                        revealClasses.filter(function (item) {
+                            if (className === item) {
+                                body.addClass(item);
+                            } else {
+                                body.removeClass(item);
+                            }
+                        });
+                        body.idled = true;
+                        setTimeout(function () {
+                            busy = false;
+                        }, 600);
+                    }
+                }
+                node.addEventListener('mouseover', onOver);
+            });
+        }
     }
-    return o()(t, [{
-        key: "init",
-        value: function() {
-            this.addEvents(), this.preload()
-        }
-    }, {
-        key: "createBound",
-        value: function() {
-            var t = this;
-            ["setHeight", "scroll", "run"].forEach(function(e) {
-                return t[e] = t[e].bind(t)
-            })
-        }
-    }, {
-        key: "setHeight",
-        value: function() {
-            var t = this.content.getBoundingClientRect().height;
-            c.a.set(document.body, {
-                height: t
-            })
-        }
-    }, {
-        key: "preload",
-        value: function() {
-            var t = this;
-            u()(this.content, function(e) {
-                t.setHeight()
-            })
-        }
-    }, {
-        key: "scroll",
-        value: function() {
-            this.options.current = window.scrollY
-        }
-    }, {
-        key: "run",
-        value: function() {
-            this.options.last = Object(d.a)(this.options.last, this.options.current, this.options.ease), this.options.last = Math.floor(100 * this.options.last) / 100;
-            var t = +((this.options.current - this.options.last) / this.wh);
-            c.a.set(this.el, {
-                y: -this.options.last,
-                skewY: 10 * t
-            }), this.rAF = requestAnimationFrame(this.run)
-        }
-    }, {
-        key: "on",
-        value: function() {
-            (!(arguments.length > 0 && void 0 !== arguments[0]) || arguments[0]) && this.requestAnimationFrame()
-        }
-    }, {
-        key: "off",
-        value: function() {
-            (!(arguments.length > 0 && void 0 !== arguments[0]) || arguments[0]) && this.cancelAnimationFrame()
-        }
-    }, {
-        key: "requestAnimationFrame",
-        value: function(t) {
-            function e() {
-                return t.apply(this, arguments)
-            }
-            return e.toString = function() {
-                return t.toString()
-            }, e
-        }(function() {
-            this.rAF = requestAnimationFrame(this.run)
-        })
-    }, {
-        key: "cancelAnimationFrame",
-        value: function(t) {
-            function e() {
-                return t.apply(this, arguments)
-            }
-            return e.toString = function() {
-                return t.toString()
-            }, e
-        }(function() {
-            cancelAnimationFrame(this.rAF)
-        })
-    }, {
-        key: "destroy",
-        value: function() {
-            c.a.set(document.body, {
-                height: "auto"
-            }), this.el = void 0, this.removeEvents()
-        }
-    }, {
-        key: "addEvents",
-        value: function() {
-            this.on(), window.addEventListener("resize", this.setHeight, !1), window.addEventListener("scroll", this.scroll, !1)
-        }
-    }, {
-        key: "removeEvents",
-        value: function() {
-            this.off(), window.removeEventListener("resize", this.setHeight, !1), window.removeEventListener("scroll", this.scroll, !1)
-        }
-    }])
-*/
+    */
+
+}());

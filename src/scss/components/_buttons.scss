@@ -83,15 +83,17 @@ button,
     .title {
         transform: translateX(110%);
     }
-    &:hover,
-    &.active {
-        color: $red;
+    &:hover {
         .title {
             transform: translateX(0);
         }
         .num {
             transform: translateX(110%);
         }
+    }
+    &:hover,
+    &.active {
+        color: $red;
     }
 }
 

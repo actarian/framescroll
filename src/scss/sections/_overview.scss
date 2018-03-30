@@ -149,31 +149,54 @@
 	*/
 }
 
+$caption-background: $white;
+$caption: $black;
 .captions-item {
-    display: block;
     position: absolute;
     padding: 10vw;
-    width: calc(100% - 20vw);
     top: 50%;
     transform: translateY(-50%);
     pointer-events: none;
     opacity: 0;
     transition: all ease-in-out 350ms;
+    background: rgba(255, 255, 255, 0.8);
+    margin: 0 5vw;
+    padding: 30px 35px; // display: block;
+    // width: calc(100% - 20vw);
+    &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 200vw;
+        height: 200vh;
+        top: -50vh;
+        left: -50vw; // background: rgba($caption-background, 0.2);
+    }
     &>div {
         transform: translateY(0);
     }
     .index {
+        // display: inline;
+        // background: $caption-background;
+        color: $caption;
         text-transform: uppercase;
+        .red {
+            color: $red;
+        }
     }
     .title {
+        // display: inline;
         font-size: 70px;
         font-weight: 700;
         font-family: 'Oswald', sans-serif;
-        text-transform: uppercase;
+        text-transform: uppercase; // background: $caption-background;
+        color: $caption;
     }
     .description {
+        // display: inline;
         text-transform: uppercase;
-        max-width: 390px;
+        max-width: 390px; // background: $caption-background;
+        color: $caption;
     }
     &.entering {
         pointer-events: all;

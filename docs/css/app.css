@@ -236,14 +236,14 @@ button,
   .btn-marker .title {
     -webkit-transform: translateX(110%);
             transform: translateX(110%); }
+  .btn-marker:hover .title {
+    -webkit-transform: translateX(0);
+            transform: translateX(0); }
+  .btn-marker:hover .num {
+    -webkit-transform: translateX(110%);
+            transform: translateX(110%); }
   .btn-marker:hover, .btn-marker.active {
     color: #c02a1b; }
-    .btn-marker:hover .title, .btn-marker.active .title {
-      -webkit-transform: translateX(0);
-              transform: translateX(0); }
-    .btn-marker:hover .num, .btn-marker.active .num {
-      -webkit-transform: translateX(110%);
-              transform: translateX(110%); }
 
 [data-reveal] {
   position: relative;
@@ -574,7 +574,7 @@ footer {
   overflow: hidden;
   position: relative;
   width: 100vw;
-  height: 160px; }
+  min-height: 160px; }
 
 .section-overview {
   display: block;
@@ -703,30 +703,44 @@ footer {
 	*/ }
 
 .captions-item {
-  display: block;
   position: absolute;
   padding: 10vw;
-  width: calc(100% - 20vw);
   top: 50%;
   -webkit-transform: translateY(-50%);
           transform: translateY(-50%);
   pointer-events: none;
   opacity: 0;
   -webkit-transition: all ease-in-out 350ms;
-  transition: all ease-in-out 350ms; }
+  transition: all ease-in-out 350ms;
+  background: rgba(255, 255, 255, 0.8);
+  margin: 0 5vw;
+  padding: 30px 35px; }
+  .captions-item:before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 200vw;
+    height: 200vh;
+    top: -50vh;
+    left: -50vw; }
   .captions-item > div {
     -webkit-transform: translateY(0);
             transform: translateY(0); }
   .captions-item .index {
+    color: #28292b;
     text-transform: uppercase; }
+    .captions-item .index .red {
+      color: #c02a1b; }
   .captions-item .title {
     font-size: 70px;
     font-weight: 700;
     font-family: 'Oswald', sans-serif;
-    text-transform: uppercase; }
+    text-transform: uppercase;
+    color: #28292b; }
   .captions-item .description {
     text-transform: uppercase;
-    max-width: 390px; }
+    max-width: 390px;
+    color: #28292b; }
   .captions-item.entering {
     pointer-events: all;
     opacity: 1; }
@@ -1001,7 +1015,7 @@ footer {
   overflow: hidden;
   position: relative;
   width: 100vw;
-  height: 100vh; }
+  min-height: 100vh; }
 
 .model-and-specs {
   background: #28292b;
