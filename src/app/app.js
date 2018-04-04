@@ -36,11 +36,29 @@
     var markerTime = document.querySelector('.marker-time');
     var scrolltos = Array.prototype.slice.call(document.querySelectorAll('[scroll-to]'));
     var markers = Array.prototype.slice.call(document.querySelectorAll('[data-marker]')).map(function (node, index) {
-        node.addEventListener('click', function () {
-            setIndex(index, true);
-            var second = 1 / target.player.duration;
-            scrolling.pow = scrolling.end - second;
-        });
+        function onDown(e) {
+            var skip = Math.abs(scrolling.index - index) > 1;
+            setIndex(index, skip);
+            if (skip) {
+                var second = 1 / target.player.duration;
+                scrolling.pow = scrolling.end - second;
+            }
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            return false;
+        }
+
+        function onMouseDown(e) {
+            node.removeEventListener('touchstart', onTouchDown);
+            return onDown(e);
+        }
+
+        function onTouchDown(e) {
+            node.removeEventListener('mousedown', onMouseDown);
+            return onDown(e);
+        }
+        node.addEventListener('mousedown', onMouseDown);
+        node.addEventListener('touchstart', onTouchDown);
         return parseFloat(node.getAttribute('data-marker'));
     });
     // markers.unshift(0);
@@ -909,12 +927,12 @@
 
             function onMouseDown(e) {
                 btn.removeEventListener('touchstart', onTouchDown);
-                onDown(e);
+                return onDown(e);
             }
 
             function onTouchDown(e) {
                 btn.removeEventListener('mousedown', onMouseDown);
-                onDown(e);
+                return onDown(e);
             }
             btn.addEventListener('mousedown', onMouseDown);
             btn.addEventListener('touchstart', onTouchDown);
