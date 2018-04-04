@@ -174,7 +174,7 @@
     var disc = {
         source: {
             jpg: 'img/campagnolo/campagnolo_{0}.jpg',
-            webm: 'img/campagnolo.webm',
+            webm: 'img/disc/disc.webm',
             mp4: 'img/disc/disc.mp4',
             check: 'img/Chrome_ImF.webm',
         },
@@ -186,7 +186,7 @@
     var rim = {
         source: {
             jpg: 'img/campagnolo/campagnolo_{0}.jpg',
-            webm: 'img/campagnolo.webm',
+            webm: 'img/rim/rim.webm',
             mp4: 'img/rim/rim.mp4',
             check: 'img/Chrome_ImF.webm',
         },
@@ -317,7 +317,7 @@
 
     function PreloadVideoTarget(target, callback) {
         var req = new XMLHttpRequest();
-        req.open('GET', target.source.mp4, true);
+        req.open('GET', isChrome ? target.source.webm : target.source.mp4, true);
         req.responseType = 'blob';
         req.onprogress = function (e) {
             setProgress(e.loaded, e.total);
@@ -353,9 +353,10 @@
             });
         });
         return;
+        /*
         console.log('PreloadVideo', target);
         var req = new XMLHttpRequest();
-        req.open('GET', target.source.mp4, true);
+        req.open('GET', isChrome ? target.source.webm : target.source.mp4, true);
         req.responseType = 'blob';
         req.onprogress = function (e) {
             setProgress(e.loaded, e.total);
@@ -380,6 +381,7 @@
             console.log('preload.error', e);
         };
         req.send();
+        */
     }
 
     function Init() {
