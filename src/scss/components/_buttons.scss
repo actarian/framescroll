@@ -53,8 +53,6 @@ button,
 
 .btn-more {
     border-radius: 4px;
-    background: $red;
-    color: $white;
     text-transform: uppercase;
     margin: 15px 15px;
     padding: 5px 13px;
@@ -62,6 +60,13 @@ button,
     font-size: 12px;
     line-height: 20px;
     border-radius: 3px;
+    background: $red;
+    color: $white;
+    &:hover,
+    &.active {
+        background: $white;
+        color: $red;
+    }
 }
 
 .btn-marker {
@@ -69,6 +74,7 @@ button,
     position: relative;
     overflow: hidden;
     color: $black;
+    white-space: nowrap;
     .title,
     .num {
         display: block;
@@ -94,6 +100,83 @@ button,
     &:hover,
     &.active {
         color: $red;
+    }
+}
+
+.btn-spec {
+    text-transform: uppercase;
+    line-height: 20px;
+    margin: 0 15px;
+    padding: 15px 15px;
+    border-radius: 5px;
+    letter-spacing: 3px;
+    background: #28292b;
+    &:hover,
+    &.active {
+        background: #3b3c3f;
+    }
+    &:hover {
+        box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.25);
+    }
+    .model {
+        color: $red;
+    }
+}
+
+.btn-download {
+    text-transform: uppercase;
+    line-height: 20px;
+    margin: 0 15px;
+    padding: 15px 45px;
+    border-radius: 3px;
+    border: 2px solid $white;
+    letter-spacing: 3px;
+    background: transparent;
+    color: $white;
+    &:hover,
+    &.active {
+        background: $white;
+        color: $black;
+    }
+}
+
+.btn-submit {
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+    margin: 0 15px;
+    padding: 15px 45px;
+    border-radius: 3px;
+    border: 2px solid $red;
+    letter-spacing: 3px;
+    background: transparent;
+    color: $red;
+    &:hover,
+    &.active {
+        background: $white;
+        color: $red;
+    }
+}
+
+.btn-link {
+    position: relative;
+    &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        height: 2px;
+        width: 100%;
+        bottom: -2px;
+        background: #aaabb1;
+        transform: scale(1, 1);
+        transition: all ease-in-out 250ms;
+    }
+    &:hover,
+    &.active {
+        &:before {
+            transform: scale(0, 1);
+        }
     }
 }
 

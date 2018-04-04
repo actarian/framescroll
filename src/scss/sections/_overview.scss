@@ -19,9 +19,6 @@
 		}
         */
     }
-    .track {
-        z-index: 3;
-    }
     .overview-selection {
         z-index: 4;
     }
@@ -56,7 +53,7 @@
         font-size: 18px;
         font-weight: 400;
         text-transform: uppercase;
-        letter-spacing: 2px;
+        letter-spacing: 3px;
         margin-top: -10px;
     }
     h6 {
@@ -64,7 +61,7 @@
         font-size: 12px;
         color: $red;
         font-weight: 600;
-        letter-spacing: 2px;
+        letter-spacing: 3px;
     }
     .loaded & {
         opacity: 0;
@@ -272,19 +269,6 @@ $caption: $black;
     }
 }
 
-.track {
-    position: absolute;
-    right: 0;
-    top: 15px;
-    height: calc(100% - 30px);
-    width: 40px;
-    background: rgba(128, 128, 128, 0.2);
-    opacity: 0;
-    .loaded & {
-        opacity: 1;
-    }
-}
-
 .step {
     position: absolute;
     width: 100%;
@@ -299,32 +283,6 @@ $caption: $black;
         margin-top: -15px;
     }
     cursor: pointer;
-}
-
-.player-time {
-    position: absolute;
-    display: block;
-    top: 0;
-    right: 15px;
-    margin-top: -5px;
-    z-index: 2;
-    width: 10px;
-    height: 10px;
-    border-radius: 10px;
-    background-color: $red;
-}
-
-.marker-time {
-    position: absolute;
-    display: block;
-    top: 0;
-    right: 15px;
-    margin-top: -5px;
-    z-index: 2;
-    width: 10px;
-    height: 10px;
-    border-radius: 10px;
-    background-color: $white;
 }
 
 .section-overview a {

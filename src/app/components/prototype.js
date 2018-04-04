@@ -19,6 +19,19 @@
         }
     };
 
+    Element.prototype.isDescendant = function (target) {
+        function isDescendant(node, target) {
+            if (node === target) {
+                return true;
+            } else if (node.parentNode) {
+                return isDescendant(node.parentNode, target);
+            } else {
+                return false;
+            }
+        }
+        return isDescendant(this, target);
+    };
+
     window.getMouse = function (e) {
         var y = 0.0;
         if (e.touches) {

@@ -14,14 +14,6 @@ header {
     }
 }
 
-.nav {
-    display: block;
-    position: relative;
-    width: 100%;
-    text-transform: uppercase;
-    font-weight: 400;
-}
-
 .nav-main {
     margin-top: 60px;
     transform: translateY(0);
@@ -38,7 +30,8 @@ header {
     background: $black;
     color: $white;
     overflow: hidden;
-    pointer-events: none;
+    pointer-events: none; // box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.25);
+    border-bottom: 1px solid darken($black, 10%);
     transform: translateY(-100%);
     transition: all 350ms ease-in-out;
     .campagnolo {

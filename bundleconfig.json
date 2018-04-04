@@ -1,32 +1,40 @@
 [{
-        "inputFiles": [
-            "bower_components/greensock/src/uncompressed/easing/EasePack.js",
-            "bower_components/greensock/src/uncompressed/TweenLite.js",
-            "bower_components/smooth-scrollbar/dist/smooth-scrollbar.js",
-            "bower_components/smooth-scrollbar/dist/plugins/overscroll.js"
-        ],
-        "outputFileName": "docs/js/vendors.js",
-        "minify": {
-            "enabled": true
-        }
-    },
-    {
-        "inputFiles": [
-            "docs/css/app.css"
-        ],
-        "outputFileName": "docs/css/app.css",
-        "minify": {
-            "enabled": true
-        }
-    },
-    {
-        "inputFiles": [
-            "src/app/components/prototype.js",
-            "src/app/app.js"
-        ],
-        "outputFileName": "docs/js/app.js",
-        "minify": {
-            "enabled": true
-        }
+    "inputFiles": [
+        "bower_components/jquery/dist/jquery.js",
+        "bower_components/slick-carousel/slick/slick.js",
+        "bower_components/greensock/src/uncompressed/easing/EasePack.js",
+        "bower_components/greensock/src/uncompressed/TweenLite.js",
+        "bower_components/smooth-scrollbar/dist/smooth-scrollbar.js",
+        "bower_components/smooth-scrollbar/dist/plugins/overscroll.js"
+    ],
+    "outputFileName": "docs/js/vendors.js",
+    "minify": {
+        "enabled": true
     }
-]
+}, {
+    "inputFiles": [
+        "bower_components/slick-carousel/slick/slick.css"
+    ],
+    "outputFileName": "docs/css/vendors.css",
+    "minify": {
+        "enabled": true
+    }
+}, {
+    "inputFiles": [
+        "docs/css/app.css"
+    ],
+    "outputFileName": "docs/css/app.css",
+    "minify": {
+        "enabled": true
+    }
+}, {
+    "inputFiles": [
+        "src/app/components/prototype.js",
+        "src/app/components/form.js",
+        "src/app/app.js"
+    ],
+    "outputFileName": "docs/js/app.js",
+    "minify": {
+        "enabled": true
+    }
+}]

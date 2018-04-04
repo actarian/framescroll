@@ -56,3 +56,9 @@
 .icon-websolute:before {
   content: "\65";
 }
+.icon-check:before {
+  content: "\67";
+}
+.icon-arrow-down:before {
+  content: "\68";
+}

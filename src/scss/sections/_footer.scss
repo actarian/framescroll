@@ -5,5 +5,12 @@ footer {
     overflow: hidden;
     position: relative;
     width: 100vw;
-    min-height: 160px;
+    min-height: 80px;
+    color: #aaabb1;
+    border-top: 1px solid #aaabb1;
+}
+
+.nav-footer {
+    text-transform: none;
+    font-weight: 300;
 }

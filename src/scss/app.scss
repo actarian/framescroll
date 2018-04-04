@@ -3,6 +3,7 @@
 @import "components/animations";
 @import "components/buttons";
 @import "components/layout";
+@import "components/navs";
 @import "components/markers";
 @import "components/preload";
 @import "components/switch";
@@ -10,26 +11,8 @@
 @import "sections/header";
 @import "sections/footer";
 @import "sections/overview";
-.model-and-specs,
-.learn-more {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	overflow: hidden;
-	position: relative;
-	width: 100vw;
-	min-height: 100vh;
-}
-
-.model-and-specs {
-	background: #28292b;
-	color: $white;
-}
-
-.learn-more {
-	background: #e1e1e1;
-}
-
+@import "sections/specs";
+@import "sections/learn";
 /*
 body {	
 	&.idle .overview-disc {
