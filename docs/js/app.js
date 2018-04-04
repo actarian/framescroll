@@ -798,10 +798,10 @@
                     return false;
                 }
             }).reduce(function (a, b) {
-                if (Math.abs(a.top) < Math.abs(b.top)) {
-                    return a;
-                } else {
+                if (Math.abs(b.top) < Math.abs(a.top) && b.top < 30) {
                     return b;
+                } else {
+                    return a;
                 }
             });
             if (activeNode) {

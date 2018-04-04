@@ -292,8 +292,8 @@ button,
   background: transparent;
   color: #c02a1b; }
   .btn-submit:hover, .btn-submit.active {
-    background: #ffffff;
-    color: #c02a1b; }
+    background: #c02a1b;
+    color: #ffffff; }
 
 .btn-link {
   position: relative; }
@@ -719,6 +719,14 @@ footer {
   min-height: 80px;
   color: #aaabb1;
   border-top: 1px solid #aaabb1; }
+  @media (max-width: 991.98px) {
+    footer .flex-row {
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+              flex-direction: column; }
+      footer .flex-row .flex {
+        margin: 10px auto; } }
 
 .nav-footer {
   text-transform: none;

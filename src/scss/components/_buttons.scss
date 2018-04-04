@@ -154,8 +154,8 @@ button,
     color: $red;
     &:hover,
     &.active {
-        background: $white;
-        color: $red;
+        background: $red;
+        color: $white;
     }
 }
 
