@@ -6,6 +6,7 @@
 @import "components/navs";
 @import "components/markers";
 @import "components/preload";
+@import "components/swiper";
 @import "components/switch";
 @import "components/typography";
 @import "sections/header";
@@ -13,47 +14,4 @@
 @import "sections/overview";
 @import "sections/specs";
 @import "sections/learn";
-/*
-body {	
-	&.idle .overview-disc {
-		@include revealDiscIdle();
-	}
-	&.idle .overview-rim {
-		@include revealRimIdle();
-	}
-	&.reveal-disc:not(.idle) .overview-disc {
-		z-index: 2;
-		.cover {
-			transform: scale(1);
-		}
-		@include revealDiscAnimation();
-	}
-	&.reveal-rim:not(.idle) .overview-rim {
-		z-index: 2;
-		.cover {
-			transform: scale(1);
-		}
-		@include revealRimAnimation();
-	}
-	&.reveal-disc.idle .overview-disc {
-		z-index: 2;
-		.cover {
-			transform: scale(1);
-		}
-		@include revealDiscIdleAnimation();
-	}
-	&.reveal-rim.idle .overview-rim {
-		z-index: 2;
-		.cover {
-			transform: scale(1);
-		}
-		@include revealRimIdleAnimation();
-	}
-	&.use-video .section-overview .video {
-		display: block;
-	}
-	&.use-pictures .section-overview .pictures {
-		display: block;
-	}
-}
-*/
+@import "responsive";

@@ -21,4 +21,7 @@ footer {
 .nav-footer {
     text-transform: none;
     font-weight: 300;
+    @include media-breakpoint-down(md) {
+        padding: 10px 0;
+    }
 }

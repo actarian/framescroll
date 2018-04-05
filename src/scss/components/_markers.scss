@@ -6,6 +6,12 @@
     .track {
         z-index: 3;
     }
+    @include media-breakpoint-down(sm) {
+        right: 15px;
+        .track {
+            right: -5px;
+        }
+    }
 }
 
 .nav-markers {

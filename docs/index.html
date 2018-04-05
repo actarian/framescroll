@@ -8,12 +8,30 @@
     <link href="css/vendors.min.css" rel="stylesheet">
     <link href="fonts/fonts.css" rel="stylesheet">
     <link href="css/app.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Oswald:700|Source+Sans+Pro:300,400,600" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,800" rel="stylesheet">
+    <script>
+        window.options = {
+            disc: {
+                jpg: 'img/disc/disc_{0}.jpg',
+                webm: 'img/disc/disc.webm',
+                mp4: 'img/disc/disc.mp4',
+            },
+            rim: {
+                jpg: 'img/rim/rim_{0}.jpg',
+                webm: 'img/rim/rim.webm',
+                mp4: 'img/rim/rim.mp4',
+            },
+            fps: 30,
+            frames: 1502,
+        };
+    </script>
 </head>
 
 <body class="idle">
     <div class="page">
+        <!-- OVERVIEW -->
         <section class="section section-overview overview" id="overview">
+            <!-- OVERVIEW DISC -->
             <div class="overview-disc">
                 <video class="video" tabindex="0" autobuffer="autobuffer" preload="preload" muted playsinline></video>
                 <div class="pictures"></div>
@@ -80,6 +98,7 @@
                     </div>
                 </div>
             </div>
+            <!-- OVERVIEW RIM -->
             <div class="overview-rim">
                 <video class="video" tabindex="0" autobuffer="autobuffer" preload="preload" muted playsinline></video>
                 <div class="pictures"></div>
@@ -146,6 +165,7 @@
                     </div>
                 </div>
             </div>
+            <!-- OVERVIEW MARKERS -->
             <div class="markers">
                 <ul class="nav nav-markers">
                     <li>
@@ -194,7 +214,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="btn btn-marker" data-marker="50.00">&nbsp;</a>
+                        <a href="#" class="btn btn-marker" data-marker="50.04">&nbsp;</a>
                     </li>
                 </ul>
                 <div class="track">
@@ -202,18 +222,22 @@
                     <div class="marker-time"></div>
                 </div>
             </div>
+            <!-- OVERVIEW SELECTION -->
             <div class="overview-selection">
-                <div class="overview-logo">
-                    <div class="speed-12 hidden-sm-down">
-                        <img src="img/logo-12-speed.svg" />
+                <div class="container">
+                    <div class="overview-logo">
+                        <div class="speed-12 hidden-sm-down">
+                            <img src="img/logo-12-speed.svg" />
+                        </div>
+                        <div class="speed-12 hidden-md-up">
+                            <img src="img/logo-12-speed-sm.svg" />
+                        </div>
+                        <h3>Simple improvement. Radical movement.</h3>
+                        <h6 class="hidden-md-up">Select brake version to start</h6>
                     </div>
-                    <div class="speed-12 hidden-md-up">
-                        <img src="img/logo-12-speed-sm.svg" />
-                    </div>
-                    <h3>Unde omnis iste natus error sit voluptatem accusantium doloremque laudantium</h3>
-                    <h6 class="hidden-md-up">Select brake version to start</h6>
                 </div>
             </div>
+            <!-- OVERVIEW SWITCH -->
             <div class="overview-switch flex-row">
                 <div class="flex flex-left">
                     <a href="#" class="btn btn-overview" draggable=false>
@@ -230,6 +254,7 @@
                             </div>
                         </div>
                     </div>
+                    <div class="switch-loading">loading</div>
                 </div>
                 <div class="flex flex-right">
                     <a href="#" class="btn btn-overview" draggable=false>
@@ -239,12 +264,14 @@
                 </div>
             </div>
         </section>
+        <!-- MODEL & SPECS -->
         <section class="section model-and-specs" id="model-and-specs">
             <div class="container">
                 <h5>Models and specs</h5>
                 <h2>The complete range</h2>
                 <h3>Select a model &amp; discover all technical specs</h3>
-                <ul class="tab-menu">
+                <!-- MODEL & SPECS MENU -->
+                <ul class="tab-menu hidden-md-down">
                     <li>
                         <a href="#super-record-disc-brake" class="btn btn-spec active" swipe-to>
                             <span class="brake">Disc Brake</span>
@@ -270,171 +297,196 @@
                         </a>
                     </li>
                 </ul>
-                <div class="grid-container grid-container-2">
-                    <div class="gri-item">
-                        <div class="picture">
-                            <img src="img/super-record-rim-brake-group.jpg" />
-                        </div>
-                        <div class="super-record">
-                            <img src="img/logo-super-record.svg">
+                <!-- MODEL & SPECS SWIPER -->
+                <div class="container-swiper">
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            <!-- MODEL & SPECS SWIPER SLIDE -->
+                            <div class="swiper-slide">
+                                <div class="grid-container grid-container-2">
+                                    <div class="gri-item">
+                                        <div class="picture">
+                                            <img src="img/super-record-rim-brake-group.jpg" />
+                                        </div>
+                                        <div class="type hidden-lg-up">
+                                            <span class="rim">RIM</span>
+                                            <span>BRAKE</span>
+                                        </div>
+                                        <div class="super-record">
+                                            <img src="img/logo-super-record.svg">
+                                        </div>
+                                    </div>
+                                    <div class="gri-item hidden-sm-down">
+                                        <div class="flex-table">
+                                            <div class="flex-row flex-head">
+                                                <div class="flex flex-col-1">
+                                                    <span>Components</span>
+                                                </div>
+                                                <div class="flex flex-col-2">
+                                                    <span>Options</span>
+                                                </div>
+                                                <div class="flex flex-col-3">
+                                                    <span>Weight [g]</span>
+                                                </div>
+                                            </div>
+                                            <div class="flex-row">
+                                                <div class="flex flex-col-1">
+                                                    <span>Rear derailleur</span>
+                                                </div>
+                                                <div class="flex flex-col-2">
+                                                    <span>&nbsp;</span>
+                                                </div>
+                                                <div class="flex flex-col-3">
+                                                    <span class="value">181</span>
+                                                    <span class="small">Std. hanger</span>
+                                                </div>
+                                            </div>
+                                            <div class="flex-row">
+                                                <div class="flex flex-col-1">
+                                                    <span>Ergopower Controls</span>
+                                                </div>
+                                                <div class="flex flex-col-2">
+                                                    <span>&nbsp;</span>
+                                                </div>
+                                                <div class="flex flex-col-3">
+                                                    <span class="value">339</span>
+                                                    <span class="small">Pair</span>
+                                                </div>
+                                            </div>
+                                            <div class="flex-row">
+                                                <div class="flex flex-col-1">
+                                                    <span>Front derailleur</span>
+                                                </div>
+                                                <div class="flex flex-col-2">
+                                                    <span>&nbsp;</span>
+                                                </div>
+                                                <div class="flex flex-col-3">
+                                                    <span class="value">79</span>
+                                                </div>
+                                            </div>
+                                            <div class="flex-row">
+                                                <div class="flex flex-col-1">
+                                                    <span>Crankset</span>
+                                                </div>
+                                                <div class="flex flex-col-2">
+                                                    <span>165 mm, 170 mm, 172,5 mm, 175 mm 39-53, 36-52, 34-50</span>
+                                                </div>
+                                                <div class="flex flex-col-3">
+                                                    <span class="value">618</span>
+                                                    <span class="small">172,5 mm, 34-50</span>
+                                                </div>
+                                            </div>
+                                            <div class="flex-row">
+                                                <div class="flex flex-col-1">
+                                                    <span>Threaded cups</span>
+                                                </div>
+                                                <div class="flex flex-col-2">
+                                                    <span>ITA: 70x (36x24 tpi), BSA: 68x (1,37"x24 tpi)</span>
+                                                </div>
+                                                <div class="flex flex-col-3">
+                                                    <span class="value">43</span>
+                                                    <span class="small">BSA</span>
+                                                </div>
+                                            </div>
+                                            <div class="flex-row">
+                                                <div class="flex flex-col-1">
+                                                    <span>Press-fit cups</span>
+                                                </div>
+                                                <div class="flex flex-col-2">
+                                                    <span>BB30: (68x42) mm, BB86: (86,5x41) mm, PF30: (68x46) mm, BB386: (86,5x46)
+                                                        mm, BB RIGHT: (79x46) mm
+                                                    </span>
+                                                </div>
+                                                <div class="flex flex-col-3">
+                                                    <span class="value">40</span>
+                                                    <span class="small">BB86</span>
+                                                </div>
+                                            </div>
+                                            <div class="flex-row">
+                                                <div class="flex flex-col-1">
+                                                    <span>Sprockets</span>
+                                                </div>
+                                                <div class="flex flex-col-2">
+                                                    <span>11-29, 11-32</span>
+                                                </div>
+                                                <div class="flex flex-col-3">
+                                                    <span class="value">266</span>
+                                                    <span class="small">11-29</span>
+                                                </div>
+                                            </div>
+                                            <div class="flex-row">
+                                                <div class="flex flex-col-1">
+                                                    <span>Chain</span>
+                                                </div>
+                                                <div class="flex flex-col-2">
+                                                    <span>&nbsp;</span>
+                                                </div>
+                                                <div class="flex flex-col-3">
+                                                    <span class="value">220</span>
+                                                    <span class="small">110 links</span>
+                                                </div>
+                                            </div>
+                                            <div class="flex-row">
+                                                <div class="flex flex-col-1">
+                                                    <span>Brakes</span>
+                                                </div>
+                                                <div class="flex flex-col-2">
+                                                    <span>&nbsp;</span>
+                                                </div>
+                                                <div class="flex flex-col-3">
+                                                    <span class="value">298</span>
+                                                    <span class="small">Pair</span>
+                                                </div>
+                                            </div>
+                                            <div class="flex-row">
+                                                <div class="flex flex-col-1">
+                                                    <span>Direct mount brake</span>
+                                                </div>
+                                                <div class="flex flex-col-2">
+                                                    <span>Front Rear Seat Stay</span>
+                                                </div>
+                                                <div class="flex flex-col-3">
+                                                    <span class="value">160</span>
+                                                    <span class="small">1 piece</span>
+                                                </div>
+                                            </div>
+                                            <div class="flex-row flex-foot">
+                                                <div class="flex flex-col-1">
+                                                    <span>Complete Groupset</span>
+                                                </div>
+                                                <div class="flex flex-col-2">
+                                                    <span>&nbsp;</span>
+                                                </div>
+                                                <div class="flex flex-col-3">
+                                                    <span class="value">2.041</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <a href="#" class="btn btn-download">Full tech sheet</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">2</div>
+                            <div class="swiper-slide">3</div>
+                            <div class="swiper-slide">4</div>
                         </div>
                     </div>
-                    <div class="gri-item">
-                        <div class="flex-table">
-                            <div class="flex-row flex-head">
-                                <div class="flex flex-col-1">
-                                    <span>Components</span>
-                                </div>
-                                <div class="flex flex-col-2">
-                                    <span>Options</span>
-                                </div>
-                                <div class="flex flex-col-3">
-                                    <span>Weight [g]</span>
-                                </div>
-                            </div>
-                            <div class="flex-row">
-                                <div class="flex flex-col-1">
-                                    <span>Rear derailleur</span>
-                                </div>
-                                <div class="flex flex-col-2">
-                                    <span>&nbsp;</span>
-                                </div>
-                                <div class="flex flex-col-3">
-                                    <span class="value">181</span>
-                                    <span class="small">Std. hanger</span>
-                                </div>
-                            </div>
-                            <div class="flex-row">
-                                <div class="flex flex-col-1">
-                                    <span>Ergopower Controls</span>
-                                </div>
-                                <div class="flex flex-col-2">
-                                    <span>&nbsp;</span>
-                                </div>
-                                <div class="flex flex-col-3">
-                                    <span class="value">339</span>
-                                    <span class="small">Pair</span>
-                                </div>
-                            </div>
-                            <div class="flex-row">
-                                <div class="flex flex-col-1">
-                                    <span>Front derailleur</span>
-                                </div>
-                                <div class="flex flex-col-2">
-                                    <span>&nbsp;</span>
-                                </div>
-                                <div class="flex flex-col-3">
-                                    <span class="value">79</span>
-                                </div>
-                            </div>
-                            <div class="flex-row">
-                                <div class="flex flex-col-1">
-                                    <span>Crankset</span>
-                                </div>
-                                <div class="flex flex-col-2">
-                                    <span>165 mm, 170 mm, 172,5 mm, 175 mm 39-53, 36-52, 34-50</span>
-                                </div>
-                                <div class="flex flex-col-3">
-                                    <span class="value">618</span>
-                                    <span class="small">172,5 mm, 34-50</span>
-                                </div>
-                            </div>
-                            <div class="flex-row">
-                                <div class="flex flex-col-1">
-                                    <span>Threaded cups</span>
-                                </div>
-                                <div class="flex flex-col-2">
-                                    <span>ITA: 70x (36x24 tpi), BSA: 68x (1,37"x24 tpi)</span>
-                                </div>
-                                <div class="flex flex-col-3">
-                                    <span class="value">43</span>
-                                    <span class="small">BSA</span>
-                                </div>
-                            </div>
-                            <div class="flex-row">
-                                <div class="flex flex-col-1">
-                                    <span>Press-fit cups</span>
-                                </div>
-                                <div class="flex flex-col-2">
-                                    <span>BB30: (68x42) mm, BB86: (86,5x41) mm, PF30: (68x46) mm, BB386: (86,5x46) mm, BB RIGHT:
-                                        (79x46) mm
-                                    </span>
-                                </div>
-                                <div class="flex flex-col-3">
-                                    <span class="value">40</span>
-                                    <span class="small">BB86</span>
-                                </div>
-                            </div>
-                            <div class="flex-row">
-                                <div class="flex flex-col-1">
-                                    <span>Sprockets</span>
-                                </div>
-                                <div class="flex flex-col-2">
-                                    <span>11-29, 11-32</span>
-                                </div>
-                                <div class="flex flex-col-3">
-                                    <span class="value">266</span>
-                                    <span class="small">11-29</span>
-                                </div>
-                            </div>
-                            <div class="flex-row">
-                                <div class="flex flex-col-1">
-                                    <span>Chain</span>
-                                </div>
-                                <div class="flex flex-col-2">
-                                    <span>&nbsp;</span>
-                                </div>
-                                <div class="flex flex-col-3">
-                                    <span class="value">220</span>
-                                    <span class="small">110 links</span>
-                                </div>
-                            </div>
-                            <div class="flex-row">
-                                <div class="flex flex-col-1">
-                                    <span>Brakes</span>
-                                </div>
-                                <div class="flex flex-col-2">
-                                    <span>&nbsp;</span>
-                                </div>
-                                <div class="flex flex-col-3">
-                                    <span class="value">298</span>
-                                    <span class="small">Pair</span>
-                                </div>
-                            </div>
-                            <div class="flex-row">
-                                <div class="flex flex-col-1">
-                                    <span>Direct mount brake</span>
-                                </div>
-                                <div class="flex flex-col-2">
-                                    <span>Front Rear Seat Stay</span>
-                                </div>
-                                <div class="flex flex-col-3">
-                                    <span class="value">160</span>
-                                    <span class="small">1 piece</span>
-                                </div>
-                            </div>
-                            <div class="flex-row flex-foot">
-                                <div class="flex flex-col-1">
-                                    <span>Complete Groupset</span>
-                                </div>
-                                <div class="flex flex-col-2">
-                                    <span>&nbsp;</span>
-                                </div>
-                                <div class="flex flex-col-3">
-                                    <span class="value">2.041</span>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="#" class="btn btn-download">Full tech sheet</a>
-                    </div>
+                    <!-- MODEL & SPECS SWIPER PAGINATION -->
+                    <div class="swiper-pagination"></div>
+                    <!-- MODEL & SPECS SWIPER PREV -->
+                    <div class="swiper-button-prev"></div>
+                    <!-- MODEL & SPECS SWIPER NEXT -->
+                    <div class="swiper-button-next"></div>
                 </div>
             </div>
         </section>
+        <!-- LEARN MORE -->
         <section class="section learn-more" id="learn-more">
             <div class="container">
                 <h5 class="red">12 Speed Bike</h5>
                 <h2>Connect to updates</h2>
                 <h3>Natus error sit voluptatem doloremque laudantium</h3>
+                <!-- LEARN MORE BRANDS -->
                 <div class="grid-container grid-container-4">
                     <div class="grid-item">
                         <img src="img/brands/01-basso.svg" title="Basso">
@@ -474,6 +526,7 @@
                     </div>
                 </div>
                 <h4>Lorem ipsum dolor sit amet, consectetur elit, sed do eiusmod tempor.</h4>
+                <!-- LEARN MORE FORM -->
                 <form name="form" role="form" novalidate="" autocomplete="off">
                     <div class="grid-container grid-container-2">
                         <div class="form-group required">
@@ -558,6 +611,7 @@
                 </form>
             </div>
         </section>
+        <!-- FOOTER -->
         <footer>
             <nav class="nav nav-footer">
                 <div class="flex-row">
@@ -579,15 +633,20 @@
             </nav>
         </footer>
     </div>
+    <!-- HEADER -->
     <header>
+        <!-- HEADER MAIN -->
         <nav class="nav nav-main">
             <div class="flex-row">
                 <div class="flex flex-left">
                     <a class="btn btn-lang">
+                        <i class="icon-language hidden-md-up"></i>
                         <span>Eng</span>
-                        <span>|</span>
-                        <span>United Stated</span>
-                        <i class="icon-arrow-down"></i>
+                        <span class="hidden-sm-down">
+                            <span>|</span>
+                            <span>United Stated</span>
+                            <i class="icon-arrow-down"></i>
+                        </span>
                     </a>
                 </div>
                 <div class="flex flex-center">
@@ -610,6 +669,7 @@
                 </div>
             </div>
         </nav>
+        <!-- HEADER SUB -->
         <nav class="nav nav-sub">
             <div class="flex-row">
                 <div class="flex flex-left">
@@ -629,28 +689,39 @@
                                 <span>Models &amp; specs</span>
                             </a>
                         </li>
-                        <li>
+                        <li class="hidden-sm-down">
                             <a href="#learn-more" class="btn btn-more" scroll-to>
                                 <span>Learn more</span>
                             </a>
                         </li>
                     </ul>
+                    <span class="hidden-md-up">
+                        <button type="button" class="btn btn-toggle"></button>
+                    </span>
                 </div>
                 <div class="flex flex-right">
-                    <span class="mr-10">Share</span>
-                    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//www.campagnolo12.com" target="_blank" class="btn btn-share">
-                        <i class="icon-facebook">
-                            <span>Facebook</span>
-                        </i>
-                    </a>
-                    <a href="https://twitter.com/home?status=https%3A//www.campagnolo12.com" target="_blank" class="btn btn-share">
-                        <i class="icon-twitter">
-                            <span>Twitter</span>
-                        </i>
-                    </a>
+                    <span class="hidden-sm-down">
+                        <span class="mr-10">Share</span>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//www.campagnolo12.com" target="_blank" class="btn btn-share">
+                            <i class="icon-facebook">
+                                <span>Facebook</span>
+                            </i>
+                        </a>
+                        <a href="https://twitter.com/home?status=https%3A//www.campagnolo12.com" target="_blank" class="btn btn-share">
+                            <i class="icon-twitter">
+                                <span>Twitter</span>
+                            </i>
+                        </a>
+                    </span>
+                    <span class="hidden-md-up">
+                        <a href="#learn-more" class="btn btn-more" scroll-to>
+                            <span>Learn more</span>
+                        </a>
+                    </span>
                 </div>
             </div>
         </nav>
+        <!-- HEADER PRELOAD -->
         <div class="preload">
             <div class="percent"></div>
         </div>

@@ -65,6 +65,29 @@
             right: -5px;
         }
     }
+    .loading & {
+        display: none;
+    }
+}
+
+.switch-loading {
+    display: none;
+    position: relative;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: $red;
+    font-size: 14px;
+    font-weight: 600;
+    pointer-events: none;
+    &>span {
+        display: inline-block;
+        position: relative;
+    }
+    @include stagger('& > span');
+    .loading & {
+        display: block;
+        @include loadingLetter();
+    }
 }
 
 .switch-background {

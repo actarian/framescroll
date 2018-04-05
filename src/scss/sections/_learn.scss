@@ -33,6 +33,26 @@
     .btn-submit {
         margin-top: 40px;
     }
+    @include media-breakpoint-down(sm) {
+        padding: 55px 0;
+        h2 {
+            margin-bottom: 20px;
+        }
+        h3 {
+            margin-bottom: 20px;
+        }
+        h5 {
+            margin-bottom: 20px;
+        }
+        .grid-container {
+            margin-bottom: 90px;
+        }
+    }
+    @include media-breakpoint-down(xs) {
+        .grid-container {
+            margin-bottom: 40px;
+        }
+    }
 }
 
 .grid-container {
@@ -50,9 +70,11 @@
     }
     @include media-breakpoint-down(sm) {
         grid-template-columns: auto auto;
+        grid-row-gap: 90px;
     }
     @include media-breakpoint-down(xs) {
-        grid-template-columns: auto;
+        grid-template-columns: auto auto;
+        grid-row-gap: 40px;
     }
 }
 

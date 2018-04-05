@@ -24,31 +24,87 @@ button,
     margin-left: 5px;
 }
 
+.btn-toggle {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: none;
+    &:before,
+    &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 20px;
+        height: 2px;
+        top: 50%;
+        left: 50%;
+        background: $white;
+        transition: all ease-in-out 250ms;
+    }
+    &:before {
+        transform: translateX(-10px) translateY(-6px);
+    }
+    &:after {
+        transform: translateX(-10px) translateY(6px);
+    }
+    &.active {
+        &:before {
+            transform: translateX(-10px) translateY(0) rotate(-45deg);
+        }
+        &:after {
+            transform: translateX(-10px) translateY(0) rotate(45deg);
+        }
+    }
+}
+
 .btn-menu {
+    display: block;
     text-transform: none;
     padding: 20px 0;
     line-height: 20px;
     margin: 0 15px;
+    overflow: hidden;
     &:before {
         content: '';
         display: block;
         position: absolute;
-        height: 6px;
+        height: 5px;
         width: 100%;
-        bottom: -6px;
+        bottom: -5px;
         background: $red;
         transform: translateY(0);
         transition: all ease-in-out 350ms;
     }
     &:hover,
     &.active {
-        transform: translateY(-6px);
+        &:before {
+            transform: translateY(-5px);
+        }
+    }
+    @include media-breakpoint-down(md) {
+        margin: 0 15px;
+        font-size: 14px;
+        border-bottom: 1px solid #e6e6e6;
+        &:before {
+            display: none;
+        }
     }
 }
 
 .btn-overview {
     font-size: 40px;
     display: block;
+    .flex-left & {
+        &:hover {
+            transform: translateX(-10px);
+        }
+    }
+    .flex-right & {
+        &:hover {
+            transform: translateX(10px);
+        }
+    }
 }
 
 .btn-more {
@@ -120,6 +176,7 @@ button,
     }
     .model {
         color: $red;
+        white-space: nowrap;
     }
 }
 

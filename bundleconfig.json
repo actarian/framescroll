@@ -1,7 +1,6 @@
 [{
     "inputFiles": [
-        "bower_components/jquery/dist/jquery.js",
-        "bower_components/slick-carousel/slick/slick.js",
+        "bower_components/swiper/dist/js/swiper.js",
         "bower_components/greensock/src/uncompressed/easing/EasePack.js",
         "bower_components/greensock/src/uncompressed/TweenLite.js",
         "bower_components/smooth-scrollbar/dist/smooth-scrollbar.js",
@@ -13,7 +12,7 @@
     }
 }, {
     "inputFiles": [
-        "bower_components/slick-carousel/slick/slick.css"
+        "bower_components/swiper/dist/css/swiper.css"
     ],
     "outputFileName": "docs/css/vendors.css",
     "minify": {

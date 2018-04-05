@@ -59,18 +59,6 @@ body {
     height: 3200vh;
 }
 
-.hidden-sm-down {
-    @include media-breakpoint-down(sm) {
-        display: none;
-    }
-}
-
-.hidden-md-up {
-    @include media-breakpoint-up(md) {
-        display: none;
-    }
-}
-
 .mr-10 {
     margin-right: 10px;
 }

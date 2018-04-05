@@ -143,3 +143,27 @@
     transform-origin: 50% 50%;
     animation-fill-mode: forwards;
 }
+
+@keyframes loadingLetter {
+    0% {
+        opacity: 0;
+        transform: translateX(200px);
+    }
+    30% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    70% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-200px);
+    }
+}
+
+@mixin loadingLetter() {
+    animation: loadingLetter ease-in-out 3s infinite forwards;
+    transform-origin: 50% 50%;
+}

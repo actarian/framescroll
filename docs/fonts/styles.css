@@ -62,3 +62,6 @@
 .icon-arrow-down:before {
   content: "\68";
 }
+.icon-language:before {
+  content: "\69";
+}
