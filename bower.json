@@ -21,7 +21,6 @@
   "dependencies": {
     "greensock": "https://github.com/greensock/GreenSock-JS.git#1.20.4",
     "smooth-scrollbar": "https://github.com/idiotWu/smooth-scrollbar.git#8.2.0",
-    "slick-carousel": "slick.js#^1.8.1",
-    "jquery": "^3.3.1"
+    "swiper": "^4.2.2"
   }
 }

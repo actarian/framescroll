@@ -82,11 +82,11 @@
     &>span {
         display: inline-block;
         position: relative;
+        @include loadingLetter();
     }
     @include stagger('& > span');
     .loading & {
         display: block;
-        @include loadingLetter();
     }
 }
 
