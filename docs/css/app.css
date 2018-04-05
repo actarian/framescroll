@@ -268,7 +268,7 @@ button,
   .btn-menu:hover:before, .btn-menu.active:before {
     -webkit-transform: translateY(-5px);
             transform: translateY(-5px); }
-  @media (max-width: 991.98px) {
+  @media (max-width: 767.98px) {
     .btn-menu {
       margin: 0 15px;
       font-size: 14px;
@@ -490,6 +490,219 @@ svg {
   text-transform: uppercase;
   font-weight: 400; }
 
+.captions {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  /*
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	*/ }
+
+.captions-item {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  pointer-events: none;
+  opacity: 0;
+  -webkit-transition: all ease-in-out 350ms;
+  transition: all ease-in-out 350ms;
+  background: rgba(255, 255, 255, 0.8);
+  margin: 0 5vw;
+  padding: 30px 35px; }
+  .captions-item:before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 200vw;
+    height: 200vh;
+    top: -50vh;
+    left: -50vw; }
+  .captions-item > div {
+    -webkit-transform: translateY(0);
+            transform: translateY(0); }
+  .captions-item .index {
+    color: #28292b;
+    text-transform: uppercase; }
+    .captions-item .index .red {
+      color: #c02a1b; }
+  .captions-item .title {
+    font-size: 60px;
+    line-height: 60px;
+    font-weight: 800;
+    margin: 15px 0 10px 0;
+    text-indent: -4px;
+    text-transform: uppercase;
+    color: #28292b; }
+  .captions-item .description {
+    text-transform: uppercase;
+    max-width: 390px;
+    color: #28292b; }
+  .captions-item:first-child, .captions-item:last-child {
+    display: none; }
+  .captions-item.entering {
+    pointer-events: all;
+    opacity: 1; }
+    .captions-item.entering > div {
+      -webkit-animation: enterBottom ease-in-out 350ms;
+              animation: enterBottom ease-in-out 350ms;
+      -webkit-animation-iteration-count: 1;
+              animation-iteration-count: 1;
+      -webkit-transform-origin: 50% 50%;
+              transform-origin: 50% 50%;
+      -webkit-animation-fill-mode: both;
+              animation-fill-mode: both; }
+    .captions-item.entering > div:nth-of-type(1) {
+      -webkit-animation-delay: 50ms;
+      animation-delay: 50ms; }
+    .captions-item.entering > div:nth-of-type(2) {
+      -webkit-animation-delay: 100ms;
+      animation-delay: 100ms; }
+    .captions-item.entering > div:nth-of-type(3) {
+      -webkit-animation-delay: 150ms;
+      animation-delay: 150ms; }
+    .captions-item.entering > div:nth-of-type(4) {
+      -webkit-animation-delay: 200ms;
+      animation-delay: 200ms; }
+    .captions-item.entering > div:nth-of-type(5) {
+      -webkit-animation-delay: 250ms;
+      animation-delay: 250ms; }
+    .captions-item.entering > div:nth-of-type(6) {
+      -webkit-animation-delay: 300ms;
+      animation-delay: 300ms; }
+    .captions-item.entering > div:nth-of-type(7) {
+      -webkit-animation-delay: 350ms;
+      animation-delay: 350ms; }
+    .captions-item.entering > div:nth-of-type(8) {
+      -webkit-animation-delay: 400ms;
+      animation-delay: 400ms; }
+    .captions-item.entering > div:nth-of-type(9) {
+      -webkit-animation-delay: 450ms;
+      animation-delay: 450ms; }
+    .captions-item.entering > div:nth-of-type(10) {
+      -webkit-animation-delay: 500ms;
+      animation-delay: 500ms; }
+    .captions-item.entering > div:nth-of-type(11) {
+      -webkit-animation-delay: 550ms;
+      animation-delay: 550ms; }
+    .captions-item.entering > div:nth-of-type(12) {
+      -webkit-animation-delay: 600ms;
+      animation-delay: 600ms; }
+    .captions-item.entering > div:nth-of-type(13) {
+      -webkit-animation-delay: 650ms;
+      animation-delay: 650ms; }
+    .captions-item.entering > div:nth-of-type(14) {
+      -webkit-animation-delay: 700ms;
+      animation-delay: 700ms; }
+    .captions-item.entering > div:nth-of-type(15) {
+      -webkit-animation-delay: 750ms;
+      animation-delay: 750ms; }
+    .captions-item.entering > div:nth-of-type(16) {
+      -webkit-animation-delay: 800ms;
+      animation-delay: 800ms; }
+    .captions-item.entering > div:nth-of-type(17) {
+      -webkit-animation-delay: 850ms;
+      animation-delay: 850ms; }
+    .captions-item.entering > div:nth-of-type(18) {
+      -webkit-animation-delay: 900ms;
+      animation-delay: 900ms; }
+    .captions-item.entering > div:nth-of-type(19) {
+      -webkit-animation-delay: 950ms;
+      animation-delay: 950ms; }
+    .captions-item.entering > div:nth-of-type(20) {
+      -webkit-animation-delay: 1000ms;
+      animation-delay: 1000ms; }
+  .captions-item.exiting {
+    opacity: 0; }
+    .captions-item.exiting > div {
+      -webkit-animation: exitingTop ease-in-out 350ms;
+              animation: exitingTop ease-in-out 350ms;
+      -webkit-animation-iteration-count: 1;
+              animation-iteration-count: 1;
+      -webkit-transform-origin: 50% 50%;
+              transform-origin: 50% 50%;
+      -webkit-animation-fill-mode: both;
+              animation-fill-mode: both; }
+    .captions-item.exiting > div:nth-of-type(1) {
+      -webkit-animation-delay: 50ms;
+      animation-delay: 50ms; }
+    .captions-item.exiting > div:nth-of-type(2) {
+      -webkit-animation-delay: 100ms;
+      animation-delay: 100ms; }
+    .captions-item.exiting > div:nth-of-type(3) {
+      -webkit-animation-delay: 150ms;
+      animation-delay: 150ms; }
+    .captions-item.exiting > div:nth-of-type(4) {
+      -webkit-animation-delay: 200ms;
+      animation-delay: 200ms; }
+    .captions-item.exiting > div:nth-of-type(5) {
+      -webkit-animation-delay: 250ms;
+      animation-delay: 250ms; }
+    .captions-item.exiting > div:nth-of-type(6) {
+      -webkit-animation-delay: 300ms;
+      animation-delay: 300ms; }
+    .captions-item.exiting > div:nth-of-type(7) {
+      -webkit-animation-delay: 350ms;
+      animation-delay: 350ms; }
+    .captions-item.exiting > div:nth-of-type(8) {
+      -webkit-animation-delay: 400ms;
+      animation-delay: 400ms; }
+    .captions-item.exiting > div:nth-of-type(9) {
+      -webkit-animation-delay: 450ms;
+      animation-delay: 450ms; }
+    .captions-item.exiting > div:nth-of-type(10) {
+      -webkit-animation-delay: 500ms;
+      animation-delay: 500ms; }
+    .captions-item.exiting > div:nth-of-type(11) {
+      -webkit-animation-delay: 550ms;
+      animation-delay: 550ms; }
+    .captions-item.exiting > div:nth-of-type(12) {
+      -webkit-animation-delay: 600ms;
+      animation-delay: 600ms; }
+    .captions-item.exiting > div:nth-of-type(13) {
+      -webkit-animation-delay: 650ms;
+      animation-delay: 650ms; }
+    .captions-item.exiting > div:nth-of-type(14) {
+      -webkit-animation-delay: 700ms;
+      animation-delay: 700ms; }
+    .captions-item.exiting > div:nth-of-type(15) {
+      -webkit-animation-delay: 750ms;
+      animation-delay: 750ms; }
+    .captions-item.exiting > div:nth-of-type(16) {
+      -webkit-animation-delay: 800ms;
+      animation-delay: 800ms; }
+    .captions-item.exiting > div:nth-of-type(17) {
+      -webkit-animation-delay: 850ms;
+      animation-delay: 850ms; }
+    .captions-item.exiting > div:nth-of-type(18) {
+      -webkit-animation-delay: 900ms;
+      animation-delay: 900ms; }
+    .captions-item.exiting > div:nth-of-type(19) {
+      -webkit-animation-delay: 950ms;
+      animation-delay: 950ms; }
+    .captions-item.exiting > div:nth-of-type(20) {
+      -webkit-animation-delay: 1000ms;
+      animation-delay: 1000ms; }
+  @media (max-width: 767.98px) {
+    .captions-item {
+      top: auto;
+      bottom: -10px;
+      margin: 0;
+      padding: 15px; }
+      .captions-item .index {
+        display: none; }
+      .captions-item .title {
+        font-size: 36px;
+        line-height: 36px;
+        text-indent: 0; }
+      .captions-item .description {
+        font-size: 14px;
+        line-height: 18px; } }
+
 .markers {
   position: absolute;
   width: auto;
@@ -621,6 +834,10 @@ svg {
     top: 50%;
     -webkit-transform: translateY(-50%);
             transform: translateY(-50%); }
+  @media (min-width: 992px) {
+    .swiper-button-next,
+    .swiper-button-prev {
+      display: none; } }
 
 .swiper-button-prev,
 .swiper-container-rtl .swiper-button-next {
@@ -630,6 +847,10 @@ svg {
   .swiper-button-prev:before,
   .swiper-container-rtl .swiper-button-next:before {
     content: "\62"; }
+  @media (max-width: 767.98px) {
+    .swiper-button-prev,
+    .swiper-container-rtl .swiper-button-next {
+      left: -10px; } }
 
 .swiper-button-next,
 .swiper-container-rtl .swiper-button-prev {
@@ -639,11 +860,18 @@ svg {
   .swiper-button-next:before,
   .swiper-container-rtl .swiper-button-prev:before {
     content: "\63"; }
+  @media (max-width: 767.98px) {
+    .swiper-button-next,
+    .swiper-container-rtl .swiper-button-prev {
+      right: -10px; } }
 
 .swiper-pagination-bullets {
   position: absolute;
   width: 100%;
   margin: 40px 0 0 0; }
+  @media (min-width: 992px) {
+    .swiper-pagination-bullets {
+      display: none; } }
 
 .swiper-pagination-bullet {
   width: 8px;
@@ -904,7 +1132,7 @@ header {
   .campagnolo > img,
   .campagnolo > svg {
     width: 245px; }
-  @media (max-width: 991.98px) {
+  @media (max-width: 767.98px) {
     .campagnolo > img,
     .campagnolo > svg {
       width: 130px; } }
@@ -953,7 +1181,7 @@ header {
     pointer-events: all;
     -webkit-transform: translateY(0);
             transform: translateY(0); }
-  @media (max-width: 991.98px) {
+  @media (max-width: 767.98px) {
     .nav-sub .flex-row .flex-left,
     .nav-sub .flex-row .flex-right {
       -webkit-box-flex: 1;
@@ -1133,217 +1361,6 @@ footer {
 .rim {
   color: #aaabb1;
   font-weight: 600; }
-
-.captions {
-  display: block;
-  position: relative;
-  width: 100%;
-  height: 100%;
-  /*
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
-	*/ }
-
-.captions-item {
-  position: absolute;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
-  pointer-events: none;
-  opacity: 0;
-  -webkit-transition: all ease-in-out 350ms;
-  transition: all ease-in-out 350ms;
-  background: rgba(255, 255, 255, 0.8);
-  margin: 0 5vw;
-  padding: 30px 35px; }
-  .captions-item:before {
-    content: '';
-    display: block;
-    position: absolute;
-    width: 200vw;
-    height: 200vh;
-    top: -50vh;
-    left: -50vw; }
-  .captions-item > div {
-    -webkit-transform: translateY(0);
-            transform: translateY(0); }
-  .captions-item .index {
-    color: #28292b;
-    text-transform: uppercase; }
-    .captions-item .index .red {
-      color: #c02a1b; }
-  .captions-item .title {
-    font-size: 60px;
-    line-height: 60px;
-    font-weight: 800;
-    margin: 15px 0 10px 0;
-    text-indent: -4px;
-    text-transform: uppercase;
-    color: #28292b; }
-  .captions-item .description {
-    text-transform: uppercase;
-    max-width: 390px;
-    color: #28292b; }
-  .captions-item.entering {
-    pointer-events: all;
-    opacity: 1; }
-    .captions-item.entering > div {
-      -webkit-animation: enterBottom ease-in-out 350ms;
-              animation: enterBottom ease-in-out 350ms;
-      -webkit-animation-iteration-count: 1;
-              animation-iteration-count: 1;
-      -webkit-transform-origin: 50% 50%;
-              transform-origin: 50% 50%;
-      -webkit-animation-fill-mode: both;
-              animation-fill-mode: both; }
-    .captions-item.entering > div:nth-of-type(1) {
-      -webkit-animation-delay: 50ms;
-      animation-delay: 50ms; }
-    .captions-item.entering > div:nth-of-type(2) {
-      -webkit-animation-delay: 100ms;
-      animation-delay: 100ms; }
-    .captions-item.entering > div:nth-of-type(3) {
-      -webkit-animation-delay: 150ms;
-      animation-delay: 150ms; }
-    .captions-item.entering > div:nth-of-type(4) {
-      -webkit-animation-delay: 200ms;
-      animation-delay: 200ms; }
-    .captions-item.entering > div:nth-of-type(5) {
-      -webkit-animation-delay: 250ms;
-      animation-delay: 250ms; }
-    .captions-item.entering > div:nth-of-type(6) {
-      -webkit-animation-delay: 300ms;
-      animation-delay: 300ms; }
-    .captions-item.entering > div:nth-of-type(7) {
-      -webkit-animation-delay: 350ms;
-      animation-delay: 350ms; }
-    .captions-item.entering > div:nth-of-type(8) {
-      -webkit-animation-delay: 400ms;
-      animation-delay: 400ms; }
-    .captions-item.entering > div:nth-of-type(9) {
-      -webkit-animation-delay: 450ms;
-      animation-delay: 450ms; }
-    .captions-item.entering > div:nth-of-type(10) {
-      -webkit-animation-delay: 500ms;
-      animation-delay: 500ms; }
-    .captions-item.entering > div:nth-of-type(11) {
-      -webkit-animation-delay: 550ms;
-      animation-delay: 550ms; }
-    .captions-item.entering > div:nth-of-type(12) {
-      -webkit-animation-delay: 600ms;
-      animation-delay: 600ms; }
-    .captions-item.entering > div:nth-of-type(13) {
-      -webkit-animation-delay: 650ms;
-      animation-delay: 650ms; }
-    .captions-item.entering > div:nth-of-type(14) {
-      -webkit-animation-delay: 700ms;
-      animation-delay: 700ms; }
-    .captions-item.entering > div:nth-of-type(15) {
-      -webkit-animation-delay: 750ms;
-      animation-delay: 750ms; }
-    .captions-item.entering > div:nth-of-type(16) {
-      -webkit-animation-delay: 800ms;
-      animation-delay: 800ms; }
-    .captions-item.entering > div:nth-of-type(17) {
-      -webkit-animation-delay: 850ms;
-      animation-delay: 850ms; }
-    .captions-item.entering > div:nth-of-type(18) {
-      -webkit-animation-delay: 900ms;
-      animation-delay: 900ms; }
-    .captions-item.entering > div:nth-of-type(19) {
-      -webkit-animation-delay: 950ms;
-      animation-delay: 950ms; }
-    .captions-item.entering > div:nth-of-type(20) {
-      -webkit-animation-delay: 1000ms;
-      animation-delay: 1000ms; }
-  .captions-item.exiting {
-    opacity: 0; }
-    .captions-item.exiting > div {
-      -webkit-animation: exitingTop ease-in-out 350ms;
-              animation: exitingTop ease-in-out 350ms;
-      -webkit-animation-iteration-count: 1;
-              animation-iteration-count: 1;
-      -webkit-transform-origin: 50% 50%;
-              transform-origin: 50% 50%;
-      -webkit-animation-fill-mode: both;
-              animation-fill-mode: both; }
-    .captions-item.exiting > div:nth-of-type(1) {
-      -webkit-animation-delay: 50ms;
-      animation-delay: 50ms; }
-    .captions-item.exiting > div:nth-of-type(2) {
-      -webkit-animation-delay: 100ms;
-      animation-delay: 100ms; }
-    .captions-item.exiting > div:nth-of-type(3) {
-      -webkit-animation-delay: 150ms;
-      animation-delay: 150ms; }
-    .captions-item.exiting > div:nth-of-type(4) {
-      -webkit-animation-delay: 200ms;
-      animation-delay: 200ms; }
-    .captions-item.exiting > div:nth-of-type(5) {
-      -webkit-animation-delay: 250ms;
-      animation-delay: 250ms; }
-    .captions-item.exiting > div:nth-of-type(6) {
-      -webkit-animation-delay: 300ms;
-      animation-delay: 300ms; }
-    .captions-item.exiting > div:nth-of-type(7) {
-      -webkit-animation-delay: 350ms;
-      animation-delay: 350ms; }
-    .captions-item.exiting > div:nth-of-type(8) {
-      -webkit-animation-delay: 400ms;
-      animation-delay: 400ms; }
-    .captions-item.exiting > div:nth-of-type(9) {
-      -webkit-animation-delay: 450ms;
-      animation-delay: 450ms; }
-    .captions-item.exiting > div:nth-of-type(10) {
-      -webkit-animation-delay: 500ms;
-      animation-delay: 500ms; }
-    .captions-item.exiting > div:nth-of-type(11) {
-      -webkit-animation-delay: 550ms;
-      animation-delay: 550ms; }
-    .captions-item.exiting > div:nth-of-type(12) {
-      -webkit-animation-delay: 600ms;
-      animation-delay: 600ms; }
-    .captions-item.exiting > div:nth-of-type(13) {
-      -webkit-animation-delay: 650ms;
-      animation-delay: 650ms; }
-    .captions-item.exiting > div:nth-of-type(14) {
-      -webkit-animation-delay: 700ms;
-      animation-delay: 700ms; }
-    .captions-item.exiting > div:nth-of-type(15) {
-      -webkit-animation-delay: 750ms;
-      animation-delay: 750ms; }
-    .captions-item.exiting > div:nth-of-type(16) {
-      -webkit-animation-delay: 800ms;
-      animation-delay: 800ms; }
-    .captions-item.exiting > div:nth-of-type(17) {
-      -webkit-animation-delay: 850ms;
-      animation-delay: 850ms; }
-    .captions-item.exiting > div:nth-of-type(18) {
-      -webkit-animation-delay: 900ms;
-      animation-delay: 900ms; }
-    .captions-item.exiting > div:nth-of-type(19) {
-      -webkit-animation-delay: 950ms;
-      animation-delay: 950ms; }
-    .captions-item.exiting > div:nth-of-type(20) {
-      -webkit-animation-delay: 1000ms;
-      animation-delay: 1000ms; }
-  @media (max-width: 767.98px) {
-    .captions-item {
-      top: auto;
-      bottom: -10px;
-      margin: 0;
-      padding: 15px; }
-      .captions-item .index {
-        display: none; }
-      .captions-item .title {
-        font-size: 36px;
-        line-height: 36px;
-        text-indent: 0; }
-      .captions-item .description {
-        font-size: 14px;
-        line-height: 18px; } }
 
 .video,
 .pictures {
@@ -1537,7 +1554,7 @@ footer {
   .learn-more form .grid-container {
     margin-bottom: 40px; }
   .learn-more .btn-submit {
-    margin-top: 40px; }
+    margin-top: 55px; }
   @media (max-width: 767.98px) {
     .learn-more {
       padding: 55px 0; }
@@ -1548,10 +1565,10 @@ footer {
       .learn-more h5 {
         margin-bottom: 20px; }
       .learn-more .grid-container {
-        margin-bottom: 90px; } }
+        margin: 90px 0; } }
   @media (max-width: 575.98px) {
     .learn-more .grid-container {
-      margin-bottom: 40px; } }
+      margin: 55px 0; } }
 
 .grid-container {
   display: grid;
@@ -1572,7 +1589,7 @@ footer {
   @media (max-width: 575.98px) {
     .grid-container-4 {
       grid-template-columns: auto auto;
-      grid-row-gap: 40px; } }
+      grid-row-gap: 55px; } }
 
 .grid-container-2 {
   grid-row-gap: 40px;

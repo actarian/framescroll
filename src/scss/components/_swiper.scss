@@ -28,6 +28,9 @@
         top: 50%;
         transform: translateY(-50%);
     }
+    @include media-breakpoint-up(lg) {
+        display: none;
+    }
 }
 
 .swiper-button-prev,
@@ -37,6 +40,9 @@
     right: auto;
     &:before {
         content: "\62";
+    }
+    @include media-breakpoint-down(sm) {
+        left: -10px;
     }
 }
 
@@ -48,6 +54,9 @@
     &:before {
         content: "\63";
     }
+    @include media-breakpoint-down(sm) {
+        right: -10px;
+    }
 }
 
 // BULLETS
@@ -55,6 +64,9 @@
     position: absolute;
     width: 100%;
     margin: 40px 0 0 0;
+    @include media-breakpoint-up(lg) {
+        display: none;
+    }
 }
 
 .swiper-pagination-bullet {

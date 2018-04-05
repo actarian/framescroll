@@ -12,7 +12,7 @@ header {
     &>svg {
         width: 245px;
     }
-    @include media-breakpoint-down(md) {
+    @include media-breakpoint-down(sm) {
         &>img,
         &>svg {
             width: 130px;
@@ -65,7 +65,7 @@ header {
         pointer-events: all;
         transform: translateY(0);
     }
-    @include media-breakpoint-down(md) {
+    @include media-breakpoint-down(sm) {
         .flex-row {
             .flex-left,
             .flex-right {

@@ -31,7 +31,7 @@
         }
     }
     .btn-submit {
-        margin-top: 40px;
+        margin-top: 55px;
     }
     @include media-breakpoint-down(sm) {
         padding: 55px 0;
@@ -45,12 +45,12 @@
             margin-bottom: 20px;
         }
         .grid-container {
-            margin-bottom: 90px;
+            margin: 90px 0;
         }
     }
     @include media-breakpoint-down(xs) {
         .grid-container {
-            margin-bottom: 40px;
+            margin: 55px 0;
         }
     }
 }
@@ -74,7 +74,7 @@
     }
     @include media-breakpoint-down(xs) {
         grid-template-columns: auto auto;
-        grid-row-gap: 40px;
+        grid-row-gap: 55px;
     }
 }
 

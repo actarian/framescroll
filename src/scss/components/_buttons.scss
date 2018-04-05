@@ -82,7 +82,7 @@ button,
             transform: translateY(-5px);
         }
     }
-    @include media-breakpoint-down(md) {
+    @include media-breakpoint-down(sm) {
         margin: 0 15px;
         font-size: 14px;
         border-bottom: 1px solid #e6e6e6;

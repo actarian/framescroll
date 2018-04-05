@@ -127,6 +127,7 @@
 (function () {
     'use strict';
 
+    var isMac = navigator.platform.toUpperCase().indexOf('MAC') !== -1;
     var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
     var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
 
@@ -185,7 +186,7 @@
         node.addEventListener('touchstart', onTouchDown);
         return parseFloat(node.getAttribute('data-marker'));
     });
-    console.log('markers', markers);
+    // console.log('markers', markers);
 
     var disc = {
         source: window.options.disc,
@@ -206,7 +207,7 @@
     duration = totalFrames / fps;
     var target = null;
 
-    var scrollbar = setScrollbar();
+    var scrollbar = InitScrollbar();
     var isLoading = false,
         isLoaded = false,
         isSwitching = false;
@@ -326,7 +327,7 @@
 
     function PreloadVideoTarget(target, callback) {
         var req = new XMLHttpRequest();
-        req.open('GET', isChrome ? target.source.webm : target.source.mp4, true);
+        req.open('GET', (isChrome && !isMac) ? target.source.webm : target.source.mp4, true);
         req.responseType = 'blob';
         req.onprogress = function (e) {
             setProgress(e.loaded, e.total);
@@ -336,7 +337,7 @@
                 var videoBlob = this.response;
                 var source = URL.createObjectURL(videoBlob); // IE10+
                 target.video.addEventListener('progress', function (e) {
-                    console.log('video.progress', e, target.video.duration);
+                    // console.log('video.progress', e, target.video.duration);
                 }, false);
                 target.video.addEventListener('error', function (e) {
                     console.log('video.error', e, target.video.error);
@@ -365,7 +366,7 @@
         /*
         console.log('PreloadVideo', target);
         var req = new XMLHttpRequest();
-        req.open('GET', isChrome ? target.source.webm : target.source.mp4, true);
+        req.open('GET', (isChrome && !isMac) ? target.source.webm : target.source.mp4, true);
         req.responseType = 'blob';
         req.onprogress = function (e) {
             setProgress(e.loaded, e.total);
@@ -568,7 +569,7 @@
         if ((scrolling.pow < 1.0 && direction === 1) || ((!scrollbar || scrollbar.offset.y < 10) && direction === -1)) {
             flag = true;
         }
-        console.log('shouldLockScroll', scrolling.pow, direction);
+        // console.log('shouldLockScroll', scrolling.pow, direction);
         return flag;
     }
 
@@ -668,7 +669,7 @@
                 scrolling.end = scrolling.endTime / target.player.duration;
                 setTop(markerTime, scrolling.end);
             }
-            console.log('setIndex', index);
+            // console.log('setIndex', index);
         }
     }
 
@@ -769,7 +770,7 @@
 
     var scrollbarPaused = false;
 
-    function setScrollbar() {
+    function InitScrollbar() {
         Scrollbar.use(window.OverscrollPlugin);
         var scrollbar = Scrollbar.init(page, {
             plugins: {
@@ -834,52 +835,33 @@
         return scrollbar;
     }
 
-    var svgs = Array.prototype.slice.call(document.querySelectorAll('img.svg'));
-    svgs = svgs.map(function (node) {
-        var classes = node.getAttribute('class');
-        var src = node.getAttribute('src');
-        var req = new XMLHttpRequest();
-        req.open('GET', src, true);
-        req.responseType = 'text';
-        req.onload = function () {
-            if (this.status === 200) {
-                // Get the SVG tag, ignore the rest
-                var parentNode = node.parentNode;
-                parentNode.innerHTML = this.responseText;
-                var svg = parentNode.querySelector('svg');
-                console.log(svg);
-                svg.setAttribute('class', classes);
-                // Remove any invalid XML tags as per http://validator.w3.org
-                svg.setAttribute('xmlns:a', null);
-                // Replace image with new SVG
-                // $img.replaceWith($svg);
-            }
-        };
-        req.onerror = function (e) {
-            console.log('svg.error', e);
-        };
-        req.send();
-    });
-
-    function OverviewLogo() {
-        var logo = document.querySelector('.overview-logo');
-
-        var mouse = {
-            x: 0,
-            y: 0
-        };
-
-        function onMove(e) {
-            mouse.x = (e.clientX / window.innerWidth) - 0.5;
-            mouse.y = (e.clientY / window.innerHeight) - 0.5;
-        }
-
-        function animate() {
-            logo.setAttribute('style', 'transform: rotateX(' + mouse.y * 4 + 'deg) rotateY(' + mouse.x * 20 + 'deg);');
-            requestAnimationFrame(animate);
-        }
-        animate();
-        window.addEventListener('mousemove', onMove);
+    function InitSvg() {
+        var svgs = Array.prototype.slice.call(document.querySelectorAll('img.svg'));
+        svgs = svgs.map(function (node) {
+            var classes = node.getAttribute('class');
+            var src = node.getAttribute('src');
+            var req = new XMLHttpRequest();
+            req.open('GET', src, true);
+            req.responseType = 'text';
+            req.onload = function () {
+                if (this.status === 200) {
+                    // Get the SVG tag, ignore the rest
+                    var parentNode = node.parentNode;
+                    parentNode.innerHTML = this.responseText;
+                    var svg = parentNode.querySelector('svg');
+                    // console.log(svg);
+                    svg.setAttribute('class', classes);
+                    // Remove any invalid XML tags as per http://validator.w3.org
+                    svg.setAttribute('xmlns:a', null);
+                    // Replace image with new SVG
+                    // $img.replaceWith($svg);
+                }
+            };
+            req.onerror = function (e) {
+                console.log('svg.error', e);
+            };
+            req.send();
+        });
     }
 
     function InitLoading() {
@@ -905,7 +887,7 @@
                     var top = target.offsetTop;
                     scrollbar.scrollTo(0, top, 600, {
                         callback: function () {
-                            console.log('ScrollTo.complete', top);
+                            // console.log('ScrollTo.complete', top);
                         },
                         // easing: easing.easeOutBack,
                     });
@@ -1080,13 +1062,11 @@
         var tapped = false;
         var buttons = Array.prototype.slice.call(document.querySelectorAll('.btn-overview'));
         buttons.filter(function (btn, index) {
-            var previousTarget = null,
-                previousDirection = null;
+            var previousTarget = null;
 
             function onOver(e) {
                 if (!isLoading && !isLoaded && !tapped) {
                     previousTarget = target;
-                    previousDirection = direction;
                     target = index === 1 ? disc : rim;
                     direction = index === 1 ? 1 : -1;
                     TweenLite.to(pow, 1, {
@@ -1101,7 +1081,7 @@
             function onOut(e) {
                 if (!isLoading && !isLoaded && !tapped) {
                     target = previousTarget;
-                    direction = previousDirection;
+                    direction = 0;
                     TweenLite.to(pow, 1, {
                         x: direction,
                         ease: Elastic.easeOut,
@@ -1117,7 +1097,6 @@
                     direction = index === 1 ? 1 : -1;
                     target = index === 1 ? disc : rim;
                     previousTarget = target;
-                    previousDirection = direction;
                     positions = [-1, 1];
                     TweenLite.to(pow, 1, {
                         x: direction,
@@ -1213,12 +1192,35 @@
         toggle.addEventListener('touchstart', onTouchDown);
     }
 
+    InitSvg();
     InitLoading();
     InitScrollTo();
     InitSwitch();
     InitSwiper();
     InitMenu();
 
-    // OverviewLogo();
+    /*
+    function OverviewLogo() {
+        var logo = document.querySelector('.overview-logo');
+
+        var mouse = {
+            x: 0,
+            y: 0
+        };
+
+        function onMove(e) {
+            mouse.x = (e.clientX / window.innerWidth) - 0.5;
+            mouse.y = (e.clientY / window.innerHeight) - 0.5;
+        }
+
+        function animate() {
+            logo.setAttribute('style', 'transform: rotateX(' + mouse.y * 4 + 'deg) rotateY(' + mouse.x * 20 + 'deg);');
+            requestAnimationFrame(animate);
+        }
+        animate();
+        window.addEventListener('mousemove', onMove);
+    }
+    OverviewLogo();
+    */
 
 }());
