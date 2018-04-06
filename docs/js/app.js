@@ -127,6 +127,7 @@
 (function () {
     'use strict';
 
+    var isTouch = false;
     var isMac = navigator.platform.toUpperCase().indexOf('MAC') !== -1;
     var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
     var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
@@ -604,7 +605,6 @@
                 scrolling.end = Math.max(0, Math.min(1, scrubStart + pow));
                 // console.log('onMove', scrubStart, pow);
                 mouseMove = true;
-                setScroll();
             }
             var direction = y - mouseDownY > 0 ? -1 : 1;
             if (shouldLockScroll(direction)) {
@@ -632,7 +632,6 @@
                     }
                 });
                 setNearestDirection(direction);
-                setScroll();
             }
         }
         mouseMove = false;
@@ -642,7 +641,6 @@
     function onWheel(e) {
         var wheelDirection = e.deltaY / Math.abs(e.deltaY);
         setNearestDirection(wheelDirection);
-        setScroll();
         if (shouldLockScroll(wheelDirection)) {
             e.preventDefault();
             e.stopPropagation();
@@ -681,17 +679,6 @@
             index = Math.max(0, scrolling.index - 1);
         }
         setIndex(index);
-    }
-
-    function setScroll() {
-        /*
-        var overviewHeight = overview.offsetHeight;
-        // var contentHeight = content.offsetHeight;
-        var min = 0,
-            max = overviewHeight, // (contentHeight - overviewHeight),
-            top = scrolling.end * max;
-        window.scrollTo(0, Math.max(min, Math.min(max, top)));
-        */
     }
 
     function getNearestMarker(time) {
@@ -899,7 +886,7 @@
         });
     }
 
-    function InitSwitch() {
+    function InitSwitcher() {
         var switcher = document.querySelector('.overview-switch');
         var slider = document.querySelector('.switch-slider');
         var discOverview = document.querySelector('.overview-disc');
@@ -938,17 +925,22 @@
 
         function onUpdate() {
             slider.setAttribute('style', 'transform: translateX(' + (pow.x * width / 2) + 'px)');
-            // if (!isLoaded) {
-            var polygons = getPolygons(pow.x);
-            discOverview.setAttribute('style', 'shape-inside: ' + polygons.disc + '; clip-path: ' + polygons.disc + '; -webkit-clip-path: ' + polygons.disc + ';');
-            rimOverview.setAttribute('style', 'shape-inside: ' + polygons.rim + '; clip-path: ' + polygons.rim + '; -webkit-clip-path: ' + polygons.rim + ';');
-            var s1 = 1.1 - (pow.x + 1) / 2 * 0.1;
-            var s2 = 1 + (pow.x + 1) / 2 * 0.1;
-            var b1 = 20 * (pow.x < 0 ? Math.abs(pow.x) : 0) + 'px';
-            var b2 = 20 * (pow.x > 0 ? Math.abs(pow.x) : 0) + 'px';
-            discCover.setAttribute('style', 'transform: scale(' + s1 + '); filter: blur(' + b1 + ');');
-            rimCover.setAttribute('style', 'transform: scale(' + s2 + '); filter: blur(' + b2 + ');');
-            // }
+            if (isTouch) {
+                var v = (pow.x / 2) + 0.5;
+                v = Math.min(1, Math.max(0, v));
+                discOverview.setAttribute('style', 'opacity:' + v + ';');
+                rimOverview.setAttribute('style', 'opacity:' + (1 - v) + ';');
+            } else {
+                var polygons = getPolygons(pow.x);
+                discOverview.setAttribute('style', 'shape-inside: ' + polygons.disc + '; clip-path: ' + polygons.disc + '; -webkit-clip-path: ' + polygons.disc + ';');
+                rimOverview.setAttribute('style', 'shape-inside: ' + polygons.rim + '; clip-path: ' + polygons.rim + '; -webkit-clip-path: ' + polygons.rim + ';');
+                var s1 = 1.1 - (pow.x + 1) / 2 * 0.1;
+                var s2 = 1 + (pow.x + 1) / 2 * 0.1;
+                var b1 = 20 * (pow.x < 0 ? Math.abs(pow.x) : 0) + 'px';
+                var b2 = 20 * (pow.x > 0 ? Math.abs(pow.x) : 0) + 'px';
+                discCover.setAttribute('style', 'transform: scale(' + s1 + '); filter: blur(' + b1 + ');');
+                rimCover.setAttribute('style', 'transform: scale(' + s2 + '); filter: blur(' + b2 + ');');
+            }
         }
 
         function animate() {
@@ -1059,11 +1051,11 @@
         switcher.addEventListener('touchstart', onTouchDown);
         window.addEventListener('resize', onResize);
 
+        var previousTarget = null;
+        var previousDirection = 0;
         var tapped = false;
         var buttons = Array.prototype.slice.call(document.querySelectorAll('.btn-overview'));
         buttons.filter(function (btn, index) {
-            var previousTarget = null;
-
             function onOver(e) {
                 if (!isLoading && !isLoaded && !tapped) {
                     previousTarget = target;
@@ -1092,7 +1084,7 @@
             }
 
             function onDown(e) {
-                if (!isLoading) {
+                if (!isLoading && previousDirection === 0) {
                     tapped = true;
                     direction = index === 1 ? 1 : -1;
                     target = index === 1 ? disc : rim;
@@ -1123,11 +1115,76 @@
                 btn.removeEventListener('mousedown', onMouseDown);
                 return onDown(e);
             }
+            /*
             btn.addEventListener('mouseover', onOver);
             btn.addEventListener('mouseout', onOut);
+            */
             btn.addEventListener('mousedown', onMouseDown);
             btn.addEventListener('touchstart', onTouchDown);
         });
+
+        function onHovering(e) {
+            if (!isLoading && !isLoaded && !tapped) {
+                var left = buttons[0].getBoundingClientRect();
+                var right = buttons[1].getBoundingClientRect();
+                var direction = 0;
+                if (e.clientX > right.left) {
+                    direction = 1;
+                } else if (e.clientX < left.right) {
+                    direction = -1;
+                }
+                if (previousDirection !== direction) {
+                    previousDirection = direction;
+                    previousTarget = target;
+                    target = direction === 1 ? disc : rim;
+                    TweenLite.to(pow, 1, {
+                        x: direction * 0.2,
+                        ease: Elastic.easeOut,
+                        onUpdate: onUpdate,
+                        onComplete: function () {},
+                    });
+                }
+            } else {
+                window.removeEventListener('mousemove', onHovering);
+            }
+        }
+
+        function onHoveringDown(e) {
+            if (!isLoading && !isLoaded && !tapped && previousDirection !== 0) {
+                tapped = true;
+                direction = previousDirection;
+                target = previousDirection === 1 ? disc : rim;
+                previousTarget = target;
+                positions = [-1, 1];
+                TweenLite.to(pow, 1, {
+                    x: direction,
+                    ease: Elastic.easeOut,
+                    onUpdate: onUpdate,
+                    onComplete: function () {
+                        if (!isLoaded) {
+                            previousDirection = 0;
+                            StartLoading();
+                        }
+                    },
+                });
+            }
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            return false;
+        }
+
+        function onHoveringMouseDown(e) {
+            window.removeEventListener('touchstart', onHoveringTouchDown);
+            return onHoveringDown(e);
+        }
+
+        function onHoveringTouchDown(e) {
+            window.removeEventListener('mousedown', onHoveringMouseDown);
+            return onHoveringDown(e);
+        }
+        window.addEventListener('mousemove', onHovering);
+        window.addEventListener('mousedown', onHoveringMouseDown);
+        window.addEventListener('touchstart', onHoveringTouchDown);
     }
 
     function InitSwiper() {
@@ -1192,12 +1249,21 @@
         toggle.addEventListener('touchstart', onTouchDown);
     }
 
+    function InitTouch() {
+        function onTouch(e) {
+            isTouch = true;
+            window.removeEventListener('touchstart', onTouch);
+        }
+        window.addEventListener('touchstart', onTouch);
+    }
+
     InitSvg();
     InitLoading();
     InitScrollTo();
-    InitSwitch();
+    InitSwitcher();
     InitSwiper();
     InitMenu();
+    InitTouch();
 
     /*
     function OverviewLogo() {
