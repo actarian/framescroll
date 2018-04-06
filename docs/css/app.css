@@ -340,6 +340,11 @@ button,
     .btn-marker .nom {
       font-weight: 600;
       -webkit-transform: none !important;
+              transform: none !important; }
+    .btn-marker:hover .title, .btn-marker.active .title {
+      display: none; }
+    .btn-marker:hover .num, .btn-marker.active .num {
+      -webkit-transform: none !important;
               transform: none !important; } }
 
 .btn-spec {
@@ -546,9 +551,10 @@ svg {
     text-transform: uppercase;
     color: #28292b; }
   .captions-item .description {
-    text-transform: uppercase;
     max-width: 390px;
     color: #28292b; }
+    .captions-item .description .red {
+      padding: 0 5px; }
   .captions-item:first-child, .captions-item:last-child {
     display: none; }
   .captions-item.entering {
@@ -766,10 +772,10 @@ svg {
 
 .track {
   position: absolute;
-  height: 540px;
+  height: 480px;
   width: 20px;
   top: 50%;
-  margin-top: -270px;
+  margin-top: -240px;
   right: -20px;
   opacity: 0; }
   .loaded .track {
@@ -1347,7 +1353,8 @@ body.locked {
     margin-top: 20vh; }
     .overview-selection .speed-12.hidden-md-up {
       width: 600px;
-      max-width: calc(100vw - 140px); }
+      max-width: calc(100vw - 140px);
+      margin-top: 10vh; }
   .overview-selection .numbers {
     color: #28292b;
     font-weight: 900;

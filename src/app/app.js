@@ -22,7 +22,6 @@
     var scrolling = {
         pow: 0,
         end: 0,
-        endTime: 0,
         previous: 0,
         direction: 0,
         diff: 0,
@@ -48,8 +47,7 @@
             var skip = Math.abs(scrolling.index - index) > 1;
             setIndex(index, skip);
             if (skip) {
-                var second = 1 / target.player.duration;
-                scrolling.pow = scrolling.end - second;
+                scrolling.pow = scrolling.end - 1;
             }
             e.preventDefault();
             e.stopImmediatePropagation();
@@ -319,18 +317,20 @@
         // window.onscroll = onScroll;
         // setInterval(onLoop, 1000.0 / fps);
 
-        console.log(target.video.duration);
+        // console.log(target.video.duration);
         setIndex(1);
     }
 
     function setCaptionItems(direction) {
         target.captionItems.filter(function (caption, index) {
-            var distance = markers[index] - scrolling.pow * target.player.duration;
+            var distance = markers[index] - scrolling.pow;
             if (Math.abs(distance) > 2) {
                 caption.setAttribute('class', 'captions-item');
             } else if (direction > 0) {
+                // console.log(distance, index);
                 caption.setAttribute('class', 'captions-item ' + (distance > -0.1 ? 'entering' : 'exiting'));
             } else if (direction < 0) {
+                // console.log(distance, index);
                 caption.setAttribute('class', 'captions-item ' + (distance < 0.1 ? 'entering' : 'exiting'));
             }
         });
@@ -347,20 +347,20 @@
             if (mouseMove) {
                 onPause();
                 scrolling.pow = scrolling.end;
-                target.player.currentTime = scrolling.pow * target.player.duration;
+                target.player.currentTime = scrolling.pow;
                 target.player.setTime();
             } else {
                 if (scrolling.end !== scrolling.pow) {
                     onPause();
                     var diff = scrolling.end - scrolling.pow;
                     var step = 1.0 / fps;
-                    if (Math.abs(diff * target.player.duration) < step) {
+                    if (Math.abs(diff) < step) {
                         scrolling.pow = scrolling.end;
                     } else {
                         var direction = diff ? diff / Math.abs(diff) : 0;
-                        scrolling.pow += (step * direction) / target.player.duration;
+                        scrolling.pow += step * direction;
                     }
-                    var currentTime = Math.round(scrolling.pow * target.player.duration / step) * step + 0.00001;
+                    var currentTime = Math.round(scrolling.pow / step) * step + 0.00001;
                     target.player.currentTime = currentTime;
                     target.player.setTime();
                 }
@@ -376,7 +376,7 @@
     function setMarkers(pow) {
         var markerIndex = 0;
         markers.filter(function (marker, i) {
-            if (marker <= pow * target.player.duration) {
+            if (marker <= pow) {
                 markerIndex = i;
             }
         });
@@ -398,12 +398,12 @@
                 fpow = 0,
                 tpow = 0;
             markers.filter(function (marker, index) {
-                if (marker <= pow * target.player.duration) {
+                if (marker <= pow) {
                     i = index;
                 }
             });
-            fpow = markers[i] / target.player.duration;
-            tpow = i < markers.length - 1 ? markers[i + 1] / target.player.duration : fpow;
+            fpow = markers[i];
+            tpow = i < markers.length - 1 ? markers[i + 1] : fpow;
             var step = 60;
             pow = fpow !== tpow ? ((pow - fpow) / (tpow - fpow)) : 0;
             var top = step / 2 + step * i + pow * step;
@@ -473,7 +473,7 @@
 
     function shouldLockScroll(direction) {
         var offsetY = getOffsetY();
-        var flag = (scrolling.pow < 1.0 && direction === 1) || (offsetY < 10 && direction === -1);
+        var flag = (scrolling.pow < target.player.duration && direction === 1) || (offsetY < 10 && direction === -1);
         if (flag) {
             body.addClass('locked');
         } else {
@@ -514,8 +514,8 @@
                 if (Math.abs(mouseDownY - y) > 1) {
                     var min = 0,
                         max = 1,
-                        pow = (mouseDownY - y) / (window.innerHeight * 3);
-                    scrolling.end = Math.max(0, Math.min(1, scrubStart + pow));
+                        pow = (mouseDownY - y) / (window.innerHeight * 3) * target.player.duration;
+                    scrolling.end = Math.max(0, Math.min(target.player.duration, scrubStart + pow));
                     // console.log('onMove', scrubStart, pow);
                     mouseMove = true;
                 }
@@ -538,7 +538,7 @@
             // console.log(y, mouseDownY, diff);
             if (diff) {
                 var direction = diff / Math.abs(diff);
-                var time = scrolling.end * target.player.duration;
+                var time = scrolling.end;
                 markers.filter(function (item, index) {
                     if (time > item && time < markers[index + 1]) {
                         scrolling.index = index + (direction > 0 ? 0 : 1);
@@ -577,15 +577,14 @@
             var direction = (index - scrolling.index) / Math.abs(index - scrolling.index);
             var previousMarker = markers[scrolling.index];
             var nextMarker = markers[index];
-            var currentTime = scrolling.pow * target.player.duration;
+            var currentTime = scrolling.pow;
             if (skip || currentTime >= Math.min(previousMarker, nextMarker) && currentTime <= Math.max(previousMarker, nextMarker)) {
                 scrolling.index = index;
-                scrolling.endTime = markers[scrolling.index];
                 scrolling.direction = direction;
-                scrolling.end = scrolling.endTime / target.player.duration;
+                scrolling.end = markers[scrolling.index];
                 setTop(markerTime, scrolling.end);
             }
-            // console.log('setIndex', index);
+            // console.log('setIndex', previousMarker, nextMarker, currentTime);
         }
     }
 

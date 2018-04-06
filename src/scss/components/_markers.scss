@@ -48,10 +48,10 @@
 
 .track {
     position: absolute;
-    height: 540px;
+    height: 480px;
     width: 20px;
     top: 50%;
-    margin-top: -270px;
+    margin-top: -240px;
     right: -20px; // background: rgba(128, 128, 128, 0.2);
     opacity: 0;
     .loaded & {
