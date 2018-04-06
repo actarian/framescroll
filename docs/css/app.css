@@ -421,13 +421,11 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-  cursor: pointer;
   background: #e1e1e1;
   color: #28292b; }
 
-.body {
-  -webkit-perspective: 500;
-          perspective: 500; }
+body.locked {
+  overflow: hidden; }
 
 .page {
   width: 100vw;

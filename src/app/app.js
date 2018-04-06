@@ -294,7 +294,7 @@
             addSteps();
         }
 
-        window.onscroll = onScroll;
+        // window.onscroll = onScroll;
         // setInterval(onLoop, 1000.0 / fps);
         window.requestAnimationFrame(animate);
 
@@ -435,12 +435,23 @@
         return Math.max(0, Math.min(window.innerHeight, y));
     }
 
-    function shouldLockScroll(direction) {
-        var flag = false;
-        if ((scrolling.pow < 1.0 && direction === 1) || ((!scrollbar || scrollbar.offset.y < 10) && direction === -1)) {
-            flag = true;
+    function getOffsetY() {
+        if (scrollbar) {
+            return scrollbar.offset.y;
+        } else {
+            return window.pageYOffset;
         }
-        // console.log('shouldLockScroll', scrolling.pow, direction);
+    }
+
+    function shouldLockScroll(direction) {
+        var offsetY = getOffsetY();
+        var flag = (scrolling.pow < 1.0 && direction === 1) || (offsetY < 10 && direction === -1);
+        if (flag) {
+            body.addClass('locked');
+        } else {
+            body.removeClass('locked');
+        }
+        console.log('shouldLockScroll', offsetY, direction);
         return flag;
     }
 
@@ -448,8 +459,10 @@
         previousY,
         scrubStart = 0.0;
 
+
+
     function onDown(e) {
-        if (scrollbar.offset.y < 10) {
+        if (getOffsetY() < 10) {
             // console.log('scrub.onDown');
             var y = getY(e);
             previousY = null;
@@ -525,9 +538,11 @@
         }
     }
 
+    /*
     function onScroll() {
         setTop(markerTime, scrolling.end);
     }
+    */
 
     function setIndex(index, skip) {
         if (index !== scrolling.index) {
@@ -629,26 +644,11 @@
     var scrollbarPaused = false;
 
     function InitScrollbar() {
-        Scrollbar.use(window.OverscrollPlugin);
-        var scrollbar = Scrollbar.init(page, {
-            plugins: {
-                overscroll: {},
-            },
-        });
+        var enabled = !iOS;
 
-        function onChange(e) {
-            // console.log('scrollbar.onChange', e.offset.y, e.limit.y, native.offsetHeight);
-            var object = {
-                offset: e.offset,
-                limit: e.limit,
-                container: {
-                    width: page.offsetWidth,
-                    height: page.offsetHeight,
-                }
-            };
-            // console.log('Scrollbar.onChange', object);
+        function onDidScroll(top) {
             if (!isLoaded) {
-                if (e.offset.y > 0) {
+                if (top > 0) {
                     body.addClass('submenu');
                 } else {
                     body.removeClass('submenu');
@@ -659,15 +659,8 @@
                 var target = document.querySelector(href);
                 node.removeClass('active');
                 if (target) {
-                    var top = target.offsetTop - e.offset.y;
+                    var top = target.offsetTop - top;
                     node.top = top;
-                    /*
-                    if (top < window.innerHeight) {
-                        node.addClass('active');
-                    } else {
-                        node.removeClass('active');
-                    }
-                    */
                     return true;
                 } else {
                     return false;
@@ -683,14 +676,45 @@
                 activeNode.addClass('active');
             }
         }
-        scrollbar.addListener(onChange);
-        scrollbar.onScrollbarShouldScrollTo = function (options) {
-            // console.log('Scrollbar.onScrollbarShouldScrollTo', options);
-            if (document.querySelector(options.selector) === page) {
-                scrollbar.scrollTo(options.x || 0, options.y || 0, 500);
-            }
-        };
-        return scrollbar;
+
+        function onScroll(e) {
+            onDidScroll(getOffsetY());
+        }
+
+        function onChange(e) {
+            // console.log('scrollbar.onChange', e.offset.y, e.limit.y, native.offsetHeight);
+            var object = {
+                offset: e.offset,
+                limit: e.limit,
+                container: {
+                    width: page.offsetWidth,
+                    height: page.offsetHeight,
+                }
+            };
+            onDidScroll(getOffsetY());
+        }
+        if (enabled) {
+            Scrollbar.use(window.OverscrollPlugin);
+            var scrollbar = Scrollbar.init(page, {
+                plugins: {
+                    overscroll: {},
+                },
+            });
+
+            scrollbar.addListener(onChange);
+            /*
+            scrollbar.onScrollbarShouldScrollTo = function (options) {
+                // console.log('Scrollbar.onScrollbarShouldScrollTo', options);
+                if (document.querySelector(options.selector) === page) {
+                    scrollbar.scrollTo(options.x || 0, options.y || 0, 500);
+                }
+            };
+            */
+            return scrollbar;
+        } else {
+            window.onscroll = onScroll;
+            return false;
+        }
     }
 
     function InitSvg() {

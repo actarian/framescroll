@@ -4,13 +4,15 @@ body {
     height: 100%; // overflow: hidden;
     margin: 0;
     padding: 0;
-    cursor: pointer;
     background: $background;
     color: $foreground;
 }
 
-.body {
-    perspective: 500;
+body {
+    // perspective: 500;
+    &.locked {
+        overflow: hidden;
+    }
 }
 
 .page {
