@@ -3,6 +3,7 @@
 (function () {
     'use strict';
 
+    var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
     var formMultiple = document.querySelector('.form-group-multiple');
 
     function onMultiple() {
@@ -20,12 +21,14 @@
     window.addEventListener('touchstart', onDown);
 
     var navContainer = document.querySelector('.nav-container');
-    Scrollbar.use(window.OverscrollPlugin);
-    var scrollbar = Scrollbar.init(navContainer, {
-        plugins: {
-            overscroll: {},
-        },
-    });
+    if (!iOS) {
+        Scrollbar.use(window.OverscrollPlugin);
+        var scrollbar = Scrollbar.init(navContainer, {
+            plugins: {
+                overscroll: {},
+            },
+        });
+    }
 
     var options = Array.prototype.slice.call(document.querySelectorAll('.nav-multiple li'));
 
