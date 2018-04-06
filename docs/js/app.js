@@ -152,6 +152,11 @@
         index: 0,
     };
 
+    var eventOptions = window.PointerEvent ? {
+        passive: false,
+        capture: true,
+    } : undefined;
+
     var body = document.querySelector('body');
     var page = document.querySelector('.page');
     var overview = document.querySelector('.section-overview');
@@ -180,6 +185,7 @@
         }
 
         function onTouchDown(e) {
+            isTouch = true;
             node.removeEventListener('mousedown', onMouseDown);
             return onDown(e);
         }
@@ -400,7 +406,9 @@
         isLoaded = true;
         body.removeClass('loading');
         body.addClass('loaded');
-        body.addClass('submenu');
+        if (!isTouch) {
+            body.addClass('submenu');
+        }
 
         scrolling.pow = scrolling.end = 0;
         speed = 0.0;
@@ -412,24 +420,12 @@
             addSteps();
         }
 
-        addMouseEvents();
-        addTouchEvents();
-
         window.onscroll = onScroll;
         // setInterval(onLoop, 1000.0 / fps);
         window.requestAnimationFrame(animate);
 
         console.log(target.video.duration);
         setIndex(1);
-    }
-
-    function elastic(pow) {
-        var accelamount = 0.05; //How fast the video will try to catch up with the target position. 1 = instantaneous, 0 = do nothing.
-        var bounceamount = 0.7; //value from 0 to 1 for how much backlash back and forth you want in the easing. 0 = no bounce whatsoever, 1 = lots and lots of bounce
-        speed += (scrolling.end - pow) * accelamount;
-        speed = Math.max(-1, Math.min(1, speed));
-        pow = (pow + speed) * (bounceamount) + (scrolling.end * (1 - bounceamount));
-        return pow;
     }
 
     function setCaptionItems(direction) {
@@ -543,7 +539,7 @@
     }
 
     function onTrack(e) {
-        if (!isSwitching) {
+        if (isLoaded && !isSwitching) {
             e.preventDefault();
             e.stopImmediatePropagation();
             if (e.target.getAttribute('class') === 'step') {
@@ -595,19 +591,22 @@
             return;
         }
         if (mouseDownY) {
-            var y = getY(e);
-            // console.log('onMove', y);
-            previousY = y;
-            if (Math.abs(mouseDownY - y) > 1) {
-                var min = 0,
-                    max = 1,
-                    pow = (mouseDownY - y) / (window.innerHeight * 3);
-                scrolling.end = Math.max(0, Math.min(1, scrubStart + pow));
-                // console.log('onMove', scrubStart, pow);
-                mouseMove = true;
+            var direction = 0;
+            if (isLoaded) {
+                var y = getY(e);
+                // console.log('onMove', y);
+                previousY = y;
+                if (Math.abs(mouseDownY - y) > 1) {
+                    var min = 0,
+                        max = 1,
+                        pow = (mouseDownY - y) / (window.innerHeight * 3);
+                    scrolling.end = Math.max(0, Math.min(1, scrubStart + pow));
+                    // console.log('onMove', scrubStart, pow);
+                    mouseMove = true;
+                }
+                direction = y - mouseDownY > 0 ? -1 : 1;
             }
-            var direction = y - mouseDownY > 0 ? -1 : 1;
-            if (shouldLockScroll(direction)) {
+            if (!isLoaded || shouldLockScroll(direction)) {
                 e.preventDefault();
                 e.stopPropagation();
                 e.stopImmediatePropagation();
@@ -617,7 +616,7 @@
     }
 
     function onUp(e) {
-        if (mouseMove) {
+        if (mouseMove && isLoaded) {
             var y = previousY;
             // console.log('onUp', y);
             var diff = (mouseDownY - y);
@@ -640,8 +639,10 @@
 
     function onWheel(e) {
         var wheelDirection = e.deltaY / Math.abs(e.deltaY);
-        setNearestDirection(wheelDirection);
-        if (shouldLockScroll(wheelDirection)) {
+        if (isLoaded) {
+            setNearestDirection(wheelDirection);
+        }
+        if (!isLoaded || shouldLockScroll(wheelDirection)) {
             e.preventDefault();
             e.stopPropagation();
             e.stopImmediatePropagation();
@@ -703,17 +704,13 @@
         return marker;
     }
 
-    var eventOptions = window.PointerEvent ? {
-        passive: false,
-        capture: true,
-    } : undefined;
-
     function onMouseDown(e) {
         removeTouchEvents();
         onDown(e);
     }
 
     function onTouchDown(e) {
+        isTouch = true;
         removeMouseEvents();
         onDown(e);
     }
@@ -951,6 +948,7 @@
         window.addEventListener('mousemove', onMove);
 
         function onDown(e) {
+            console.log('switcher.onDown');
             if (!isLoading) {
                 isSwitching = true;
                 start.x = pow.x;
@@ -1026,18 +1024,19 @@
         }
 
         function onTouchDown(e) {
+            isTouch = true;
             onDown(e);
             addTouchListeners();
         }
 
         function addMouseListeners() {
-            window.addEventListener('mousemove', onMove);
-            window.addEventListener('mouseup', onUp);
+            window.addEventListener('mousemove', onMove, eventOptions);
+            window.addEventListener('mouseup', onUp, eventOptions);
         }
 
         function addTouchListeners() {
-            window.addEventListener('touchmove', onMove);
-            window.addEventListener('touchend', onUp);
+            window.addEventListener('touchmove', onMove, eventOptions);
+            window.addEventListener('touchend', onUp, eventOptions);
         }
 
         function removeListeners() {
@@ -1047,8 +1046,8 @@
             window.removeEventListener('touchend', onUp);
         }
 
-        switcher.addEventListener('mousedown', onMouseDown);
-        switcher.addEventListener('touchstart', onTouchDown);
+        switcher.addEventListener('mousedown', onMouseDown, eventOptions);
+        switcher.addEventListener('touchstart', onTouchDown, eventOptions);
         window.addEventListener('resize', onResize);
 
         var previousTarget = null;
@@ -1112,6 +1111,7 @@
             }
 
             function onTouchDown(e) {
+                isTouch = true;
                 btn.removeEventListener('mousedown', onMouseDown);
                 return onDown(e);
             }
@@ -1168,9 +1168,8 @@
                     },
                 });
             }
-            e.preventDefault();
-            e.stopImmediatePropagation();
-            return false;
+            window.removeEventListener('touchstart', onHoveringTouchDown);
+            window.removeEventListener('mousedown', onHoveringMouseDown);
         }
 
         function onHoveringMouseDown(e) {
@@ -1179,6 +1178,7 @@
         }
 
         function onHoveringTouchDown(e) {
+            isTouch = true;
             window.removeEventListener('mousedown', onHoveringMouseDown);
             return onHoveringDown(e);
         }
@@ -1242,6 +1242,7 @@
         }
 
         function onTouchDown(e) {
+            isTouch = true;
             toggle.removeEventListener('mousedown', onMouseDown);
             return onDown(e);
         }
@@ -1249,12 +1250,15 @@
         toggle.addEventListener('touchstart', onTouchDown);
     }
 
-    function InitTouch() {
-        function onTouch(e) {
+    function InitHandlers() {
+        function onTestTouch(e) {
+            console.log('onTestTouch', e);
             isTouch = true;
-            window.removeEventListener('touchstart', onTouch);
+            window.removeEventListener('touchstart', onTestTouch);
         }
-        window.addEventListener('touchstart', onTouch);
+        window.addEventListener('touchstart', onTestTouch);
+        addMouseEvents();
+        addTouchEvents();
     }
 
     InitSvg();
@@ -1263,7 +1267,7 @@
     InitSwitcher();
     InitSwiper();
     InitMenu();
-    InitTouch();
+    InitHandlers();
 
     /*
     function OverviewLogo() {

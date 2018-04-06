@@ -65,3 +65,6 @@
 .icon-language:before {
   content: "\69";
 }
+.icon-close:before {
+  content: "\6a";
+}

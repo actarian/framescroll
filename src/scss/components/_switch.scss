@@ -73,6 +73,7 @@
 .switch-loading {
     display: none;
     position: relative;
+    z-index: 0;
     text-transform: uppercase;
     letter-spacing: 3px;
     color: $red;
@@ -106,7 +107,7 @@
     position: relative;
     width: 100%;
     height: 100%;
-    z-index: 20;
+    z-index: 99;
     transform: translateX(0%);
     .switch-thumb {
         position: relative;

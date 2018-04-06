@@ -704,6 +704,7 @@ svg {
         line-height: 18px; } }
 
 .markers {
+  z-index: 0;
   position: absolute;
   width: auto;
   height: 100%;
@@ -953,6 +954,7 @@ svg {
 .switch-loading {
   display: none;
   position: relative;
+  z-index: 0;
   text-transform: uppercase;
   letter-spacing: 3px;
   color: #c02a1b;
@@ -1044,7 +1046,7 @@ svg {
   position: relative;
   width: 100%;
   height: 100%;
-  z-index: 20;
+  z-index: 99;
   -webkit-transform: translateX(0%);
           transform: translateX(0%); }
   .switch-slider .switch-thumb {
@@ -1271,6 +1273,32 @@ footer {
         */ }
   .section-overview .overview-selection {
     z-index: 4; }
+  @media screen and (max-height: 719px) and (orientation: portrait) {
+    .section-overview {
+      max-height: calc(100vh - 40px); } }
+
+.video,
+.pictures {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  background: #ffffff;
+  pointer-events: none;
+  opacity: 0;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+          transform: translateX(-50%) translateY(-50%);
+  -webkit-transition: opacity ease-in-out 350ms;
+  transition: opacity ease-in-out 350ms; }
+  .loaded .video, .loaded
+  .pictures {
+    opacity: 1; }
+  @media screen and (max-height: 719px) and (orientation: portrait) {
+    .video,
+    .pictures {
+      max-height: calc(100vh - 40px); } }
 
 .overview-selection {
   display: block;
@@ -1361,29 +1389,6 @@ footer {
 .rim {
   color: #aaabb1;
   font-weight: 600; }
-
-.video,
-.pictures {
-  display: block;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  min-width: 100%;
-  min-height: 100%;
-  background: #ffffff;
-  pointer-events: none;
-  opacity: 0;
-  -webkit-transform: translateX(-50%) translateY(-50%);
-          transform: translateX(-50%) translateY(-50%);
-  -webkit-transition: opacity ease-in-out 350ms;
-  transition: opacity ease-in-out 350ms; }
-  .loaded .video, .loaded
-  .pictures {
-    opacity: 1; }
-  @media screen and (max-height: 719px) and (orientation: portrait) {
-    .video,
-    .pictures {
-      max-height: 100vh; } }
 
 .use-video .section-overview .pictures {
   display: none; }
