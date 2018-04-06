@@ -77,6 +77,8 @@ $caption: $black;
     }
     @include media-breakpoint-down(sm) {
         top: auto;
+        left: 0;
+        right: 50px;
         bottom: -10px;
         margin: 0;
         padding: 15px;

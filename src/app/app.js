@@ -479,7 +479,7 @@
         } else {
             body.removeClass('locked');
         }
-        console.log('shouldLockScroll', offsetY, direction);
+        // console.log('shouldLockScroll', offsetY, direction);
         return flag;
     }
 
