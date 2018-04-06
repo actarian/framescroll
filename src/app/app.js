@@ -926,6 +926,7 @@
                         return b;
                     }
                 });
+                console.log('switcher.onUp', end);
                 var shouldLoad = false;
                 if (end !== 0 && positions.length === 3) {
                     positions = [-1, 1];
@@ -943,10 +944,12 @@
                         if (shouldLoad) {
                             StartLoading();
                         }
+                        isSwitching = false;
                     },
                 });
+            } else {
+                isSwitching = false;
             }
-            isSwitching = false;
             removeListeners();
         }
 
@@ -1061,7 +1064,7 @@
         });
 
         function onHovering(e) {
-            if (!isLoading && !isLoaded && !tapped) {
+            if (!isSwitching && !isLoading && !isLoaded && !tapped) {
                 var left = buttons[0].getBoundingClientRect();
                 var right = buttons[1].getBoundingClientRect();
                 var direction = 0;
@@ -1087,7 +1090,7 @@
         }
 
         function onHoveringDown(e) {
-            if (!isLoading && !isLoaded && !tapped && previousDirection !== 0) {
+            if (!isSwitching && !isLoading && !isLoaded && !tapped && previousDirection !== 0) {
                 tapped = true;
                 direction = previousDirection;
                 target = previousDirection === 1 ? disc : rim;
