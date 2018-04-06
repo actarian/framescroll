@@ -1305,7 +1305,7 @@ footer {
     z-index: 4; }
   @media screen and (max-height: 719px) and (orientation: portrait) {
     .section-overview {
-      max-height: 100vh; } }
+      max-height: calc(100vh - 40px); } }
 
 .video,
 .pictures {
@@ -1328,7 +1328,7 @@ footer {
   @media screen and (max-height: 719px) and (orientation: portrait) {
     .video,
     .pictures {
-      max-height: 100vh; } }
+      max-height: calc(100vh - 40px); } }
 
 .overview-selection {
   display: block;
