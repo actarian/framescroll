@@ -1,3 +1,10 @@
+body {
+    &.locked {
+        height: 100vh;
+        overflow: hidden;
+    }
+}
+
 .section-overview {
     display: block;
     position: relative;
