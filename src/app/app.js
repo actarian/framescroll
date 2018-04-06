@@ -9,7 +9,7 @@
     var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
     var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
 
-    var useImages = false;
+    var useImages = isAndroid;
 
     var fps, totalFrames, duration;
 
@@ -89,6 +89,10 @@
     fps = window.options.fps;
     totalFrames = window.options.frames;
     duration = totalFrames / fps;
+    if (useImages) {
+        fps = 10;
+        totalFrames = 502;
+    }
     var target = null;
 
     var scrollbar = InitScrollbar();
@@ -156,7 +160,7 @@
 
     function PreloadImages() {
         // solo 1 video
-        var total = totalFrames;
+        var total = totalFrames * 2;
         var loaded = 0;
         var frame = 0;
         var requests = [];
@@ -170,13 +174,26 @@
 
         function onLoadNextImage(frame) {
             var req = new XMLHttpRequest();
-            req.open('GET', target.source.jpg.split('{0}').join(frame), true);
+            var num = frame,
+                framenum = frame;
+            var imageTarget = disc;
+            if (framenum > totalFrames) {
+                imageTarget = rim;
+                framenum = framenum - totalFrames;
+                num = framenum;
+            }
+            if (framenum < 10) {
+                num = '00' + framenum;
+            } else if (framenum < 100) {
+                num = '0' + framenum;
+            }
+            req.open('GET', imageTarget.source.jpg.split('{0}').join(num), true);
             req.responseType = 'blob';
             req.onload = function () {
                 if (this.status === 200) {
                     var blob = this.response;
                     var image = URL.createObjectURL(blob); // IE10+
-                    images[frame] = image;
+                    imageTarget.images[framenum] = image;
                     loaded++;
                     requests.shift();
                     setProgress(loaded, total);
@@ -352,9 +369,6 @@
             setMarkers(scrolling.pow);
             setCaptionItems(scrolling.direction);
         }
-        if (iOS || isAndroid) {
-            overview.setAttribute('style', 'width: ' + (window.innerWidth) + 'px; height: ' + (window.innerHeight - 57) + 'px;');
-        }
     }
 
     var currentIndex = -1;
@@ -418,6 +432,9 @@
             // Put your drawing code here
             onLoop(disc);
             onLoop(rim);
+            if (iOS || isAndroid) {
+                overview.setAttribute('style', 'width: ' + (window.innerWidth) + 'px; height: ' + (window.innerHeight - 57) + 'px;');
+            }
         }
         // request another frame
         requestAnimationFrame(animate);

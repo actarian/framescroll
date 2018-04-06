@@ -13,12 +13,12 @@
     <script>
         window.options = {
             disc: {
-                jpg: 'img/disc/disc_{0}.jpg',
+                jpg: 'img/disc/disc/disc-{0}.jpg',
                 webm: 'img/disc/disc.webm',
                 mp4: 'img/disc/disc.mp4',
             },
             rim: {
-                jpg: 'img/rim/rim_{0}.jpg',
+                jpg: 'img/rim/rim/rim-{0}.jpg',
                 webm: 'img/rim/rim.webm',
                 mp4: 'img/rim/rim.mp4',
             },
@@ -35,7 +35,7 @@
             <!-- OVERVIEW DISC -->
             <div class="overview-disc">
                 <video class="video" tabindex="0" autobuffer="autobuffer" preload="preload" muted playsinline></video>
-                <div class="pictures"></div>
+                <img class="pictures" />
                 <div class="cover">
                     <img src="img/disc/cover.jpg" />
                 </div>
@@ -102,7 +102,7 @@
             <!-- OVERVIEW RIM -->
             <div class="overview-rim">
                 <video class="video" tabindex="0" autobuffer="autobuffer" preload="preload" muted playsinline></video>
-                <div class="pictures"></div>
+                <img class="pictures" />
                 <div class="cover">
                     <img src="img/rim/cover.jpg" />
                 </div>
