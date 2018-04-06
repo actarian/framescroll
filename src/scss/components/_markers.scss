@@ -8,6 +8,7 @@
         z-index: 3;
     }
     @include media-breakpoint-down(sm) {
+        height: 80vh;
         right: 15px;
         .track {
             right: -5px;

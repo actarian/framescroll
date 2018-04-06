@@ -95,6 +95,7 @@ button,
 .btn-overview {
     font-size: 40px;
     display: block;
+    text-transform: uppercase;
     .flex-left & {
         &:hover {
             transform: translateX(-10px);
@@ -131,6 +132,8 @@ button,
     overflow: hidden;
     color: $black;
     white-space: nowrap;
+    min-width: 30px;
+    min-height: 60px;
     .title,
     .num {
         display: block;
@@ -156,6 +159,15 @@ button,
     &:hover,
     &.active {
         color: $red;
+    }
+    @include media-breakpoint-down(sm) {
+        .title {
+            display: none;
+        }
+        .nom {
+            font-weight: 600;
+            transform: none !important;
+        }
     }
 }
 

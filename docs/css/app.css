@@ -278,7 +278,8 @@ button,
 
 .btn-overview {
   font-size: 40px;
-  display: block; }
+  display: block;
+  text-transform: uppercase; }
   .flex-left .btn-overview:hover {
     -webkit-transform: translateX(-10px);
             transform: translateX(-10px); }
@@ -306,7 +307,9 @@ button,
   position: relative;
   overflow: hidden;
   color: #28292b;
-  white-space: nowrap; }
+  white-space: nowrap;
+  min-width: 30px;
+  min-height: 60px; }
   .btn-marker .title,
   .btn-marker .num {
     display: block;
@@ -329,6 +332,13 @@ button,
             transform: translateX(110%); }
   .btn-marker:hover, .btn-marker.active {
     color: #c02a1b; }
+  @media (max-width: 767.98px) {
+    .btn-marker .title {
+      display: none; }
+    .btn-marker .nom {
+      font-weight: 600;
+      -webkit-transform: none !important;
+              transform: none !important; } }
 
 .btn-spec {
   text-transform: uppercase;
@@ -713,6 +723,7 @@ svg {
     z-index: 3; }
   @media (max-width: 767.98px) {
     .markers {
+      height: 80vh;
       right: 15px; }
       .markers .track {
         right: -5px; } }
@@ -805,6 +816,24 @@ svg {
   .loading .preload {
     -webkit-transform: translateY(0);
             transform: translateY(0); }
+
+/*
+.scrollbar-track {
+    background: rgba(222, 222, 222, .75);
+    &.show,
+    &:hover {}
+}
+*/
+.scrollbar-track-x {
+  height: 4px !important; }
+
+.scrollbar-track-y {
+  width: 4px !important; }
+
+.scrollbar-thumb {
+  width: 4px !important;
+  height: 4px !important;
+  border-radius: 2px !important; }
 
 .container-swiper {
   position: relative; }
@@ -1265,6 +1294,7 @@ footer {
     height: 100%;
     top: 0;
     left: 0;
+    overflow: hidden;
     /*
 		.cover {
 			transform: scale(1.1);
@@ -1275,7 +1305,7 @@ footer {
     z-index: 4; }
   @media screen and (max-height: 719px) and (orientation: portrait) {
     .section-overview {
-      max-height: calc(100vh - 40px); } }
+      max-height: 100vh; } }
 
 .video,
 .pictures {
@@ -1298,7 +1328,7 @@ footer {
   @media screen and (max-height: 719px) and (orientation: portrait) {
     .video,
     .pictures {
-      max-height: calc(100vh - 40px); } }
+      max-height: 100vh; } }
 
 .overview-selection {
   display: block;

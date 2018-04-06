@@ -12,6 +12,7 @@
         height: 100%;
         top: 0;
         left: 0;
+        overflow: hidden;
         /*
 		.cover {
 			transform: scale(1.1);
@@ -23,7 +24,7 @@
         z-index: 4;
     }
     @media screen and (max-height: 719px) and (orientation:portrait) {
-        max-height: calc(100vh - 40px);
+        max-height: 100vh;
     }
 }
 
@@ -44,7 +45,7 @@
         opacity: 1;
     }
     @media screen and (max-height: 719px) and (orientation:portrait) {
-        max-height: calc(100vh - 40px);
+        max-height: 100vh;
     }
 }
 

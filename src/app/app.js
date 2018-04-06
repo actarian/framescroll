@@ -282,9 +282,7 @@
         isLoaded = true;
         body.removeClass('loading');
         body.addClass('loaded');
-        if (!isTouch) {
-            body.addClass('submenu');
-        }
+        body.addClass('submenu');
 
         scrolling.pow = scrolling.end = 0;
         speed = 0.0;
@@ -803,6 +801,13 @@
                 v = Math.min(1, Math.max(0, v));
                 discOverview.setAttribute('style', 'opacity:' + v + ';');
                 rimOverview.setAttribute('style', 'opacity:' + (1 - v) + ';');
+                /*
+                var v = (pow.x / 2) + 0.5;
+                v = Math.min(1, Math.max(0, v));
+                v *= 100;
+                discOverview.setAttribute('style', 'transform: translateX(' + (-100 + v) + '%);');
+                rimOverview.setAttribute('style', 'transform: translateX(' + (v) + '%);');
+                */
             } else {
                 var polygons = getPolygons(pow.x);
                 discOverview.setAttribute('style', 'shape-inside: ' + polygons.disc + '; clip-path: ' + polygons.disc + '; -webkit-clip-path: ' + polygons.disc + ';');
