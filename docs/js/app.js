@@ -428,7 +428,6 @@
 
         // window.onscroll = onScroll;
         // setInterval(onLoop, 1000.0 / fps);
-        window.requestAnimationFrame(animate);
 
         console.log(target.video.duration);
         setIndex(1);
@@ -454,7 +453,7 @@
     }
 
     function onLoop(target) {
-        if (target.player.duration) {
+        if (target.player && target.player.duration) {
             if (mouseMove) {
                 onPause();
                 scrolling.pow = scrolling.end;
@@ -479,6 +478,9 @@
             setTop(playerTime, scrolling.pow);
             setMarkers(scrolling.pow);
             setCaptionItems(scrolling.direction);
+        }
+        if (iOS || isAndroid) {
+            overview.setAttribute('style', 'width: ' + (window.innerWidth) + 'px; height: ' + (window.innerHeight - 57) + 'px;');
         }
     }
 
@@ -1298,6 +1300,7 @@
             window.removeEventListener('touchstart', onTestTouch);
         }
         window.addEventListener('touchstart', onTestTouch);
+        window.requestAnimationFrame(animate);
         addMouseEvents();
         addTouchEvents();
     }

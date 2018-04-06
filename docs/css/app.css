@@ -1305,7 +1305,7 @@ body.locked {
   @media screen and (max-height: 719px) and (orientation: portrait) {
     .section-overview {
       margin-top: 57px;
-      max-height: calc(100vh - 57px); } }
+      height: calc(100vh - 57px); } }
 
 .video,
 .pictures {
@@ -1328,7 +1328,7 @@ body.locked {
   @media screen and (max-height: 719px) and (orientation: portrait) {
     .video,
     .pictures {
-      max-height: calc(100vh - 57px); } }
+      max-height: 100%; } }
 
 .overview-selection {
   display: block;

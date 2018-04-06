@@ -32,7 +32,7 @@ body {
     }
     @media screen and (max-height: 719px) and (orientation:portrait) {
         margin-top: 57px;
-        max-height: calc(100vh - 57px);
+        height: calc(100vh - 57px);
     }
 }
 
@@ -53,7 +53,7 @@ body {
         opacity: 1;
     }
     @media screen and (max-height: 719px) and (orientation:portrait) {
-        max-height: calc(100vh - 57px);
+        max-height: 100%;
     }
 }
 
