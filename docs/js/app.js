@@ -1067,7 +1067,6 @@
                     onUpdate: onUpdate,
                     onComplete: function () {
                         if (shouldLoad) {
-
                             StartLoading();
                         }
                         isSwitching = false;

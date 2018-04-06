@@ -1321,10 +1321,10 @@ body.locked {
   .loaded .video, .loaded
   .pictures {
     opacity: 1; }
-  @media screen and (max-height: 719px) and (orientation: portrait) {
-    .video,
-    .pictures {
-      max-height: 100%; } }
+
+@media screen and (max-height: 719px) and (orientation: portrait) {
+  .video {
+    max-height: 100%; } }
 
 .overview-selection {
   display: block;

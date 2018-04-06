@@ -46,6 +46,9 @@ body {
     .loaded & {
         opacity: 1;
     }
+}
+
+.video {
     @media screen and (max-height: 719px) and (orientation:portrait) {
         max-height: 100%;
     }
