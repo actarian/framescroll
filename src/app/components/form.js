@@ -21,14 +21,12 @@
     window.addEventListener('touchstart', onDown);
 
     var navContainer = document.querySelector('.nav-container');
-    if (!iOS) {
-        Scrollbar.use(window.OverscrollPlugin);
-        var scrollbar = Scrollbar.init(navContainer, {
-            plugins: {
-                overscroll: {},
-            },
-        });
-    }
+    Scrollbar.use(window.OverscrollPlugin);
+    Scrollbar.init(navContainer, {
+        plugins: {
+            overscroll: {},
+        },
+    });
 
     var options = Array.prototype.slice.call(document.querySelectorAll('.nav-multiple li'));
 
