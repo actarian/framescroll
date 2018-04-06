@@ -286,6 +286,8 @@ button,
   .flex-right .btn-overview:hover {
     -webkit-transform: translateX(10px);
             transform: translateX(10px); }
+  .loading .btn-overview {
+    display: none; }
 
 .btn-more {
   border-radius: 4px;
@@ -1293,13 +1295,7 @@ body.locked {
     height: 100%;
     top: 0;
     left: 0;
-    overflow: hidden;
-    /*
-		.cover {
-			transform: scale(1.1);
-			transition: transform ease-in-out 2s;
-		}
-        */ }
+    overflow: hidden; }
   .section-overview .overview-selection {
     z-index: 4; }
   @media screen and (max-height: 719px) and (orientation: portrait) {

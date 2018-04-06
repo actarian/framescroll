@@ -106,6 +106,9 @@ button,
             transform: translateX(10px);
         }
     }
+    .loading & {
+        display: none;
+    }
 }
 
 .btn-more {
