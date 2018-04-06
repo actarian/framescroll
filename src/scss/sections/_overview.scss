@@ -24,7 +24,8 @@
         z-index: 4;
     }
     @media screen and (max-height: 719px) and (orientation:portrait) {
-        max-height: calc(100vh - 40px);
+        margin-top: 57px;
+        max-height: calc(100vh - 57px);
     }
 }
 
@@ -45,7 +46,7 @@
         opacity: 1;
     }
     @media screen and (max-height: 719px) and (orientation:portrait) {
-        max-height: calc(100vh - 40px);
+        max-height: calc(100vh - 57px);
     }
 }
 

@@ -4,7 +4,8 @@
     'use strict';
 
     var isTouch = false;
-    var isMac = navigator.platform.toUpperCase().indexOf('MAC') !== -1;
+    var isAndroid = navigator.userAgent.toLowerCase().indexOf("android") > -1;
+    var isMac = navigator.platform.toLowerCase().indexOf('mac') !== -1;
     var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
     var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
 
@@ -196,15 +197,19 @@
     }
 
     function InitVideo() {
-        var promise = target.video.play();
-        if (promise !== undefined) {
-            promise.then(function () {
-                Init();
-            }).catch(function (e) {
-                console.log('video.error', e, target.video.error);
-            });
-        } else {
+        if (isAndroid) {
             Init();
+        } else {
+            var promise = target.video.play();
+            if (promise !== undefined) {
+                promise.then(function () {
+                    Init();
+                }).catch(function (e) {
+                    console.log('video.error', e, target.video.error);
+                });
+            } else {
+                Init();
+            }
         }
     }
 
@@ -315,18 +320,22 @@
         });
     }
 
+    function onPause() {
+        if (!target.player.paused) {
+            target.player.pause();
+        }
+    }
+
     function onLoop(target) {
         if (target.player.duration) {
             if (mouseMove) {
-                target.player.pause();
+                onPause();
                 scrolling.pow = scrolling.end;
                 target.player.currentTime = scrolling.pow * target.player.duration;
                 target.player.setTime();
             } else {
                 if (scrolling.end !== scrolling.pow) {
-                    if (!target.player.paused) {
-                        target.player.pause();
-                    }
+                    onPause();
                     var diff = scrolling.end - scrolling.pow;
                     var step = 1.0 / fps;
                     if (Math.abs(diff * target.player.duration) < step) {
