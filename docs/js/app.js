@@ -783,6 +783,7 @@
         var enabled = !iOS;
 
         function onDidScroll(top) {
+            /*
             if (!isLoaded) {
                 if (top > 0) {
                     body.addClass('submenu');
@@ -790,26 +791,29 @@
                     body.removeClass('submenu');
                 }
             }
-            var activeNode = scrolltos.filter(function (node, index) {
-                var href = node.getAttribute('href');
-                var target = document.querySelector(href);
-                node.removeClass('active');
-                if (target) {
-                    var top = target.offsetTop - top;
-                    node.top = top;
-                    return true;
-                } else {
-                    return false;
+            */
+            if (isLoaded) {
+                var activeNode = scrolltos.filter(function (node, index) {
+                    var href = node.getAttribute('href');
+                    var target = document.querySelector(href);
+                    node.removeClass('active');
+                    if (target) {
+                        var top = target.offsetTop - top;
+                        node.top = top;
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }).reduce(function (a, b) {
+                    if (Math.abs(b.top) < Math.abs(a.top) && b.top < 80) {
+                        return b;
+                    } else {
+                        return a;
+                    }
+                });
+                if (activeNode) {
+                    activeNode.addClass('active');
                 }
-            }).reduce(function (a, b) {
-                if (Math.abs(b.top) < Math.abs(a.top) && b.top < 80) {
-                    return b;
-                } else {
-                    return a;
-                }
-            });
-            if (activeNode) {
-                activeNode.addClass('active');
             }
         }
 
