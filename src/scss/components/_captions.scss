@@ -23,6 +23,7 @@ $caption: $black;
     background: rgba(255, 255, 255, 0.8);
     margin: 0 5vw;
     padding: 30px 35px;
+    max-width: 380px;
     &:before {
         content: '';
         display: block;
@@ -53,7 +54,6 @@ $caption: $black;
     }
     .description {
         // text-transform: uppercase;
-        max-width: 390px;
         color: $caption;
         .red {
             padding: 0 5px;

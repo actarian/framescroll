@@ -525,7 +525,8 @@ svg {
   transition: all ease-in-out 350ms;
   background: rgba(255, 255, 255, 0.8);
   margin: 0 5vw;
-  padding: 30px 35px; }
+  padding: 30px 35px;
+  max-width: 380px; }
   .captions-item:before {
     content: '';
     display: block;
@@ -551,7 +552,6 @@ svg {
     text-transform: uppercase;
     color: #28292b; }
   .captions-item .description {
-    max-width: 390px;
     color: #28292b; }
     .captions-item .description .red {
       padding: 0 5px; }

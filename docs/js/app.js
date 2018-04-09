@@ -130,7 +130,7 @@
 
     var isTouch = false;
     var isAndroid = navigator.userAgent.toLowerCase().indexOf("android") > -1;
-    var isMac = false; // navigator.platform.toLowerCase().indexOf('mac') !== -1;
+    var isMac = navigator.platform.toLowerCase().indexOf('mac') !== -1;
     var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
     var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
 
@@ -155,7 +155,7 @@
 
     var eventOptions = window.PointerEvent ? {
         passive: false,
-        capture: true,
+        capture: false,
     } : undefined;
 
     var body = document.querySelector('body');
@@ -461,7 +461,7 @@
         });
     }
 
-    function onPause() {
+    function onPause(target) {
         if (!target.player.paused) {
             target.player.pause();
         }
@@ -470,13 +470,13 @@
     function onLoop(target) {
         if (target.player && target.player.duration) {
             if (mouseMove) {
-                onPause();
+                onPause(target);
                 scrolling.pow = scrolling.end;
                 target.player.currentTime = scrolling.pow;
                 target.player.setTime();
             } else {
                 if (scrolling.end !== scrolling.pow) {
-                    onPause();
+                    onPause(target);
                     var diff = scrolling.end - scrolling.pow;
                     var step = 1.0 / fps;
                     if (Math.abs(diff) < step) {
@@ -1009,7 +1009,6 @@
         window.addEventListener('mousemove', onMove);
 
         function onDown(e) {
-            console.log('switcher.onDown');
             if (!isLoading) {
                 isSwitching = true;
                 start.x = pow.x;
@@ -1050,7 +1049,6 @@
                         return b;
                     }
                 });
-                console.log('switcher.onUp', end);
                 var shouldLoad = false;
                 if (end !== 0 && positions.length === 3) {
                     positions = [-1, 1];
@@ -1110,15 +1108,12 @@
             window.removeEventListener('touchend', onUp);
         }
 
-        switcher.addEventListener('mousedown', onMouseDown, eventOptions);
-        switcher.addEventListener('touchstart', onTouchDown, eventOptions);
-        window.addEventListener('resize', onResize);
-
         var previousTarget = null;
         var previousDirection = 0;
         var tapped = false;
         var buttons = Array.prototype.slice.call(document.querySelectorAll('.btn-overview'));
         buttons.filter(function (btn, index) {
+            /*
             function onOver(e) {
                 if (!isLoading && !isLoaded && !tapped) {
                     previousTarget = target;
@@ -1145,9 +1140,10 @@
                     });
                 }
             }
+            */
 
             function onDown(e) {
-                if (!isLoading && previousDirection === 0) {
+                if (!isLoading) {
                     tapped = true;
                     direction = index === 1 ? 1 : -1;
                     target = index === 1 ? disc : rim;
@@ -1183,8 +1179,8 @@
             btn.addEventListener('mouseover', onOver);
             btn.addEventListener('mouseout', onOut);
             */
-            btn.addEventListener('mousedown', onMouseDown);
-            btn.addEventListener('touchstart', onTouchDown);
+            btn.addEventListener('mousedown', onMouseDown, eventOptions);
+            btn.addEventListener('touchstart', onTouchDown, eventOptions);
         });
 
         function onHovering(e) {
@@ -1211,6 +1207,7 @@
             } else {
                 window.removeEventListener('mousemove', onHovering);
             }
+            // console.log('onHovering', previousDirection);
         }
 
         function onHoveringDown(e) {
@@ -1246,6 +1243,10 @@
             window.removeEventListener('mousedown', onHoveringMouseDown);
             return onHoveringDown(e);
         }
+
+        switcher.addEventListener('mousedown', onMouseDown, eventOptions);
+        switcher.addEventListener('touchstart', onTouchDown, eventOptions);
+        window.addEventListener('resize', onResize);
         window.addEventListener('mousemove', onHovering);
         window.addEventListener('mousedown', onHoveringMouseDown);
         window.addEventListener('touchstart', onHoveringTouchDown);
@@ -1316,7 +1317,6 @@
 
     function InitHandlers() {
         function onTestTouch(e) {
-            console.log('onTestTouch', e);
             isTouch = true;
             window.removeEventListener('touchstart', onTestTouch);
         }
