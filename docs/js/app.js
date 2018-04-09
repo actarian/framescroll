@@ -813,9 +813,9 @@
                     var href = node.getAttribute('href');
                     var target = document.querySelector(href);
                     node.removeClass('active');
-                    if (target) {
-                        var top = target.offsetTop - top;
-                        node.top = top;
+                    if (target && target.style.display !== 'none') {
+                        var y = target.offsetTop - top;
+                        node.top = y;
                         return true;
                     } else {
                         return false;
