@@ -8,8 +8,10 @@
     var isMac = navigator.platform.toLowerCase().indexOf('mac') !== -1;
     var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
     var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+    var isFirefox = /Firefox/.test(navigator.userAgent);
+    var isClippable = detectClippath();
 
-    var useImages = isAndroid;
+    var useImages = false && isAndroid;
 
     var fps, totalFrames, duration;
 
@@ -84,6 +86,10 @@
         captionItems: Array.prototype.slice.call(document.querySelectorAll('.overview-rim .captions-item')),
         images: [],
     };
+    var codecs = {
+        webm: 'video/webm; codecs="vp8"',
+        mp4: 'video/mp4; codecs="avc1.4d001e"',
+    }
     fps = window.options.fps;
     totalFrames = window.options.frames;
     duration = totalFrames / fps;
@@ -91,7 +97,7 @@
         fps = 10;
         totalFrames = 502;
     }
-    var target = null;
+    var targetItem = null;
 
     var scrollbar = InitScrollbar();
     var isLoading = false,
@@ -196,7 +202,7 @@
                     requests.shift();
                     setProgress(loaded, total);
                     if (loaded === total) {
-                        target.player.setTime();
+                        targetItem.player.setTime();
                         Init();
                     } else {
                         onCheckNextImage();
@@ -215,12 +221,12 @@
         if (isAndroid) {
             Init();
         } else {
-            var promise = target.video.play();
+            var promise = targetItem.video.play();
             if (promise !== undefined) {
                 promise.then(function () {
                     Init();
                 }).catch(function (e) {
-                    console.log('video.error', e, target.video.error);
+                    console.log('video.error', e, targetItem.video.error);
                 });
             } else {
                 Init();
@@ -228,29 +234,69 @@
         }
     }
 
+    function getMediaSource(data, target, type, supported) {
+        console.log('getMediaSource', supported, type);
+        var source = null;
+        if (supported) {
+            target.mediaSource = new MediaSource();
+            target.mediaSource.addEventListener('sourceopen', function () {
+                console.log('mediaSource.sourceopen');
+                target.sourceBuffer = target.mediaSource.addSourceBuffer(codecs[type]);
+                target.sourceBuffer.addEventListener('updateend', function () {
+                    console.log('sourceBuffer.updateend');
+                }, false);
+                console.log('sourceBuffer.updating', target.sourceBuffer.updating);
+                var array = new Uint8Array(data);
+                if (!target.sourceBuffer.updating) {
+                    target.sourceBuffer.appendBuffer(array);
+                    console.log('sourceBuffer.appendBuffer');
+                }
+            }, false);
+            source = URL.createObjectURL(target.mediaSource);
+        } else {
+            source = URL.createObjectURL(data);
+        }
+        return source;
+    }
+
     function PreloadVideoTarget(target, callback) {
+        var type = (isChrome || isFirefox) && !isMac ? 'webm' : 'mp4';
+        var supported = 'MediaSource' in window;
+        if (supported) {
+            if (MediaSource.isTypeSupported(codecs.webm) && type !== 'webm') {
+                type = 'webm';
+            } else if (MediaSource.isTypeSupported(codecs.mp4) && type !== 'mp4') {
+                type = 'mp4';
+            }
+        }
+
+        function doSource(source) {
+            /*
+            target.video.addEventListener('progress', function (e) {
+                // console.log('video.progress', e, target.video.duration);
+            }, false);
+            */
+            target.video.addEventListener('error', function (e) {
+                console.log('video.error', e, target.video.error);
+            });
+            target.video.autoplay = true;
+            target.video.mute = true;
+            target.video.src = source;
+            if (callback) {
+                callback();
+            }
+        }
         var req = new XMLHttpRequest();
-        req.open('GET', (isChrome && !isMac) ? target.source.webm : target.source.mp4, true);
-        req.responseType = 'blob';
+        req.open('GET', type === 'webm' ? target.source.webm : target.source.mp4, true);
+        req.responseType = supported ? 'arraybuffer' : 'blob';
         req.onprogress = function (e) {
             setProgress(e.loaded, e.total);
         };
         req.onload = function () {
             if (this.status === 200) {
-                var videoBlob = this.response;
-                var source = URL.createObjectURL(videoBlob); // IE10+
-                target.video.addEventListener('progress', function (e) {
-                    // console.log('video.progress', e, target.video.duration);
-                }, false);
-                target.video.addEventListener('error', function (e) {
-                    console.log('video.error', e, target.video.error);
-                });
-                target.video.autoplay = true;
-                target.video.mute = true;
-                target.video.src = source;
-                if (callback) {
-                    callback();
-                }
+                // var source = URL.createObjectURL(this.response); // IE10+
+                var source = getMediaSource(this.response, target, type, supported);
+                doSource(source);
             }
         };
         req.onerror = function (e) {
@@ -265,36 +311,6 @@
                 InitVideo();
             });
         });
-        return;
-        /*
-        console.log('PreloadVideo', target);
-        var req = new XMLHttpRequest();
-        req.open('GET', (isChrome && !isMac) ? target.source.webm : target.source.mp4, true);
-        req.responseType = 'blob';
-        req.onprogress = function (e) {
-            setProgress(e.loaded, e.total);
-        };
-        req.onload = function () {
-            if (this.status === 200) {
-                var videoBlob = this.response;
-                var source = URL.createObjectURL(videoBlob); // IE10+
-                target.video.addEventListener('progress', function (e) {
-                    console.log('video.progress', e, target.video.duration);
-                }, false);
-                target.video.addEventListener('error', function (e) {
-                    console.log('video.error', e, target.video.error);
-                });
-                target.video.autoplay = true;
-                target.video.mute = true;
-                target.video.src = source;
-                InitVideo();
-            }
-        };
-        req.onerror = function (e) {
-            console.log('preload.error', e);
-        };
-        req.send();
-        */
     }
 
     function Init() {
@@ -303,26 +319,20 @@
         body.removeClass('loading');
         body.addClass('loaded');
         body.addClass('submenu');
-
         scrolling.pow = scrolling.end = 0;
         speed = 0.0;
         mouseDownY = null;
-
-        target.video.pause();
-
+        rim.video.pause();
+        disc.video.pause();
         if (steps) {
             addSteps();
         }
-
-        // window.onscroll = onScroll;
-        // setInterval(onLoop, 1000.0 / fps);
-
-        // console.log(target.video.duration);
         setIndex(1);
+        onDidScroll(getOffsetY());
     }
 
     function setCaptionItems(direction) {
-        target.captionItems.filter(function (caption, index) {
+        targetItem.captionItems.filter(function (caption, index) {
             var distance = markers[index] - scrolling.pow;
             if (Math.abs(distance) > 2) {
                 caption.setAttribute('class', 'captions-item');
@@ -337,7 +347,7 @@
     }
 
     function onPause(target) {
-        if (!target.player.paused) {
+        if (target.player && target.player.duration && !target.player.paused) {
             target.player.pause();
         }
     }
@@ -393,7 +403,7 @@
     }
 
     function setTop(node, pow) {
-        if (node && target.player.duration) {
+        if (node && targetItem.player.duration) {
             var i = 0,
                 fpow = 0,
                 tpow = 0;
@@ -418,25 +428,20 @@
         elapsed = 0;
 
     function animate() {
-        // calc elapsed time since last loop
         now = timeapi.now();
         elapsed = now - then;
-        // if enough time has elapsed, draw the next frame
-
         if (elapsed > fpsInterval) {
-
-            // Get ready for next frame by setting then=now, but also adjust for your
-            // specified fpsInterval not being a multiple of RAF's interval (16.7ms)
             then = now - (elapsed % fpsInterval);
-
-            // Put your drawing code here
-            onLoop(disc);
-            onLoop(rim);
+            if (targetItem) {
+                // onLoop(targetItem);
+                // onPause(targetItem === disc ? rim : disc);
+                onLoop(disc);
+                onLoop(rim);
+            }
             if (iOS || isAndroid) {
                 overview.setAttribute('style', 'width: ' + (window.innerWidth) + 'px; height: ' + (window.innerHeight - 57) + 'px;');
             }
         }
-        // request another frame
         requestAnimationFrame(animate);
     }
 
@@ -473,7 +478,7 @@
 
     function shouldLockScroll(direction) {
         var offsetY = getOffsetY();
-        var flag = (scrolling.pow < target.player.duration && direction === 1) || (offsetY < 10 && direction === -1);
+        var flag = (scrolling.pow < targetItem.player.duration && direction === 1) || (offsetY < 10 && direction === -1);
         if (flag) {
             body.addClass('locked');
         } else {
@@ -486,8 +491,6 @@
     var mouseMove = false,
         previousY,
         scrubStart = 0.0;
-
-
 
     function onDown(e) {
         if (getOffsetY() < 10) {
@@ -514,8 +517,8 @@
                 if (Math.abs(mouseDownY - y) > 1) {
                     var min = 0,
                         max = 1,
-                        pow = (mouseDownY - y) / (window.innerHeight * 3) * target.player.duration;
-                    scrolling.end = Math.max(0, Math.min(target.player.duration, scrubStart + pow));
+                        pow = (mouseDownY - y) / (window.innerHeight * 3) * targetItem.player.duration;
+                    scrolling.end = Math.max(0, Math.min(targetItem.player.duration, scrubStart + pow));
                     // console.log('onMove', scrubStart, pow);
                     mouseMove = true;
                 }
@@ -566,12 +569,6 @@
         }
     }
 
-    /*
-    function onScroll() {
-        setTop(markerTime, scrolling.end);
-    }
-    */
-
     function setIndex(index, skip) {
         if (index !== scrolling.index) {
             var direction = (index - scrolling.index) / Math.abs(index - scrolling.index);
@@ -607,7 +604,7 @@
 
     function getMarker(forward) {
         var marker = null;
-        if (Math.abs(currentMarker - target.player.currentTime) < 1.0) {
+        if (Math.abs(currentMarker - targetItem.player.currentTime) < 1.0) {
             markers.filter(function (item) {
                 if (marker === null && (item > currentMarker || !forward)) {
                     marker = item;
@@ -616,7 +613,7 @@
         } else {
             marker = currentMarker;
         }
-        // console.log(currentMarker, target.player.currentTime);
+        // console.log(currentMarker, targetItem.player.currentTime);
         return marker;
     }
 
@@ -670,50 +667,55 @@
 
     var scrollbarPaused = false;
 
+    function onDidScroll(top) {
+        if (isLoaded) {
+            var activeNode = scrolltos.filter(function (node, index) {
+                var href = node.getAttribute('href');
+                var target = document.querySelector(href);
+                node.removeClass('active');
+                if (target && target.style.display !== 'none') {
+                    var y = target.offsetTop - top;
+                    node.top = y;
+                    return true;
+                } else {
+                    return false;
+                }
+            }).reduce(function (a, b) {
+                if (Math.abs(b.top) < Math.abs(a.top) && b.top < 80) {
+                    return b;
+                } else {
+                    return a;
+                }
+            });
+            if (activeNode) {
+                activeNode.addClass('active');
+            }
+        }
+    }
+
+    function onScroll(e) {
+        onDidScroll(getOffsetY());
+    }
+
+    function detectClippath() {
+        var test = {
+            props: ['clip-path', '-webkit-clip-path', 'shape-inside'],
+            value: 'polygon(50% 0%, 0% 100%, 100% 100%)'
+        };
+        if ('CSS' in window && 'supports' in window.CSS) {
+            for (var i = 0; i < test.props.length; i++) {
+                if (window.CSS.supports(test.props[i], test.value)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
     function InitScrollbar() {
         var enabled = !iOS;
 
-        function onDidScroll(top) {
-            /*
-            if (!isLoaded) {
-                if (top > 0) {
-                    body.addClass('submenu');
-                } else {
-                    body.removeClass('submenu');
-                }
-            }
-            */
-            if (isLoaded) {
-                var activeNode = scrolltos.filter(function (node, index) {
-                    var href = node.getAttribute('href');
-                    var target = document.querySelector(href);
-                    node.removeClass('active');
-                    if (target && target.style.display !== 'none') {
-                        var y = target.offsetTop - top;
-                        node.top = y;
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }).reduce(function (a, b) {
-                    if (Math.abs(b.top) < Math.abs(a.top) && b.top < 80) {
-                        return b;
-                    } else {
-                        return a;
-                    }
-                });
-                if (activeNode) {
-                    activeNode.addClass('active');
-                }
-            }
-        }
-
-        function onScroll(e) {
-            onDidScroll(getOffsetY());
-        }
-
         function onChange(e) {
-            // console.log('scrollbar.onChange', e.offset.y, e.limit.y, native.offsetHeight);
             var object = {
                 offset: e.offset,
                 limit: e.limit,
@@ -733,14 +735,6 @@
             });
 
             scrollbar.addListener(onChange);
-            /*
-            scrollbar.onScrollbarShouldScrollTo = function (options) {
-                // console.log('Scrollbar.onScrollbarShouldScrollTo', options);
-                if (document.querySelector(options.selector) === page) {
-                    scrollbar.scrollTo(options.x || 0, options.y || 0, 500);
-                }
-            };
-            */
             return scrollbar;
         } else {
             window.onscroll = onScroll;
@@ -813,12 +807,15 @@
     }
 
     function InitSwitcher() {
+        var overview = document.querySelector('.section-overview');
         var switcher = document.querySelector('.overview-switch');
         var slider = document.querySelector('.switch-slider');
         var discOverview = document.querySelector('.overview-disc');
         var rimOverview = document.querySelector('.overview-rim');
         var discCover = discOverview.querySelector('.cover');
         var rimCover = rimOverview.querySelector('.cover');
+        var discCoverImg = discCover.querySelector('img');
+        var rimCoverImg = rimCover.querySelector('img');
         var width = slider.offsetWidth;
 
         var pow = {
@@ -851,18 +848,11 @@
 
         function onUpdate() {
             slider.setAttribute('style', 'transform: translateX(' + (pow.x * width / 2) + 'px)');
-            if (isTouch) {
+            if (isTouch || !isClippable) {
                 var v = (pow.x / 2) + 0.5;
                 v = Math.min(1, Math.max(0, v));
                 discOverview.setAttribute('style', 'opacity:' + v + ';');
                 rimOverview.setAttribute('style', 'opacity:' + (1 - v) + ';');
-                /*
-                var v = (pow.x / 2) + 0.5;
-                v = Math.min(1, Math.max(0, v));
-                v *= 100;
-                discOverview.setAttribute('style', 'transform: translateX(' + (-100 + v) + '%);');
-                rimOverview.setAttribute('style', 'transform: translateX(' + (v) + '%);');
-                */
             } else {
                 var polygons = getPolygons(pow.x);
                 discOverview.setAttribute('style', 'shape-inside: ' + polygons.disc + '; clip-path: ' + polygons.disc + '; -webkit-clip-path: ' + polygons.disc + ';');
@@ -871,8 +861,14 @@
                 var s2 = 1 + (pow.x + 1) / 2 * 0.1;
                 var b1 = 20 * (pow.x < 0 ? Math.abs(pow.x) : 0) + 'px';
                 var b2 = 20 * (pow.x > 0 ? Math.abs(pow.x) : 0) + 'px';
-                discCover.setAttribute('style', 'transform: scale(' + s1 + '); filter: blur(' + b1 + ');');
-                rimCover.setAttribute('style', 'transform: scale(' + s2 + '); filter: blur(' + b2 + ');');
+                var o1 = (pow.x < 0 ? Math.abs(pow.x) : 1);
+                var o2 = (pow.x > 0 ? Math.abs(pow.x) : 1);
+                // discCover.setAttribute('style', 'transform: scale(' + s1 + '); filter: blur(' + b1 + ');');
+                // rimCover.setAttribute('style', 'transform: scale(' + s2 + '); filter: blur(' + b2 + ');');
+                // discCover.setAttribute('style', 'transform: scale(' + s1 + '); opacity: ' + o1 + ';');
+                // rimCover.setAttribute('style', 'transform: scale(' + s2 + '); opacity: ' + o2 + ';');
+                discCover.setAttribute('style', 'transform: scale(' + s1 + ');');
+                rimCover.setAttribute('style', 'transform: scale(' + s2 + ');');
             }
         }
 
@@ -880,8 +876,6 @@
             onUpdate();
             requestAnimationFrame(animate);
         }
-        animate();
-        window.addEventListener('mousemove', onMove);
 
         function onDown(e) {
             if (!isLoading) {
@@ -930,12 +924,12 @@
                     shouldLoad = true;
                 }
                 if (positions.length == 2) {
-                    target = end === -1 ? rim : disc;
+                    targetItem = end === -1 ? rim : disc;
                 }
                 direction = end > pow.x ? 1 : -1;
-                TweenLite.to(pow, 1, {
+                TweenLite.to(pow, 0.5, {
                     x: end,
-                    ease: Elastic.easeOut,
+                    ease: Power2.easeOut, // Elastic.easeOut,
                     onUpdate: onUpdate,
                     onComplete: function () {
                         if (shouldLoad) {
@@ -967,19 +961,19 @@
         }
 
         function addMouseListeners() {
-            window.addEventListener('mousemove', onMove, eventOptions);
+            overview.addEventListener('mousemove', onMove, eventOptions);
             window.addEventListener('mouseup', onUp, eventOptions);
         }
 
         function addTouchListeners() {
-            window.addEventListener('touchmove', onMove, eventOptions);
+            overview.addEventListener('touchmove', onMove, eventOptions);
             window.addEventListener('touchend', onUp, eventOptions);
         }
 
         function removeListeners() {
-            window.removeEventListener('mousemove', onMove);
+            overview.removeEventListener('mousemove', onMove);
+            overview.removeEventListener('touchmove', onMove);
             window.removeEventListener('mouseup', onUp);
-            window.removeEventListener('touchmove', onMove);
             window.removeEventListener('touchend', onUp);
         }
 
@@ -988,45 +982,16 @@
         var tapped = false;
         var buttons = Array.prototype.slice.call(document.querySelectorAll('.btn-overview'));
         buttons.filter(function (btn, index) {
-            /*
-            function onOver(e) {
-                if (!isLoading && !isLoaded && !tapped) {
-                    previousTarget = target;
-                    target = index === 1 ? disc : rim;
-                    direction = index === 1 ? 1 : -1;
-                    TweenLite.to(pow, 1, {
-                        x: direction * 0.2,
-                        ease: Elastic.easeOut,
-                        onUpdate: onUpdate,
-                        onComplete: function () {},
-                    });
-                }
-            }
-
-            function onOut(e) {
-                if (!isLoading && !isLoaded && !tapped) {
-                    target = previousTarget;
-                    direction = 0;
-                    TweenLite.to(pow, 1, {
-                        x: direction,
-                        ease: Elastic.easeOut,
-                        onUpdate: onUpdate,
-                        onComplete: function () {},
-                    });
-                }
-            }
-            */
-
             function onDown(e) {
                 if (!isLoading) {
                     tapped = true;
                     direction = index === 1 ? 1 : -1;
-                    target = index === 1 ? disc : rim;
-                    previousTarget = target;
+                    targetItem = index === 1 ? disc : rim;
+                    previousTarget = targetItem;
                     positions = [-1, 1];
-                    TweenLite.to(pow, 1, {
+                    TweenLite.to(pow, 0.5, {
                         x: direction,
-                        ease: Elastic.easeOut,
+                        ease: Power2.easeOut, // Elastic.easeOut,
                         onUpdate: onUpdate,
                         onComplete: function () {
                             if (!isLoaded) {
@@ -1050,37 +1015,35 @@
                 btn.removeEventListener('mousedown', onMouseDown);
                 return onDown(e);
             }
-            /*
-            btn.addEventListener('mouseover', onOver);
-            btn.addEventListener('mouseout', onOut);
-            */
             btn.addEventListener('mousedown', onMouseDown, eventOptions);
             btn.addEventListener('touchstart', onTouchDown, eventOptions);
         });
 
         function onHovering(e) {
-            if (!isSwitching && !isLoading && !isLoaded && !tapped) {
-                var left = buttons[0].getBoundingClientRect();
-                var right = buttons[1].getBoundingClientRect();
-                var direction = 0;
-                if (e.clientX > right.left) {
-                    direction = 1;
-                } else if (e.clientX < left.right) {
-                    direction = -1;
+            if (!isSwitching) {
+                if (!isLoading && !isLoaded && !tapped) {
+                    var left = buttons[0].getBoundingClientRect();
+                    var right = buttons[1].getBoundingClientRect();
+                    var direction = 0;
+                    if (e.clientX > right.left) {
+                        direction = 1;
+                    } else if (e.clientX < left.right) {
+                        direction = -1;
+                    }
+                    if (previousDirection !== direction) {
+                        previousDirection = direction;
+                        previousTarget = targetItem;
+                        targetItem = direction === 1 ? disc : rim;
+                        TweenLite.to(pow, 0.5, {
+                            x: direction * 0.2,
+                            ease: Power2.easeOut, // Elastic.easeOut,
+                            onUpdate: onUpdate,
+                            onComplete: function () {},
+                        });
+                    }
+                } else {
+                    overview.removeEventListener('mousemove', onHovering);
                 }
-                if (previousDirection !== direction) {
-                    previousDirection = direction;
-                    previousTarget = target;
-                    target = direction === 1 ? disc : rim;
-                    TweenLite.to(pow, 1, {
-                        x: direction * 0.2,
-                        ease: Elastic.easeOut,
-                        onUpdate: onUpdate,
-                        onComplete: function () {},
-                    });
-                }
-            } else {
-                window.removeEventListener('mousemove', onHovering);
             }
             // console.log('onHovering', previousDirection);
         }
@@ -1089,12 +1052,12 @@
             if (!isSwitching && !isLoading && !isLoaded && !tapped && previousDirection !== 0) {
                 tapped = true;
                 direction = previousDirection;
-                target = previousDirection === 1 ? disc : rim;
-                previousTarget = target;
+                targetItem = previousDirection === 1 ? disc : rim;
+                previousTarget = targetItem;
                 positions = [-1, 1];
-                TweenLite.to(pow, 1, {
+                TweenLite.to(pow, 0.5, {
                     x: direction,
-                    ease: Elastic.easeOut,
+                    ease: Power2.easeOut, // Elastic.easeOut,
                     onUpdate: onUpdate,
                     onComplete: function () {
                         if (!isLoaded) {
@@ -1104,27 +1067,29 @@
                     },
                 });
             }
-            window.removeEventListener('touchstart', onHoveringTouchDown);
-            window.removeEventListener('mousedown', onHoveringMouseDown);
+            overview.removeEventListener('touchstart', onHoveringTouchDown);
+            overview.removeEventListener('mousedown', onHoveringMouseDown);
         }
 
         function onHoveringMouseDown(e) {
-            window.removeEventListener('touchstart', onHoveringTouchDown);
+            overview.removeEventListener('touchstart', onHoveringTouchDown);
             return onHoveringDown(e);
         }
 
         function onHoveringTouchDown(e) {
             isTouch = true;
-            window.removeEventListener('mousedown', onHoveringMouseDown);
+            overview.removeEventListener('mousedown', onHoveringMouseDown);
             return onHoveringDown(e);
         }
 
+        animate();
         switcher.addEventListener('mousedown', onMouseDown, eventOptions);
         switcher.addEventListener('touchstart', onTouchDown, eventOptions);
+        overview.addEventListener('mousemove', onMove);
+        overview.addEventListener('mousemove', onHovering);
+        overview.addEventListener('mousedown', onHoveringMouseDown);
+        overview.addEventListener('touchstart', onHoveringTouchDown);
         window.addEventListener('resize', onResize);
-        window.addEventListener('mousemove', onHovering);
-        window.addEventListener('mousedown', onHoveringMouseDown);
-        window.addEventListener('touchstart', onHoveringTouchDown);
     }
 
     function InitSwiper() {
@@ -1208,29 +1173,5 @@
     InitSwiper();
     InitMenu();
     InitHandlers();
-
-    /*
-    function OverviewLogo() {
-        var logo = document.querySelector('.overview-logo');
-
-        var mouse = {
-            x: 0,
-            y: 0
-        };
-
-        function onMove(e) {
-            mouse.x = (e.clientX / window.innerWidth) - 0.5;
-            mouse.y = (e.clientY / window.innerHeight) - 0.5;
-        }
-
-        function animate() {
-            logo.setAttribute('style', 'transform: rotateX(' + mouse.y * 4 + 'deg) rotateY(' + mouse.x * 20 + 'deg);');
-            requestAnimationFrame(animate);
-        }
-        animate();
-        window.addEventListener('mousemove', onMove);
-    }
-    OverviewLogo();
-    */
 
 }());
