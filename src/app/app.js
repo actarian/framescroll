@@ -713,7 +713,7 @@
     }
 
     function InitScrollbar() {
-        var enabled = !iOS;
+        var enabled = !iOS && !isAndroid;
 
         function onChange(e) {
             var object = {
