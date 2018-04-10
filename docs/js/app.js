@@ -360,21 +360,21 @@
     }
 
     function getMediaSource(data, target, type, supported) {
-        console.log('getMediaSource', supported, type);
+        // console.log('getMediaSource', supported, type);
         var source = null;
         if (supported) {
             target.mediaSource = new MediaSource();
             target.mediaSource.addEventListener('sourceopen', function () {
-                console.log('mediaSource.sourceopen');
+                // console.log('mediaSource.sourceopen');
                 target.sourceBuffer = target.mediaSource.addSourceBuffer(codecs[type]);
                 target.sourceBuffer.addEventListener('updateend', function () {
-                    console.log('sourceBuffer.updateend');
+                    // console.log('sourceBuffer.updateend');
                 }, false);
-                console.log('sourceBuffer.updating', target.sourceBuffer.updating);
+                // console.log('sourceBuffer.updating', target.sourceBuffer.updating);
                 var array = new Uint8Array(data);
                 if (!target.sourceBuffer.updating) {
                     target.sourceBuffer.appendBuffer(array);
-                    console.log('sourceBuffer.appendBuffer');
+                    // console.log('sourceBuffer.appendBuffer');
                 }
             }, false);
             source = URL.createObjectURL(target.mediaSource);
