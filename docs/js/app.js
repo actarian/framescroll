@@ -136,7 +136,7 @@
     var isFirefox = /Firefox/.test(navigator.userAgent);
     var isClippable = detectClippath();
 
-    var useImages = false && isAndroid;
+    var useImages = isAndroid;
 
     var fps, totalFrames, duration;
 
