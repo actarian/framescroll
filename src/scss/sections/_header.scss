@@ -10,12 +10,14 @@ header {
     vertical-align: middle;
     &>img,
     &>svg {
-        width: 245px;
+        width: 202px;
+        height: 44px;
     }
     @include media-breakpoint-down(sm) {
         &>img,
         &>svg {
             width: 130px;
+            height: 30px;
         }
     }
 }
@@ -56,6 +58,7 @@ header {
     .campagnolo {
         svg {
             width: 165px;
+            height: 38px;
             path {
                 fill: $white;
             }
@@ -79,6 +82,7 @@ header {
             &>img,
             &>svg {
                 width: 140px;
+                height: 32px;
             }
         }
         .btn-more {

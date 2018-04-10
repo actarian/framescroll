@@ -1167,11 +1167,13 @@ header {
   vertical-align: middle; }
   .campagnolo > img,
   .campagnolo > svg {
-    width: 245px; }
+    width: 202px;
+    height: 44px; }
   @media (max-width: 767.98px) {
     .campagnolo > img,
     .campagnolo > svg {
-      width: 130px; } }
+      width: 130px;
+      height: 30px; } }
 
 .tab-menu {
   list-style: none;
@@ -1210,7 +1212,8 @@ header {
   -webkit-transition: all 350ms ease-in-out;
   transition: all 350ms ease-in-out; }
   .nav-sub .campagnolo svg {
-    width: 165px; }
+    width: 165px;
+    height: 38px; }
     .nav-sub .campagnolo svg path {
       fill: #ffffff; }
   .submenu .nav-sub {
@@ -1229,7 +1232,8 @@ header {
               flex: 1 1 40px; }
     .nav-sub .campagnolo > img,
     .nav-sub .campagnolo > svg {
-      width: 140px; }
+      width: 140px;
+      height: 32px; }
     .nav-sub .btn-more {
       margin: 13px 0; }
     .nav-sub .tab-menu {
