@@ -564,7 +564,7 @@
                 onLoop(rim);
             }
             if (iOS || isAndroid) {
-                overview.setAttribute('style', 'width: ' + (window.innerWidth) + 'px; height: ' + (window.innerHeight - 57) + 'px;');
+                overview.setAttribute('style', 'width: ' + (window.innerWidth) + 'px; height: ' + (window.innerHeight - (window.innerWidth < window.innerHeight ? 57 : 0)) + 'px;');
             }
         }
         requestAnimationFrame(animate);
@@ -597,7 +597,7 @@
         if (scrollbar) {
             return scrollbar.offset.y;
         } else {
-            return window.pageYOffset;
+            return window.pageYOffset || document.documentElement.scrollTop || 0;
         }
     }
 
