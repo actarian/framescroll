@@ -243,7 +243,11 @@
                 // console.log('mediaSource.sourceopen');
                 target.sourceBuffer = target.mediaSource.addSourceBuffer(codecs[type]);
                 target.sourceBuffer.addEventListener('updateend', function () {
-                    // console.log('sourceBuffer.updateend');
+                    if (target.mediaSource.readyState === 'open' && target.mediaSource.duration === Number.POSITIVE_INFINITY) {
+                        // console.log('sourceBuffer.updateend');
+                        // console.log(target.mediaSource.readyState, target.mediaSource.duration);
+                        target.mediaSource.duration = markers[markers.length - 1];
+                    }
                 }, false);
                 // console.log('sourceBuffer.updating', target.sourceBuffer.updating);
                 var array = new Uint8Array(data);
@@ -254,6 +258,7 @@
             }, false);
             source = URL.createObjectURL(target.mediaSource);
         } else {
+            // target.duration = markers[markers.length - 1];
             source = URL.createObjectURL(data);
         }
         return source;
@@ -350,6 +355,7 @@
             if (mouseMove) {
                 onPause(target);
                 scrolling.pow = scrolling.end;
+                // console.log(scrolling.pow);
                 target.player.currentTime = scrolling.pow;
                 target.player.setTime();
             } else {
@@ -870,7 +876,7 @@
             requestAnimationFrame(animate);
         }
 
-        function onDown(e) {
+        function onSwitcherDown(e) {
             if (!isLoading) {
                 isSwitching = true;
                 start.x = pow.x;
@@ -883,7 +889,7 @@
             }
         }
 
-        function onMove(e) {
+        function onSwitcherMove(e) {
             if (down) {
                 move = getMouse(e);
                 var end = start.x + (move.x - down.x) / (width / 2);
@@ -900,7 +906,7 @@
 
         var positions = [-1, 0, 1];
 
-        function onUp(e) {
+        function onSwitcherUp(e) {
             if (move) {
                 move = null;
                 down = null;
@@ -937,37 +943,37 @@
             removeListeners();
         }
 
-        function onResize() {
+        function onSwitcherResize() {
             width = slider.offsetWidth;
             onUpdate();
         }
 
-        function onMouseDown(e) {
-            onDown(e);
+        function onSwitcherMouseDown(e) {
+            onSwitcherDown(e);
             addMouseListeners();
         }
 
-        function onTouchDown(e) {
+        function onSwitcherTouchDown(e) {
             isTouch = true;
-            onDown(e);
+            onSwitcherDown(e);
             addTouchListeners();
         }
 
         function addMouseListeners() {
-            overview.addEventListener('mousemove', onMove, eventOptions);
-            window.addEventListener('mouseup', onUp, eventOptions);
+            overview.addEventListener('mousemove', onSwitcherMove, eventOptions);
+            window.addEventListener('mouseup', onSwitcherUp, eventOptions);
         }
 
         function addTouchListeners() {
-            overview.addEventListener('touchmove', onMove, eventOptions);
-            window.addEventListener('touchend', onUp, eventOptions);
+            overview.addEventListener('touchmove', onSwitcherMove, eventOptions);
+            window.addEventListener('touchend', onSwitcherUp, eventOptions);
         }
 
         function removeListeners() {
-            overview.removeEventListener('mousemove', onMove);
-            overview.removeEventListener('touchmove', onMove);
-            window.removeEventListener('mouseup', onUp);
-            window.removeEventListener('touchend', onUp);
+            overview.removeEventListener('mousemove', onSwitcherMove);
+            overview.removeEventListener('touchmove', onSwitcherMove);
+            window.removeEventListener('mouseup', onSwitcherUp);
+            window.removeEventListener('touchend', onSwitcherUp);
         }
 
         var previousTarget = null;
@@ -1076,13 +1082,13 @@
         }
 
         animate();
-        switcher.addEventListener('mousedown', onMouseDown, eventOptions);
-        switcher.addEventListener('touchstart', onTouchDown, eventOptions);
-        overview.addEventListener('mousemove', onMove);
+        switcher.addEventListener('mousedown', onSwitcherMouseDown, eventOptions);
+        switcher.addEventListener('touchstart', onSwitcherTouchDown, eventOptions);
+        overview.addEventListener('mousemove', onSwitcherMove);
         overview.addEventListener('mousemove', onHovering);
         overview.addEventListener('mousedown', onHoveringMouseDown);
         overview.addEventListener('touchstart', onHoveringTouchDown);
-        window.addEventListener('resize', onResize);
+        window.addEventListener('resize', onSwitcherResize);
     }
 
     function InitSwiper() {
