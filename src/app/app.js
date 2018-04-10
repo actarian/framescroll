@@ -261,14 +261,7 @@
 
     function PreloadVideoTarget(target, callback) {
         var type = (isChrome || isFirefox) && !isMac ? 'webm' : 'mp4';
-        var supported = 'MediaSource' in window;
-        if (supported) {
-            if (MediaSource.isTypeSupported(codecs.webm) && type !== 'webm') {
-                type = 'webm';
-            } else if (MediaSource.isTypeSupported(codecs.mp4) && type !== 'mp4') {
-                type = 'mp4';
-            }
-        }
+        var supported = 'MediaSource' in window && MediaSource.isTypeSupported(codecs[type]);
 
         function doSource(source) {
             /*
