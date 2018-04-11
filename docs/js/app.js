@@ -933,6 +933,7 @@
     function InitSwitcher() {
         var overview = document.querySelector('.section-overview');
         var switcher = document.querySelector('.overview-switch');
+        var track = document.querySelector('.switch-track');
         var slider = document.querySelector('.switch-slider');
         var discOverview = document.querySelector('.overview-disc');
         var rimOverview = document.querySelector('.overview-rim');
@@ -940,7 +941,7 @@
         var rimCover = rimOverview.querySelector('.cover');
         var discCoverImg = discCover.querySelector('img');
         var rimCoverImg = rimCover.querySelector('img');
-        var width = slider.offsetWidth;
+        var width = track.offsetWidth;
 
         var pow = {
                 x: 0,
@@ -1069,7 +1070,7 @@
         }
 
         function onSwitcherResize() {
-            width = slider.offsetWidth;
+            width = track.offsetWidth;
             onUpdate();
         }
 

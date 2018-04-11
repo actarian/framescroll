@@ -279,6 +279,7 @@ button,
 .btn-overview {
   font-size: 40px;
   display: block;
+  z-index: 98;
   text-transform: uppercase; }
   .btn-overview > span {
     display: inline-block;
@@ -970,13 +971,9 @@ svg {
   -webkit-transform: translateX(-50%);
           transform: translateX(-50%); }
   .overview-switch .flex-left {
-    position: relative;
-    padding-left: 15px;
-    z-index: 99; }
+    padding-left: 15px; }
   .overview-switch .flex-right {
-    position: relative;
-    padding-right: 15px;
-    z-index: 99; }
+    padding-right: 15px; }
   .overview-switch .btn-overview {
     font-size: 14px;
     color: #c02a1b; }
@@ -1122,9 +1119,11 @@ svg {
 
 .switch-slider {
   position: relative;
-  width: 100%;
+  width: 40px;
   height: 100%;
   z-index: 99;
+  left: 50%;
+  margin-left: -20px;
   -webkit-transform: translateX(0%);
           transform: translateX(0%); }
   .switch-slider .switch-thumb {

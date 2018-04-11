@@ -95,6 +95,7 @@ button,
 .btn-overview {
     font-size: 40px;
     display: block;
+    z-index: 98;
     text-transform: uppercase;
     &>span {
         display: inline-block;
