@@ -96,14 +96,56 @@ button,
     font-size: 40px;
     display: block;
     text-transform: uppercase;
+    &>span {
+        display: inline-block;
+        transition: transform ease-in-out 250ms;
+    }
+    &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 26px;
+        height: 26px;
+        border: 2px solid $red;
+        border-radius: 50%;
+        top: 50%;
+        margin-top: -15px;
+    }
     .flex-left & {
+        &:before {
+            right: -15px;
+        }
         &:hover {
-            transform: translateX(-10px);
+            &>span {
+                transform: translateX(-10px);
+            }
         }
     }
     .flex-right & {
+        &:before {
+            left: -15px;
+        }
         &:hover {
-            transform: translateX(10px);
+            &>span {
+                transform: translateX(10px);
+            }
+        }
+    }
+    @include media-breakpoint-down(sm) {
+        &:before {
+            width: 6px;
+            height: 6px;
+            margin-top: -5px;
+        }
+        .flex-left & {
+            &:before {
+                right: -5px;
+            }
+        }
+        .flex-right & {
+            &:before {
+                left: -5px;
+            }
         }
     }
     .loading & {
