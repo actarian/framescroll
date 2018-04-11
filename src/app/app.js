@@ -89,7 +89,7 @@
     var codecs = {
         webm: 'video/webm; codecs="vp8"',
         mp4: 'video/mp4; codecs="avc1.4d001e"',
-    }
+    };
     fps = window.options.fps;
     totalFrames = window.options.frames;
     duration = totalFrames / fps;
@@ -856,10 +856,10 @@
                 var polygons = getPolygons(pow.x);
                 discOverview.setAttribute('style', 'shape-inside: ' + polygons.disc + '; clip-path: ' + polygons.disc + '; -webkit-clip-path: ' + polygons.disc + ';');
                 rimOverview.setAttribute('style', 'shape-inside: ' + polygons.rim + '; clip-path: ' + polygons.rim + '; -webkit-clip-path: ' + polygons.rim + ';');
-                var s1 = 1.1 - (pow.x + 1) / 2 * 0.1;
-                var s2 = 1 + (pow.x + 1) / 2 * 0.1;
-                var b1 = 20 * (pow.x < 0 ? Math.abs(pow.x) : 0) + 'px';
-                var b2 = 20 * (pow.x > 0 ? Math.abs(pow.x) : 0) + 'px';
+                var s1 = 1.2 - (pow.x + 1) / 2 * 0.2;
+                var s2 = 1 + (pow.x + 1) / 2 * 0.2;
+                // var b1 = 20 * (pow.x < 0 ? Math.abs(pow.x) : 0) + 'px';
+                // var b2 = 20 * (pow.x > 0 ? Math.abs(pow.x) : 0) + 'px';
                 var o1 = (pow.x < 0 ? Math.abs(pow.x) : 1);
                 var o2 = (pow.x > 0 ? Math.abs(pow.x) : 1);
                 // discCover.setAttribute('style', 'transform: scale(' + s1 + '); filter: blur(' + b1 + ');');
