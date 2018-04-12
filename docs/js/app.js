@@ -704,8 +704,17 @@
                 scrolling.direction = direction;
                 scrolling.end = markers[scrolling.index];
                 setTop(markerTime, scrolling.end);
+                if (index > 0 && index < markers.length - 1) {
+                    if ('dataLayer' in window) {
+                        window.dataLayer.push({
+                            'slide': '0' + index,
+                            'event': 'entering'
+                        });
+                    } else {
+                        console.log('missing dataLayer', '0' + index);
+                    }
+                }
             }
-            // console.log('setIndex', previousMarker, nextMarker, currentTime);
         }
     }
 
